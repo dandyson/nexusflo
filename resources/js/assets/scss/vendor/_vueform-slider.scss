@@ -1,0 +1,16 @@
+//
+// Vue Form Slider
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+// Include base files
+@import "base";
+
+// Custom styles
+:root {
+  --slider-bg: #{$body-bg-dark};
+  --slider-connect-bg: #{$primary};
+  --slider-tooltip-bg: #{$primary};
+  --slider-handle-ring-color: #{$primary};
+}

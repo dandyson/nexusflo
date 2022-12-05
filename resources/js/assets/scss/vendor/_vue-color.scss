@@ -1,0 +1,22 @@
+//
+// Vue Color
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+// Include base files
+@import "base";
+
+// Custom styles
+.vc-material {
+  box-sizing: content-box;
+}
+
+.vc-swatches {
+  width: 240px;
+}
+
+.vc-swatches-color-group,
+.vc-swatches-color-it {
+  width: 30px;
+}

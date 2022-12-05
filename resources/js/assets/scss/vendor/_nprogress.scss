@@ -1,0 +1,19 @@
+//
+// Simplebar - https://github.com/Grsmto/simplebar
+// --------------------------------------------------
+
+@import "nprogress/nprogress.css";
+
+// Style overrides
+#nprogress .bar,
+#nprogress .spinner {
+  z-index: 2000;
+}
+
+#nprogress .bar {
+  background-color: $primary;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px $primary, 0 0 5px $primary;
+}
