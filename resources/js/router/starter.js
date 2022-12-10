@@ -12,6 +12,15 @@ const Landing = () => import("@/views/starter/LandingView.vue");
 // Backend: Dashboard
 const Dashboard = () => import("@/views/starter/DashboardView.vue");
 
+// Backend: Pomodoro Timer
+const PomodoroTimer = () => import("@/views/starter/PomdoroTimer.vue");
+
+// Backend: Meditation Timer
+const MeditationTimer = () => import("@/views/starter/MeditationTimer.vue");
+
+// Backend: Positive News
+const PositiveNews = () => import("@/views/starter/PositiveNews.vue");
+
 // Set all routes
 const routes = [
   {
@@ -34,6 +43,21 @@ const routes = [
         path: "dashboard",
         name: "backend-dashboard",
         component: Dashboard,
+      },
+      {
+        path: "pomodoro",
+        name: "backend-pomodoro",
+        component: PomodoroTimer,
+      },
+      {
+        path: "meditation",
+        name: "backend-meditation",
+        component: MeditationTimer,
+      },
+      {
+        path: "positive-news",
+        name: "backend-positive-news",
+        component: PositiveNews,
       },
     ],
   },

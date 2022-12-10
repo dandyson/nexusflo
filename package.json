@@ -37,6 +37,7 @@
         "@vuelidate/validators": "^2.0.0-alpha.26",
         "bootstrap": "^5.2.0",
         "chart.js": "^3.9.1",
+        "cheerio": "^1.0.0-rc.12",
         "dropzone": "^6.0.0-beta.2",
         "highlight.js": "^11.6.0",
         "nprogress": "^0.2.0",

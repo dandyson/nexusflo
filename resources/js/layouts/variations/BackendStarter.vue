@@ -43,13 +43,36 @@ store.mainContent({ mode: "narrow" });
               icon: 'si si-speedometer',
             },
             {
-              name: 'More',
+              name: 'Timers',
               heading: true,
             },
             {
-              name: 'Landing',
+              name: 'Pomodoro Timer',
+              to: 'backend-pomodoro',
+              icon: 'si si-clock',
+            },
+            {
+              name: 'Meditation Timer',
+              to: 'backend-meditation',
+              icon: 'fa fa-fw fa-clock',
+            },
+            {
+              name: 'News',
+              heading: true,
+            },
+            {
+              name: 'Positive News',
+              to: 'backend-positive-news',
+              icon: 'fa fa-newspaper',
+            },
+            {
+              name: 'Journals',
+              heading: true,
+            },
+            {
+              name: 'Worry Journal',
               to: 'landing',
-              icon: 'si si-rocket',
+              icon: 'fa fa-book',
             },
           ]"
         />

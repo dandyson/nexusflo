@@ -3,8 +3,8 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 
 // You can use the following starter router instead of the default one as a clean starting point
-// import router from "./router/starter";
-import router from "./router";
+import router from "./router/starter";
+// import router from "./router";
 
 // Template components
 import BaseBlock from "@/components/BaseBlock.vue";
