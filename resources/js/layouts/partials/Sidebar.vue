@@ -100,12 +100,14 @@ onMounted(() => {
         <slot name="header">
           <!-- Logo -->
           <RouterLink :to="{ name: 'landing' }" class="fw-semibold text-dual">
-            <span class="smini-visible">
-              <i class="fa fa-circle-notch text-primary"></i>
-            </span>
+            <img
+              class="img-fluid me-2 app-logo"
+              src="/assets/media/logos/logo.svg"
+              alt="Logo"
+              width="40"
+            />
             <span class="smini-hide fs-5 tracking-wider">
-              OneUI
-              <span class="fw-normal">Vue</span>
+              <span class="fw-normal">Centre</span>
             </span>
           </RouterLink>
           <!-- END Logo -->
@@ -183,117 +185,6 @@ onMounted(() => {
               </div>
             </div>
             <!-- END Dark Mode -->
-
-            <!-- Options -->
-            <div class="dropdown d-inline-block ms-1">
-              <button
-                type="button"
-                class="btn btn-sm btn-alt-secondary"
-                id="sidebar-themes-dropdown"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="outside"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="fa fa-brush"></i>
-              </button>
-              <div
-                class="dropdown-menu dropdown-menu-end fs-sm smini-hide border-0"
-                aria-labelledby="sidebar-themes-dropdown"
-              >
-                <!-- Color Themes -->
-                <button
-                  type="button"
-                  class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                  @click="store.setColorTheme({ theme: '' })"
-                >
-                  <span>Default</span>
-                  <i class="fa fa-circle text-default"></i>
-                </button>
-                <button
-                  type="button"
-                  class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                  @click="store.setColorTheme({ theme: 'amethyst' })"
-                >
-                  <span>Amethyst</span>
-                  <i class="fa fa-circle text-amethyst"></i>
-                </button>
-                <button
-                  type="button"
-                  class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                  @click="store.setColorTheme({ theme: 'city' })"
-                >
-                  <span>City</span>
-                  <i class="fa fa-circle text-city"></i>
-                </button>
-                <button
-                  type="button"
-                  class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                  @click="store.setColorTheme({ theme: 'flat' })"
-                >
-                  <span>Flat</span>
-                  <i class="fa fa-circle text-flat"></i>
-                </button>
-                <button
-                  type="button"
-                  class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                  @click="store.setColorTheme({ theme: 'modern' })"
-                >
-                  <span>Modern</span>
-                  <i class="fa fa-circle text-modern"></i>
-                </button>
-                <button
-                  type="button"
-                  class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                  @click="store.setColorTheme({ theme: 'smooth' })"
-                >
-                  <span>Smooth</span>
-                  <i class="fa fa-circle text-smooth"></i>
-                </button>
-                <!-- END Color Themes -->
-
-                <div v-if="!store.settings.darkMode">
-                  <div class="dropdown-divider"></div>
-
-                  <!-- Sidebar Styles -->
-                  <button
-                    type="button"
-                    class="dropdown-item fw-medium"
-                    @click="store.sidebarStyle({ mode: 'light' })"
-                  >
-                    <span>Sidebar Light</span>
-                  </button>
-                  <button
-                    type="button"
-                    class="dropdown-item fw-medium"
-                    @click="store.sidebarStyle({ mode: 'dark' })"
-                  >
-                    <span>Sidebar Dark</span>
-                  </button>
-                  <!-- END Sidebar Styles -->
-
-                  <div class="dropdown-divider"></div>
-
-                  <!-- Header Styles -->
-                  <button
-                    type="button"
-                    class="dropdown-item fw-medium"
-                    @click="store.headerStyle({ mode: 'light' })"
-                  >
-                    <span>Header Light</span>
-                  </button>
-                  <button
-                    type="button"
-                    class="dropdown-item fw-medium"
-                    @click="store.headerStyle({ mode: 'dark' })"
-                  >
-                    <span>Header Dark</span>
-                  </button>
-                  <!-- END Header Styles -->
-                </div>
-              </div>
-            </div>
-            <!-- END Options -->
           </slot>
 
           <!-- Close Sidebar, Visible only on mobile screens -->
@@ -325,3 +216,10 @@ onMounted(() => {
   </nav>
   <!-- END Sidebar -->
 </template>
+
+<style >
+  .app-logo {
+    position: relative;
+    right: 0.75rem;
+  }
+</style>

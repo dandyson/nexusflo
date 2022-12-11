@@ -71,7 +71,7 @@ store.mainContent({ mode: "narrow" });
             },
             {
               name: 'Worry Journal',
-              to: 'landing',
+              to: 'backend-worry-journal',
               icon: 'fa fa-book',
             },
           ]"
