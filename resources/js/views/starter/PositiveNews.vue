@@ -1,7 +1,7 @@
 <template>
 <div>
     <!-- Positive News -->
-    <div class="row">
+    <div class="row mx-5 my-5">
         <h2 class="my-3">Positive.News</h2>
         <div class="row row-sm">
             <div class="d-flex justify-content-center" v-if="positiveNewsLoading === true">
@@ -16,7 +16,7 @@
                     </a>
                     <div class="card-body ">
                         <a target="_blank" :href="item['link']">
-                            <h3 class="card-title news-headline">{{ item['title'] }}</h3>
+                            <h4 class="card-title news-headline">{{ item['title'] }}</h4>
                         </a>
                         <p class="card-text">{{ item['description'] }}</p>
                     </div>
@@ -30,7 +30,7 @@
     <hr class="my-4">
 
     <!-- Good News Network -->
-    <div class="row my-5">
+    <div class="row mx-5 my-5">
         <h2 class="my-3">Good News Network</h2>
         <div class="row row-sm">
             <div class="d-flex justify-content-center" v-if="goodNewsNetworkLoading === true">
@@ -45,7 +45,7 @@
                     </a>
                     <div class="card-body ">
                         <a target="_blank" :href="item['link']">
-                            <h3 class="card-title news-headline">{{ item['title'] }}</h3>
+                            <h4 class="card-title news-headline">{{ item['title'] }}</h4>
                         </a>
                         <p class="card-text">{{ item['description'] }}</p>
                     </div>
@@ -78,7 +78,7 @@ export default {
     },
 
     mounted() {
-        axios.get(this.routes.newsFetch)
+        axios.get('/api/positive-news-feed')
             .then((res) => {
                 this.positiveNewsData = res.data.data["positive-news"];
                 this.positiveNewsLoading = false;
