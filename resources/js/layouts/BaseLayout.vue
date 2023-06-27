@@ -56,29 +56,32 @@ const classContainer = computed(() => {
   };
 });
 
-// Change dark mode based on dark mode system preference
-if (store.settings.darkModeSystem) {
-  if (
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-  ) {
-    store.darkMode({ mode: "on" });
-  } else {
-    store.darkMode({ mode: "off" });
-  }
-}
+// TODO: Dark mode off for now
+store.darkMode({ mode: "off" });
 
-window
-  .matchMedia("(prefers-color-scheme: dark)")
-  .addEventListener("change", (e) => {
-    if (store.settings.darkModeSystem) {
-      if (e.matches) {
-        store.darkMode({ mode: "on" });
-      } else {
-        store.darkMode({ mode: "off" });
-      }
-    }
-  });
+// Change dark mode based on dark mode system preference
+// if (store.settings.darkModeSystem) {
+//   if (
+//     window.matchMedia &&
+//     window.matchMedia("(prefers-color-scheme: dark)").matches
+//   ) {
+//     store.darkMode({ mode: "on" });
+//   } else {
+//     store.darkMode({ mode: "off" });
+//   }
+// }
+
+// window
+//   .matchMedia("(prefers-color-scheme: dark)")
+//   .addEventListener("change", (e) => {
+//     if (store.settings.darkModeSystem) {
+//       if (e.matches) {
+//         store.darkMode({ mode: "on" });
+//       } else {
+//         store.darkMode({ mode: "off" });
+//       }
+//     }
+//   });
 
 // Remove side transitions on window resizing
 onMounted(() => {
