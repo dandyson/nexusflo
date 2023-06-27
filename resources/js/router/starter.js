@@ -4,7 +4,7 @@ import NProgress from "nprogress/nprogress.js";
 
 // Main layouts
 import LayoutBackend from "@/layouts/variations/BackendStarter.vue";
-import LayoutSimple from "@/layouts/variations/Simple.vue";
+import LayoutSimple from "@/layouts/variations/Landing.vue";
 
 // Frontend: Landing
 const Landing = () => import("@/views/starter/LandingView.vue");

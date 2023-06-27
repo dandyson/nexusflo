@@ -11,7 +11,7 @@ store.setLayout({
   header: true,
   sidebar: false,
   sideOverlay: false,
-  footer: false,
+  footer: true,
 });
 
 // Set various template options for this layout variation
@@ -28,10 +28,16 @@ store.mainContent({ mode: "boxed" });
         <!-- Logo -->
         <RouterLink
           :to="{ name: 'landing' }"
-          class="fw-bold fs-lg tracking-wider text-dual me-2"
+          class="d-flex align-items-center fw-bold fs-lg tracking-wider text-dual me-2"
         >
-          OneUI
-          <span class="fw-normal">Vue</span>
+        <img
+              class="img-fluid me-2"
+              src="/assets/media/logos/logo.svg"
+              alt="Logo"
+              width="40"
+            />
+          Centre
+          <span class="fw-normal">App</span>
         </RouterLink>
         <!-- END Logo -->
 
@@ -44,85 +50,25 @@ store.mainContent({ mode: "boxed" });
     <!-- Header Content Right -->
     <!-- Using the available v-slot, we can override the default Side Overlay content from layouts/partials/Header.vue -->
     <template #header-content-right>
-      <!-- Options -->
-      <div class="dropdown">
-        <button
-          type="button"
-          class="btn btn-alt-secondary me-2"
-          id="sidebar-themes-dropdown"
-          data-bs-toggle="dropdown"
-          data-bs-auto-close="outside"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          <i class="fa fa-brush"></i>
-        </button>
-        <div
-          class="dropdown-menu dropdown-menu-end fs-sm smini-hide border-0"
-          aria-labelledby="sidebar-themes-dropdown"
-        >
-          <!-- Color Themes -->
-          <button
-            type="button"
-            class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-            @click.prevent="store.setColorTheme({ theme: '' })"
-          >
-            <span>Default</span>
-            <i class="fa fa-circle text-default"></i>
-          </button>
-          <button
-            type="buttbuttonn"
-            class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-            @click.prevent="store.setColorTheme({ theme: 'amethyst' })"
-          >
-            <span>Amethyst</span>
-            <i class="fa fa-circle text-amethyst"></i>
-          </button>
-          <button
-            type="button"
-            class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-            @click.prevent="store.setColorTheme({ theme: 'city' })"
-          >
-            <span>City</span>
-            <i class="fa fa-circle text-city"></i>
-          </button>
-          <button
-            type="button"
-            class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-            @click.prevent="store.setColorTheme({ theme: 'flat' })"
-          >
-            <span>Flat</span>
-            <i class="fa fa-circle text-flat"></i>
-          </button>
-          <button
-            type="button"
-            class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-            @click.prevent="store.setColorTheme({ theme: 'modern' })"
-          >
-            <span>Modern</span>
-            <i class="fa fa-circle text-modern"></i>
-          </button>
-          <button
-            type="button"
-            class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-            @click.prevent="store.setColorTheme({ theme: 'smooth' })"
-          >
-            <span>Smooth</span>
-            <i class="fa fa-circle text-smooth"></i>
-          </button>
-          <!-- END Color Themes -->
-        </div>
-      </div>
-      <!-- END Options -->
-
-      <!-- Purchase Link -->
+      <!-- Login Link -->
       <a
-        class="btn btn-success"
+        class="btn btn-primary me-2"
         href="https://1.envato.market/5Noyb"
         v-click-ripple
       >
-        <i class="fa fa-fw fa-shopping-cart opacity-50"></i>
-        <span class="d-none d-sm-inline-block ms-2">Purchase</span>
+        <i class="fa fa-fw fa-door-open opacity-50"></i>
+        <span class="d-none d-sm-inline-block ms-2">Login</span>
+      </a>
+      <!-- END Purchase Link -->
+
+      <!-- Sign Up Link -->
+      <a
+        class="btn btn-primary"
+        href="https://1.envato.market/5Noyb"
+        v-click-ripple
+      >
+        <i class="fa fa-fw fa-user-plus opacity-50"></i>
+        <span class="d-none d-sm-inline-block ms-2">Register</span>
       </a>
       <!-- END Purchase Link -->
     </template>

@@ -20,7 +20,7 @@ const store = useTemplateStore();
                   class="fw-semibold"
                   href="https://1.envato.market/ydb"
                   target="_blank"
-                  >pixelcave</a
+                  >Dan Dyson</a
                 >
               </slot>
             </div>
