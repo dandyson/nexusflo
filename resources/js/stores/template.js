@@ -6,8 +6,8 @@ export const useTemplateStore = defineStore({
   state: () => ({
     // App vital details
     app: {
-      name: "OneUI Vue Edition",
-      version: "2.2.0",
+      name: "Centre App",
+      version: "1",
       copyright: new Date().getFullYear(),
     },
 
