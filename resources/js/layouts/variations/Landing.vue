@@ -51,26 +51,36 @@ store.mainContent({ mode: "boxed" });
     <!-- Using the available v-slot, we can override the default Side Overlay content from layouts/partials/Header.vue -->
     <template #header-content-right>
       <!-- Login Link -->
-      <a
-        class="btn btn-primary me-2"
-        href="https://1.envato.market/5Noyb"
-        v-click-ripple
-      >
-        <i class="fa fa-fw fa-door-open opacity-50"></i>
-        <span class="d-none d-sm-inline-block ms-2">Login</span>
-      </a>
-      <!-- END Purchase Link -->
+      <RouterLink
+          :to="{ name: 'auth-signin3' }"
+          class="d-flex align-items-center fw-bold fs-lg tracking-wider text-dual me-2"
+        >
+        <a
+          class="btn btn-primary me-2"
+          href="https://1.envato.market/5Noyb"
+          v-click-ripple
+        >
+          <i class="fa fa-fw fa-door-open opacity-50"></i>
+          <span class="d-none d-sm-inline-block ms-2">Login</span>
+        </a>
+      </RouterLink>
+      <!-- END Login Link -->
 
       <!-- Sign Up Link -->
-      <a
-        class="btn btn-primary"
-        href="https://1.envato.market/5Noyb"
-        v-click-ripple
-      >
-        <i class="fa fa-fw fa-user-plus opacity-50"></i>
-        <span class="d-none d-sm-inline-block ms-2">Register</span>
-      </a>
-      <!-- END Purchase Link -->
+      <RouterLink
+          :to="{ name: 'auth-signup3' }"
+          class="d-flex align-items-center fw-bold fs-lg tracking-wider text-dual me-2"
+        >
+        <a
+          class="btn btn-primary"
+          href="https://1.envato.market/5Noyb"
+          v-click-ripple
+        >
+          <i class="fa fa-fw fa-user-plus opacity-50"></i>
+          <span class="d-none d-sm-inline-block ms-2">Register</span>
+        </a>
+      </RouterLink>
+      <!-- END Register Link -->
     </template>
     <!-- END Header Content Right -->
   </BaseLayout>

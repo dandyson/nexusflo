@@ -64,98 +64,41 @@ async function onSubmit() {
 
 <template>
   <!-- Page Content -->
-  <div class="bg-primary-dark">
-    <div class="row g-0 bg-primary-dark-op">
-      <!-- Meta Info Section -->
-      <div
-        class="hero-static col-lg-4 d-none d-lg-flex flex-column justify-content-center"
-      >
-        <div class="p-4 p-xl-5 flex-grow-1 d-flex align-items-center">
-          <div class="w-100">
-            <RouterLink
-              :to="{ name: 'landing' }"
-              class="link-fx fw-semibold fs-2 text-white"
-            >
-            <img
-              class="img-fluid me-2"
-              src="/assets/media/logos/logo.svg"
-              alt="Logo"
-              width="40"
-            />
-          Centre<span class="fw-normal">App</span>
-            </RouterLink>
-            <p class="text-white-75 me-xl-8 mt-2">
-              Creating a new account is completely free. Get started today!
-            </p>
-          </div>
-        </div>
-        <div
-          class="p-4 p-xl-5 d-xl-flex justify-content-between align-items-center fs-sm"
-        >
-          <p class="fw-medium text-white-50 mb-0">
-            <strong>{{ store.app.name + " " + store.app.version }}</strong>
-            &copy; {{ store.app.copyright }}
-          </p>
-          <ul class="list list-inline mb-0 py-2">
-            <li class="list-inline-item">
-              <a class="text-white-75 fw-medium" href="javascript:void(0)"
-                >Legal</a
+  <div class="hero-static d-flex align-items-center">
+    <div class="content">
+      <div class="row justify-content-center push">
+        <div class="col-md-8 col-lg-6 col-xl-4">
+          <!-- Sign Up Block -->
+          <BaseBlock title="Create Account" class="mb-0">
+            <template #options>
+              <a
+                class="btn-block-option fs-sm"
+                href="javascript:void(0)"
+                data-bs-toggle="modal"
+                data-bs-target="#one-signup-terms"
+                >View Terms</a
               >
-            </li>
-            <li class="list-inline-item">
-              <a class="text-white-75 fw-medium" href="javascript:void(0)"
-                >Contact</a
+              <RouterLink
+                :to="{ name: 'auth-signin' }"
+                class="btn-block-option"
               >
-            </li>
-            <li class="list-inline-item">
-              <a class="text-white-75 fw-medium" href="javascript:void(0)"
-                >Terms</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!-- END Meta Info Section -->
+                <i class="fa fa-sign-in-alt"></i>
+              </RouterLink>
+            </template>
 
-      <!-- Main Section -->
-      <div
-        class="hero-static col-lg-8 d-flex flex-column align-items-center bg-body-extra-light"
-      >
-        <div class="p-3 w-100 d-lg-none text-center">
-          <RouterLink
-            :to="{ name: 'landing' }"
-            class="link-fx fw-semibold fs-3 text-dark"
-          >
-            Centre<span class="fw-normal">App</span>
-          </RouterLink>
-        </div>
-        <div class="p-4 w-100 flex-grow-1 d-flex align-items-center">
-          <div class="w-100">
-            <!-- Header -->
-            <div class="text-center mb-5">
-              <p class="mb-3">
-                <img
-                  class="img-fluid"
-                  src="/assets/media/logos/logo.svg"
-                  alt="Logo"
-                  width="70"
-                />
-              </p>
-              <h1 class="fw-bold mb-2">Create Account</h1>
+            <div class="p-sm-3 px-lg-4 px-xxl-5 py-lg-5">
+              <h1 class="h2 mb-1">OneUI</h1>
               <p class="fw-medium text-muted">
-                Get your access today in one easy step
+                Please fill the following details to create a new account.
               </p>
-            </div>
-            <!-- END Header -->
 
-            <!-- Sign Up Form -->
-            <div class="row g-0 justify-content-center">
-              <div class="col-sm-8 col-xl-4">
-                <form @submit.prevent="onSubmit">
+              <!-- Sign Up Form -->
+              <form @submit.prevent="onSubmit">
+                <div class="py-3">
                   <div class="mb-4">
                     <input
                       type="text"
-                      class="form-control form-control-lg form-control-alt py-3"
+                      class="form-control form-control-lg form-control-alt"
                       id="signup-username"
                       name="signup-username"
                       placeholder="Username"
@@ -175,7 +118,7 @@ async function onSubmit() {
                   <div class="mb-4">
                     <input
                       type="email"
-                      class="form-control form-control-lg form-control-alt py-3"
+                      class="form-control form-control-lg form-control-alt"
                       id="signup-email"
                       name="signup-email"
                       placeholder="Email"
@@ -195,7 +138,7 @@ async function onSubmit() {
                   <div class="mb-4">
                     <input
                       type="password"
-                      class="form-control form-control-lg form-control-alt py-3"
+                      class="form-control form-control-lg form-control-alt"
                       id="signup-password"
                       name="signup-password"
                       placeholder="Password"
@@ -215,7 +158,7 @@ async function onSubmit() {
                   <div class="mb-4">
                     <input
                       type="password"
-                      class="form-control form-control-lg form-control-alt py-3"
+                      class="form-control form-control-lg form-control-alt"
                       id="signup-password-confirm"
                       name="signup-password-confirm"
                       placeholder="Confirm Password"
@@ -233,80 +176,48 @@ async function onSubmit() {
                     </div>
                   </div>
                   <div class="mb-4">
-                    <div
-                      class="d-md-flex align-items-md-center justify-content-md-between"
-                    >
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="signup-terms"
-                          name="signup-terms"
-                          :class="{
-                            'is-invalid': v$.terms.$errors.length,
-                          }"
-                          v-model="state.terms"
-                          @blur="v$.terms.$touch"
-                        />
-                        <label class="form-check-label" for="signup-terms"
-                          >I agree to Terms &amp; Conditions</label
-                        >
-                        <div
-                          v-if="v$.terms.$errors.length"
-                          class="invalid-feedback animated fadeIn"
-                        >
-                          You must agree to the service terms!
-                        </div>
-                      </div>
-                      <div class="py-2">
-                        <a
-                          class="fs-sm fw-medium"
-                          href="javascript:void(0)"
-                          data-bs-toggle="modal"
-                          data-bs-target="#one-signup-terms"
-                          >View Terms</a
-                        >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="signup-terms"
+                        name="signup-terms"
+                        :class="{
+                          'is-invalid': v$.terms.$errors.length,
+                        }"
+                        v-model="state.terms"
+                        @blur="v$.terms.$touch"
+                      />
+                      <label class="form-check-label" for="signup-terms"
+                        >I agree to Terms &amp; Conditions</label
+                      >
+                      <div
+                        v-if="v$.terms.$errors.length"
+                        class="invalid-feedback animated fadeIn"
+                      >
+                        You must agree to the service terms!
                       </div>
                     </div>
                   </div>
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-lg btn-alt-success">
+                </div>
+                <div class="row mb-4">
+                  <div class="col-md-6 col-xl-5">
+                    <button type="submit" class="btn w-100 btn-alt-success">
                       <i class="fa fa-fw fa-plus me-1 opacity-50"></i> Sign Up
                     </button>
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
+              <!-- END Sign Up Form -->
             </div>
-            <!-- END Sign Up Form -->
-          </div>
-        </div>
-        <div
-          class="px-4 py-3 w-100 d-lg-none d-flex flex-column flex-sm-row justify-content-between fs-sm text-center text-sm-start"
-        >
-          <p class="fw-medium text-black-50 py-2 mb-0">
-            <strong>{{ store.app.name + " " + store.app.version }}</strong>
-            &copy; {{ store.app.copyright }}
-          </p>
-          <ul class="list list-inline py-2 mb-0">
-            <li class="list-inline-item">
-              <a class="text-muted fw-medium" href="javascript:void(0)"
-                >Legal</a
-              >
-            </li>
-            <li class="list-inline-item">
-              <a class="text-muted fw-medium" href="javascript:void(0)"
-                >Contact</a
-              >
-            </li>
-            <li class="list-inline-item">
-              <a class="text-muted fw-medium" href="javascript:void(0)"
-                >Terms</a
-              >
-            </li>
-          </ul>
+          </BaseBlock>
+          <!-- END Sign Up Block -->
         </div>
       </div>
-      <!-- END Main Section -->
+      <div class="fs-sm text-muted text-center">
+        <strong>{{ store.app.name + " " + store.app.version }}</strong> &copy;
+        {{ store.app.copyright }}
+      </div>
     </div>
 
     <!-- Terms Modal -->

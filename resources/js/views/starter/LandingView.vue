@@ -26,11 +26,11 @@ const store = useTemplateStore();
             Manage your mind with an app that allows you to manage not just your busy day, but your inner peace as well.
           </p>
           <RouterLink
-            :to="{ name: 'backend-dashboard' }"
+            :to="{ name: 'auth-signup3' }"
             class="btn btn-primary px-4 py-3"
             v-click-ripple
           >
-            Enter Dashboard
+            Sign Up Today
             <i class="fa fa-fw fa-arrow-right ms-1 opacity-50"></i>
           </RouterLink>
         </div>
@@ -324,14 +324,19 @@ const store = useTemplateStore();
           <p class="fs-lg fw-medium text-muted mb-4">
             Our quick and easy registration will have you up and running in minutes.
           </p>
-          <a
-            class="btn btn-success py-2 px-3 m-1"
-            href="https://1.envato.market/5Noyb"
+          <RouterLink
+            :to="{ name: 'auth-signup3' }"
             v-click-ripple
           >
-            <i class="fa fa-fw fa-user-plus opacity-50"></i>
-            <span class="ms-2">Create an Account</span>
-          </a>
+            <a
+              class="btn btn-success py-2 px-3 m-1"
+              href="https://1.envato.market/5Noyb"
+              v-click-ripple
+            >
+              <i class="fa fa-fw fa-user-plus opacity-50"></i>
+              <span class="ms-2">Create an Account</span>
+            </a>
+        </RouterLink>
         </div>
       </div>
     </div>

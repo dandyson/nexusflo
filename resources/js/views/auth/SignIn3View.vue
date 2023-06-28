@@ -1,4 +1,5 @@
 <script setup>
+import axios from "axios";
 import { reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
@@ -43,8 +44,13 @@ async function onSubmit() {
     return;
   }
 
+  axios.post('api/worry-journal/testing', 'test')
+    .then((res) => {
+        console.log(res);
+    }).catch(error => console.log(error));
+
   // Go to dashboard
-  router.push({ name: "backend-pages-auth" });
+  // router.push({ name: "backend-pages-auth" });
 }
 </script>
 
@@ -62,11 +68,16 @@ async function onSubmit() {
               :to="{ name: 'landing' }"
               class="link-fx fw-semibold fs-2 text-white"
             >
-              One<span class="fw-normal">UI</span>
+              <img
+                class="img-fluid me-2"
+                src="/assets/media/logos/logo.svg"
+                alt="Logo"
+                width="40"
+              />
+              Centre<span class="fw-normal">App</span>
             </RouterLink>
             <p class="text-white-75 me-xl-8 mt-2">
-              Welcome to your amazing app. Feel free to login and start managing
-              your projects and clients.
+              “Be happy in the moment, that's enough. Each moment is all we need, not more.”
             </p>
           </div>
         </div>
@@ -90,7 +101,7 @@ async function onSubmit() {
             </li>
             <li class="list-inline-item">
               <a class="text-white-75 fw-medium" href="javascript:void(0)"
-                >Terms</a
+                >Terms</a>
               >
             </li>
           </ul>
@@ -115,7 +126,12 @@ async function onSubmit() {
             <!-- Header -->
             <div class="text-center mb-5">
               <p class="mb-3">
-                <i class="fa fa-2x fa-circle-notch text-primary-light"></i>
+                <img
+                  class="img-fluid"
+                  src="/assets/media/logos/logo.svg"
+                  alt="Logo"
+                  width="70"
+                />
               </p>
               <h1 class="fw-bold mb-2">Sign In</h1>
               <p class="fw-medium text-muted">
