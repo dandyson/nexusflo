@@ -5,7 +5,7 @@ import NProgress from "nprogress/nprogress.js";
 // Main layout variations
 import LayoutSimple from "@/layouts/variations/Simple.vue";
 import LayoutLanding from "@/layouts/variations/Landing.vue";
-import LayoutBackend from "@/layouts/variations/Backend.vue";
+import LayoutBackend from "@/layouts/variations/BackendStarter.vue";
 import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
 import LayoutBackendMegaMenu from "@/layouts/variations/BackendMegaMenu.vue";
 import LayoutBackendSidebarMiniNav from "@/layouts/variations/BackendSidebarMiniNav.vue";
@@ -16,7 +16,7 @@ import LayoutBackendSidebarMiniNav from "@/layouts/variations/BackendSidebarMini
 const Landing = () => import("@/views/starter/LandingView.vue");
 
 // Backend: Dashboard
-const Dashboard = () => import("@/views/starter/DashboardView.vue");
+const AdminDashboard = () => import("@/views/starter/DashboardView.vue");
 
 // Backend: Pomodoro Timer
 const PomodoroTimer = () => import("@/views/starter/PomdoroTimer.vue");
@@ -374,7 +374,32 @@ const routes = [
       {
         path: "dashboard",
         name: "backend-dashboard",
-        component: BackendDashboard,
+        component: AdminDashboard,
+      },
+       /*
+      |--------------------------------------------------------------------------
+      | Backend Custom Routes
+      |--------------------------------------------------------------------------
+      */
+      {
+        path: "pomodoro-timer",
+        name: "backend-pomodoro",
+        component: PomodoroTimer,
+      },
+      {
+        path: "meditation",
+        name: "backend-meditation",
+        component: MeditationTimer,
+      },
+      {
+        path: "positive-news",
+        name: "backend-positive-news",
+        component: PositiveNews,
+      },
+      {
+        path: "worry-journal",
+        name: "backend-worry-journal",
+        component: WorryJournal,
       },
 
       /*

@@ -44,13 +44,15 @@ async function onSubmit() {
     return;
   }
 
-  axios.post('api/worry-journal/testing', 'test')
+  debugger;
+
+  axios.post('api/login', 'test')
     .then((res) => {
         console.log(res);
     }).catch(error => console.log(error));
 
   // Go to dashboard
-  // router.push({ name: "backend-pages-auth" });
+  router.push({ name: "backend-dashboard" });
 }
 </script>
 
@@ -118,7 +120,7 @@ async function onSubmit() {
             :to="{ name: 'landing' }"
             class="link-fx fw-semibold fs-3 text-dark"
           >
-            One<span class="fw-normal">UI</span>
+            Centre<span class="fw-normal">App</span>
           </RouterLink>
         </div>
         <div class="p-4 w-100 flex-grow-1 d-flex align-items-center">

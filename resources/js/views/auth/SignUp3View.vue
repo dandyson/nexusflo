@@ -7,6 +7,9 @@ import { useTemplateStore } from "@/stores/template";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, email, sameAs } from "@vuelidate/validators";
 
+// Axios
+import axios from "axios";
+
 // Main store and Router
 const store = useTemplateStore();
 const router = useRouter();
@@ -56,6 +59,15 @@ async function onSubmit() {
     // notify user form is invalid
     return;
   }
+
+  axios.post('api/register', {
+    'name': state.username,
+    'email': state.email,
+    'password': state.password
+  })
+    .then((res) => {
+        console.log(res);
+    }).catch(error => console.log(error));
 
   // Go to dashboard
   router.push({ name: "backend-pages-auth" });
