@@ -161,7 +161,7 @@ store.mainContent({ mode: "narrow" });
                   <div role="separator" class="dropdown-divider m-0"></div>
                   <div class="p-2">
                     <RouterLink
-                      :to="{ name: 'auth-signin' }"
+                      :to="{ name: 'auth-signin3' }"
                       class="dropdown-item d-flex align-items-center justify-content-between"
                     >
                       <span class="fs-sm fw-medium">Log Out</span>
