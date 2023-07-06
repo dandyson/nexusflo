@@ -14,14 +14,14 @@ const router = useRouter();
 
 // Input state variables
 const state = reactive({
-  username: null,
+  email: null,
   password: null,
 });
 
 // Validation rules
 const rules = computed(() => {
   return {
-    username: {
+    email: {
       required,
       minLength: minLength(3),
     },
@@ -31,6 +31,8 @@ const rules = computed(() => {
     },
   };
 });
+
+let errorTest = false;
 
 // Use vuelidate
 const v$ = useVuelidate(rules, state);
@@ -44,21 +46,27 @@ async function onSubmit() {
     return;
   }
 
-  debugger;
-
-  axios.post('api/login', 'test')
+  axios.post('api/login', {
+    'email': state.email,
+    'password': state.password
+  })
     .then((res) => {
-        console.log(res);
-    }).catch(error => console.log(error));
+      errorTest = false;
+      // Go to dashboard
+      router.push({ name: "backend-dashboard" });
+    }).catch((error) => {
+      console.log(error);
+      errorTest = true;
+    });
 
-  // Go to dashboard
-  router.push({ name: "backend-dashboard" });
+
 }
 </script>
 
 <template>
   <!-- Page Content -->
   <BaseBackground image="/assets/media/photos/photo28@2x.jpg">
+    {{ error }}
     <div class="row g-0 bg-primary-dark-op">
       <!-- Meta Info Section -->
       <div
@@ -152,20 +160,20 @@ async function onSubmit() {
                     <input
                       type="text"
                       class="form-control form-control-lg form-control-alt py-3"
-                      id="login-username"
-                      name="login-username"
-                      placeholder="Username"
+                      id="login-email"
+                      name="login-email"
+                      placeholder="Email"
                       :class="{
-                        'is-invalid': v$.username.$errors.length,
+                        'is-invalid': v$.email.$errors.length,
                       }"
-                      v-model="state.username"
-                      @blur="v$.username.$touch"
+                      v-model="state.email"
+                      @blur="v$.email.$touch"
                     />
                     <div
-                      v-if="v$.username.$errors.length"
+                      v-if="v$.email.$errors.length"
                       class="invalid-feedback animated fadeIn"
                     >
-                      Please enter your username
+                      Please enter your email
                     </div>
                   </div>
                   <div class="mb-4">
