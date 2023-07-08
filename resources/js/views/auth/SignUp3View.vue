@@ -16,7 +16,8 @@ const router = useRouter();
 
 // Input state variables
 const state = reactive({
-  username: null,
+  firstName: null,
+  lastName: null,
   email: null,
   password: null,
   confirmPassword: null,
@@ -26,7 +27,11 @@ const state = reactive({
 // Validation rules
 const rules = computed(() => {
   return {
-    username: {
+    firstName: {
+      required,
+      minLength: minLength(3),
+    },
+    lastName: {
       required,
       minLength: minLength(3),
     },
@@ -61,7 +66,8 @@ async function onSubmit() {
   }
 
   axios.post('api/register', {
-    'name': state.username,
+    'first_name': state.firstName,
+    'last_name': state.lastName,
     'email': state.email,
     'password': state.password
   })
@@ -171,20 +177,40 @@ async function onSubmit() {
                     <input
                       type="text"
                       class="form-control form-control-lg form-control-alt py-3"
-                      id="signup-username"
-                      name="signup-username"
-                      placeholder="Username"
+                      id="signup-firstname"
+                      name="signup-firstname"
+                      placeholder="First Name"
                       :class="{
-                        'is-invalid': v$.username.$errors.length,
+                        'is-invalid': v$.firstName.$errors.length,
                       }"
-                      v-model="state.username"
-                      @blur="v$.username.$touch"
+                      v-model="state.firstName"
+                      @blur="v$.firstName.$touch"
                     />
                     <div
-                      v-if="v$.username.$errors.length"
+                      v-if="v$.firstName.$errors.length"
                       class="invalid-feedback animated fadeIn"
                     >
-                      Please enter a username
+                      Please enter your first name
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <input
+                      type="text"
+                      class="form-control form-control-lg form-control-alt py-3"
+                      id="signup-lastname"
+                      name="signup-lastname"
+                      placeholder="Last Name"
+                      :class="{
+                        'is-invalid': v$.lastName.$errors.length,
+                      }"
+                      v-model="state.lastName"
+                      @blur="v$.lastName.$touch"
+                    />
+                    <div
+                      v-if="v$.lastName.$errors.length"
+                      class="invalid-feedback animated fadeIn"
+                    >
+                      Please enter your last name
                     </div>
                   </div>
                   <div class="mb-4">
