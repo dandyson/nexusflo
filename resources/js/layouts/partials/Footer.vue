@@ -18,7 +18,7 @@ const store = useTemplateStore();
                 <i class="fa fa-heart text-danger"></i> by
                 <a
                   class="fw-semibold"
-                  href="https://1.envato.market/ydb"
+                  href="https://github.com/dandyson"
                   target="_blank"
                   >Dan Dyson</a
                 >
