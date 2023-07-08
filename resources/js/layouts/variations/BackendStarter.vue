@@ -99,6 +99,11 @@ const logOut = () => {
             heading: true,
           },
           {
+            name: 'General Notes',
+            to: 'backend-general-notes',
+            icon: 'fa fa-book',
+          },
+          {
             name: 'Worry Journal',
             to: 'backend-worry-journal',
             icon: 'fa fa-book',

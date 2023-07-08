@@ -27,6 +27,9 @@ const MeditationTimer = () => import("@/views/starter/MeditationTimer.vue");
 // Backend: Positive News
 const PositiveNews = () => import("@/views/starter/PositiveNews.vue");
 
+// Backend: General Notes
+const GeneralNotes = () => import("@/views/starter/GeneralNotes.vue");
+
 // Backend: Worry Journal
 const WorryJournal = () => import("@/views/starter/WorryJournal.vue");
 
@@ -395,6 +398,11 @@ const routes = [
         path: "positive-news",
         name: "backend-positive-news",
         component: PositiveNews,
+      },
+      {
+        path: "general-notes",
+        name: "backend-general-notes",
+        component: GeneralNotes,
       },
       {
         path: "worry-journal",

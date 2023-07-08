@@ -1,12 +1,13 @@
 <template>
-    <div class="row">
+    <div class="content row">
         <input type="hidden" name="thinking_traps" :value="JSON.stringify(worryJournalEntry.thinking_traps)">
 
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-4">Create a new journal entry</h4>
-                    <p>Fill out the below form to record your worries, spot any thinking traps and to try to re-balance your thought by challenging your beliefs about the situation.</p>
+                    <p>Fill out the below form to record your worries, spot any thinking traps and to try to re-balance your
+                        thought by challenging your beliefs about the situation.</p>
 
                 </div>
                 <!-- end card body -->
@@ -19,8 +20,8 @@
 </template>
 
 <script>
-import axios from "axios"; 
-import {FormWizard, TabContent} from 'vue-step-wizard';
+import axios from "axios";
+import { FormWizard, TabContent } from 'vue-step-wizard';
 import 'vue-step-wizard/dist/vue-step-wizard.css';
 import Swal from 'sweetalert2';
 
@@ -37,7 +38,7 @@ export default {
                 balanced_thought: '',
                 thinking_traps: [],
             },
-            
+
             thinkingTrapData: [],
             clicked: false,
         }
@@ -86,7 +87,6 @@ export default {
 </script>
 
 <style scoped>
-
 .card-select {
     transition: all .1s ease-in-out;
 }
@@ -101,7 +101,8 @@ export default {
     border-radius: 10px;
 }
 
-.trapSelected .card-title, .trapSelected .card-text {
+.trapSelected .card-title,
+.trapSelected .card-text {
     color: white;
 }
 
