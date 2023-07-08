@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
 
@@ -32,10 +32,11 @@ const rules = computed(() => {
   };
 });
 
-let errorTest = false;
-
 // Use vuelidate
 const v$ = useVuelidate(rules, state);
+
+let credentialError = ref(false);
+let credentialErrorMessage = ref('');
 
 // On form submission
 async function onSubmit() {
@@ -51,22 +52,25 @@ async function onSubmit() {
     'password': state.password
   })
     .then((res) => {
-      errorTest = false;
+      credentialError.value = false;
+      if (res.data.user) {
+        store.user = JSON.stringify(res.data.user);
+        // Remove localstorage 'user' item if already exists
+        localStorage.removeItem("user");
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+      }
       // Go to dashboard
       router.push({ name: "backend-dashboard" });
     }).catch((error) => {
-      console.log(error);
-      errorTest = true;
+      credentialError.value = true;
+      credentialErrorMessage.value = error.response.data.message;
     });
-
-
 }
 </script>
 
 <template>
   <!-- Page Content -->
   <BaseBackground image="/assets/media/photos/photo28@2x.jpg">
-    {{ error }}
     <div class="row g-0 bg-primary-dark-op">
       <!-- Meta Info Section -->
       <div
@@ -155,6 +159,11 @@ async function onSubmit() {
             <!-- Sign In Form -->
             <div class="row g-0 justify-content-center">
               <div class="col-sm-8 col-xl-4">
+                <!-- Error alert for incorrect credentials -->
+                <div v-if="credentialError" class="alert alert-danger" role="alert">
+                  {{ credentialErrorMessage }}
+                </div>
+                <!-- Form content -->
                 <form @submit.prevent="onSubmit">
                   <div class="mb-4">
                     <input

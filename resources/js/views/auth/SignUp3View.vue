@@ -66,11 +66,14 @@ async function onSubmit() {
     'password': state.password
   })
     .then((res) => {
-        console.log(res);
+      console.log(res);
+      if (res.data.user) {
+        store.user = JSON.stringify(res.data.user);
+        localStorage.setItem("user", store.user);
+      }
+        // Go to dashboard
+      router.push({ name: "backend-dashboard" });
     }).catch(error => console.log(error));
-
-  // Go to dashboard
-  router.push({ name: "backend-pages-auth" });
 }
 </script>
 

@@ -15,20 +15,28 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        $this->logout();
+        
         $request->validate([
             'email' => 'required',
             'password' => 'required',
         ]);
    
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (Auth::attempt($credentials, true) && $user) {
+            Auth::loginUsingId($user->id);
+
             return response()->json([
                 'type' => 'success',
                 'message' => 'Login Successful',
+                'user' => Auth::user(),
             ]);
         }
   
-        abort(500, 'Error - Credentials incorrect, please try again');
+        abort(500, 'These credentials do not match our records, please try again.');
     }
 
     public function register(Request $request): JsonResponse
@@ -41,17 +49,18 @@ class AuthController extends Controller
            
         $data = $request->all();
 
-        DB::transaction(function () use ($data) {
-            User::factory()->create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-            ]);
-        });
-         
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+
+        Auth::loginUsingId($user->id);
+
         return response()->json([
             'type' => 'success',
             'message' => 'New User Created Successfully',
+            'user' => Auth::user(),
         ]);
     }
 
@@ -59,6 +68,9 @@ class AuthController extends Controller
         Session::flush();
         Auth::logout();
   
-        return Redirect('login');
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Logout Successful',
+        ]);
     }
 }

@@ -4,6 +4,7 @@ import { defineStore } from "pinia";
 export const useTemplateStore = defineStore({
   id: "template",
   state: () => ({
+    user: null,
     // App vital details
     app: {
       name: "Centre App",

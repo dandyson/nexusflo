@@ -6,9 +6,8 @@ import { useTemplateStore } from "@/stores/template";
 // Grab example data
 import notifications from "@/data/notifications";
 
-// Main store and Router
+// Main store
 const store = useTemplateStore();
-const router = useRouter();
 
 // Reactive variables
 const baseSearchTerm = ref("");

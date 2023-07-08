@@ -1,11 +1,29 @@
 <script setup>
 import { useTemplateStore } from "@/stores/template";
-
+import axios from "axios";
 import BaseLayout from "@/layouts/BaseLayout.vue";
 import BaseNavigation from "@/components/BaseNavigation.vue";
+import { useRouter } from 'vue-router';
 
 // Main store
 const store = useTemplateStore();
+const router = useRouter();
+
+let currentUser = {
+  name: '',
+};
+
+if (store.user) {
+  let user = JSON.parse(store.user);
+  currentUser = user;
+} else {
+  if (localStorage.getItem("user")) {
+    let user = localStorage.getItem("user");
+    currentUser = JSON.parse(user);
+  } else {
+    router.push({ name: "auth-signin3" });
+  }
+}
 
 // Set default elements for this layout
 store.setLayout({
@@ -18,6 +36,18 @@ store.setLayout({
 // Set various template options for this layout variation
 store.headerStyle({ mode: "light" });
 store.mainContent({ mode: "narrow" });
+
+// Methods
+const logOut = () => {
+  axios.post('api/logout', {currentUser})
+    .then((res) => {
+      store.user = null;
+      localStorage.removeItem("user");
+
+      // Go to sign in
+      router.push({ name: "auth-signin3" });
+    }).catch(() => {});
+}
 </script>
 
 <template>
@@ -105,7 +135,7 @@ store.mainContent({ mode: "narrow" });
         <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center"
           id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <img class="rounded-circle" src="/assets/media/avatars/avatar10.jpg" alt="Header Avatar" style="width: 21px" />
-          <span class="d-none d-sm-inline-block ms-2">John</span>
+          <span class="d-none d-sm-inline-block ms-2">{{ currentUser.name }}</span>
           <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block opacity-50 ms-1 mt-1"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0 border-0"
@@ -113,7 +143,7 @@ store.mainContent({ mode: "narrow" });
           <div class="p-3 text-center bg-body-light border-bottom rounded-top">
             <img class="img-avatar img-avatar48 img-avatar-thumb" src="/assets/media/avatars/avatar10.jpg"
               alt="Header Avatar" />
-            <p class="mt-2 mb-0 fw-medium">John Smith</p>
+            <p class="mt-2 mb-0 fw-medium">{{ currentUser.name }}</p>
           </div>
           <div class="p-2">
             <RouterLink :to="{ name: 'backend-pages-generic-profile' }"
@@ -127,10 +157,11 @@ store.mainContent({ mode: "narrow" });
           </div>
           <div role="separator" class="dropdown-divider m-0"></div>
           <div class="p-2">
-            <RouterLink :to="{ name: 'auth-signin3' }"
+            <a @click="logOut"
+              href="javascript:void(0)"
               class="dropdown-item d-flex align-items-center justify-content-between">
               <span class="fs-sm fw-medium">Log Out</span>
-            </RouterLink>
+            </a>
           </div>
         </div>
       </div>
