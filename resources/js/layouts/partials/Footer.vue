@@ -20,8 +20,7 @@ const store = useTemplateStore();
                   class="fw-semibold"
                   href="https://github.com/dandyson"
                   target="_blank"
-                  >Dan Dyson</a
-                >
+                  >Dan Dyson</a>
               </slot>
             </div>
             <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
