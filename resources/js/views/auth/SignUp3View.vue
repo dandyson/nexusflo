@@ -16,22 +16,17 @@ const router = useRouter();
 
 // Input state variables
 const state = reactive({
-  firstName: null,
-  lastName: null,
+  name: null,
   email: null,
   password: null,
-  confirmPassword: null,
+  password_confirmation: null,
   terms: null,
 });
 
 // Validation rules
 const rules = computed(() => {
   return {
-    firstName: {
-      required,
-      minLength: minLength(3),
-    },
-    lastName: {
+    name: {
       required,
       minLength: minLength(3),
     },
@@ -41,9 +36,9 @@ const rules = computed(() => {
     },
     password: {
       required,
-      minLength: minLength(5),
+      minLength: minLength(8),
     },
-    confirmPassword: {
+    password_confirmation: {
       required,
       sameAs: sameAs(state.password),
     },
@@ -65,19 +60,9 @@ async function onSubmit() {
     return;
   }
 
-  axios.post('api/register', {
-    'first_name': state.firstName,
-    'last_name': state.lastName,
-    'email': state.email,
-    'password': state.password
-  })
+  await axios.post('api/register', state)
     .then((res) => {
-      console.log(res);
-      if (res.data.user) {
-        store.user = JSON.stringify(res.data.user);
-        localStorage.setItem("user", store.user);
-      }
-        // Go to dashboard
+      // Go to dashboard
       router.push({ name: "backend-dashboard" });
     }).catch(error => console.log(error));
 }
@@ -177,40 +162,20 @@ async function onSubmit() {
                     <input
                       type="text"
                       class="form-control form-control-lg form-control-alt py-3"
-                      id="signup-firstname"
-                      name="signup-firstname"
-                      placeholder="First Name"
+                      id="signup-name"
+                      name="signup-name"
+                      placeholder="Full Name"
                       :class="{
-                        'is-invalid': v$.firstName.$errors.length,
+                        'is-invalid': v$.name.$errors.length,
                       }"
-                      v-model="state.firstName"
-                      @blur="v$.firstName.$touch"
+                      v-model="state.name"
+                      @blur="v$.name.$touch"
                     />
                     <div
-                      v-if="v$.firstName.$errors.length"
+                      v-if="v$.name.$errors.length"
                       class="invalid-feedback animated fadeIn"
                     >
-                      Please enter your first name
-                    </div>
-                  </div>
-                  <div class="mb-4">
-                    <input
-                      type="text"
-                      class="form-control form-control-lg form-control-alt py-3"
-                      id="signup-lastname"
-                      name="signup-lastname"
-                      placeholder="Last Name"
-                      :class="{
-                        'is-invalid': v$.lastName.$errors.length,
-                      }"
-                      v-model="state.lastName"
-                      @blur="v$.lastName.$touch"
-                    />
-                    <div
-                      v-if="v$.lastName.$errors.length"
-                      class="invalid-feedback animated fadeIn"
-                    >
-                      Please enter your last name
+                      Please enter your name
                     </div>
                   </div>
                   <div class="mb-4">
@@ -257,17 +222,17 @@ async function onSubmit() {
                     <input
                       type="password"
                       class="form-control form-control-lg form-control-alt py-3"
-                      id="signup-password-confirm"
-                      name="signup-password-confirm"
+                      id="password-confirmation"
+                      name="password_confirmation"
                       placeholder="Confirm Password"
                       :class="{
-                        'is-invalid': v$.confirmPassword.$errors.length,
+                        'is-invalid': v$.password_confirmation.$errors.length,
                       }"
-                      v-model="state.confirmPassword"
-                      @blur="v$.confirmPassword.$touch"
+                      v-model="state.password_confirmation"
+                      @blur="v$.password_confirmation.$touch"
                     />
                     <div
-                      v-if="v$.confirmPassword.$errors.length"
+                      v-if="v$.password_confirmation.$errors.length"
                       class="invalid-feedback animated fadeIn"
                     >
                       Please confirm the password

@@ -21,11 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Auth
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
 // Positive News
 Route::get('/positive-news-feed', [PositiveNewsController::class, 'newsFetch'])->name('news-fetch');
 

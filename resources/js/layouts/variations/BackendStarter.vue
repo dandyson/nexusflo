@@ -4,27 +4,11 @@ import axios from "axios";
 import BaseLayout from "@/layouts/BaseLayout.vue";
 import BaseNavigation from "@/components/BaseNavigation.vue";
 import { useRouter } from 'vue-router';
+import { ref, onMounted } from "vue";
 
 // Main store
 const store = useTemplateStore();
 const router = useRouter();
-
-let currentUser = {
-  first_name: '',
-  last_name: '',
-};
-
-if (store.user) {
-  let user = JSON.parse(store.user);
-  currentUser = user;
-} else {
-  if (localStorage.getItem("user")) {
-    let user = localStorage.getItem("user");
-    currentUser = JSON.parse(user);
-  } else {
-    router.push({ name: "auth-signin3" });
-  }
-}
 
 // Set default elements for this layout
 store.setLayout({
@@ -40,15 +24,20 @@ store.mainContent({ mode: "narrow" });
 
 // Methods
 const logOut = () => {
-  axios.post('api/logout', {currentUser})
+  axios.post('api/logout')
     .then((res) => {
-      store.user = null;
-      localStorage.removeItem("user");
-
       // Go to sign in
-      router.push({ name: "auth-signin3" });
+      router.replace({ name: "auth-signin3" });
     }).catch(() => {});
 }
+
+const user = ref({ name: '', email: '', });
+
+onMounted(() => {
+  axios.get('api/user').then(response => {
+    user.value = response.data;
+  });
+});
 </script>
 
 <template>
@@ -141,7 +130,7 @@ const logOut = () => {
         <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center"
           id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <img class="rounded-circle" src="/assets/media/avatars/avatar10.jpg" alt="Header Avatar" style="width: 21px" />
-          <span class="d-none d-sm-inline-block ms-2">{{ currentUser.first_name }}</span>
+          <span class="d-none d-sm-inline-block ms-2">{{ user.name }}</span>
           <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block opacity-50 ms-1 mt-1"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0 border-0"
@@ -149,7 +138,7 @@ const logOut = () => {
           <div class="p-3 text-center bg-body-light border-bottom rounded-top">
             <img class="img-avatar img-avatar48 img-avatar-thumb" src="/assets/media/avatars/avatar10.jpg"
               alt="Header Avatar" />
-            <p class="mt-2 mb-0 fw-medium">{{ `${currentUser.first_name} ${currentUser.last_name}` }}</p>
+            <p class="mt-2 mb-0 fw-medium">{{ user.email }}</p>
           </div>
           <div class="p-2">
             <RouterLink :to="{ name: 'backend-pages-generic-profile' }"

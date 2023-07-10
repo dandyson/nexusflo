@@ -47,18 +47,8 @@ async function onSubmit() {
     return;
   }
 
-  axios.post('api/login', {
-    'email': state.email,
-    'password': state.password
-  })
+  await axios.post('api/login', state)
     .then((res) => {
-      credentialError.value = false;
-      if (res.data.user) {
-        store.user = JSON.stringify(res.data.user);
-        // Remove localstorage 'user' item if already exists
-        localStorage.removeItem("user");
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-      }
       // Go to dashboard
       router.push({ name: "backend-dashboard" });
     }).catch((error) => {
