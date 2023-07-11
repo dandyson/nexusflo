@@ -10,16 +10,8 @@ import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
 import LayoutBackendMegaMenu from "@/layouts/variations/BackendMegaMenu.vue";
 import LayoutBackendSidebarMiniNav from "@/layouts/variations/BackendSidebarMiniNav.vue";
 import axios from "axios";
-import { Notifier } from '@airbrake/browser';
 
-// Airbrake config
-var airbrake = new Notifier({
-  environment: 'production',
-  projectId: 507927,
-  projectKey: '1ab221e1d96063104bebd65593b155d7'
-});
-
-vue.config.errorHandler = function (err, vm, info) {
+Vue.config.errorHandler = function (err, vm, info) {
   airbrake.notify({
     error: err,
     params: {info: info}

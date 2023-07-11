@@ -33,5 +33,12 @@ app.directive("click-ripple", clickRipple);
 app.use(createPinia());
 app.use(router);
 
+app.config.errorHandler = function (err, vm, info) {
+    airbrake.notify({
+      error: err,
+      params: {info: info}
+    });
+  }
+
 // ..and finally mount it!
 app.mount("#app");
