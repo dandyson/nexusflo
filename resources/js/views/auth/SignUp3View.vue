@@ -60,10 +60,18 @@ async function onSubmit() {
     return;
   }
 
-  await axios.post('api/register', state);
+  await axios.post('api/register', state, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   await axios.post('api/login', {
     'email': state.email,
     'password': state.password,
+  }, {
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
   // Go to dashboard
   router.push({ name: "backend-dashboard" });

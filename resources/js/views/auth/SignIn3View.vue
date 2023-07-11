@@ -47,7 +47,11 @@ async function onSubmit() {
     return;
   }
 
-  await axios.post('api/login', state)
+  await axios.post('api/login', state, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
     .then((res) => {
       // Go to dashboard
       router.push({ name: "backend-dashboard" });
