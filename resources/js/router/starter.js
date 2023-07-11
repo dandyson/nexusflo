@@ -1,5 +1,5 @@
+import vue from '@vitejs/plugin-vue'
 import { createRouter, createWebHashHistory } from "vue-router";
-
 import NProgress from "nprogress/nprogress.js";
 
 // Main layout variations
@@ -10,6 +10,21 @@ import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
 import LayoutBackendMegaMenu from "@/layouts/variations/BackendMegaMenu.vue";
 import LayoutBackendSidebarMiniNav from "@/layouts/variations/BackendSidebarMiniNav.vue";
 import axios from "axios";
+import { Notifier } from '@airbrake/browser';
+
+// Airbrake config
+var airbrake = new Notifier({
+  environment: 'production',
+  projectId: 507927,
+  projectKey: '1ab221e1d96063104bebd65593b155d7'
+});
+
+vue.config.errorHandler = function (err, vm, info) {
+  airbrake.notify({
+    error: err,
+    params: {info: info}
+  });
+}
 
 // TODO: Will not need most of these views - delete the ones not needed when done
 
@@ -270,6 +285,7 @@ async function authenticated(to) {
     user = await axios.get('api/user');
     to.params.user = user;  // ✅ Adding user to the params for the backend
   } catch (error) {
+    console.log({error});
     if (error?.response.status === 401) {
       return router.push("/auth/signin3");
     }
