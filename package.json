@@ -14,7 +14,6 @@
         "vite": "^3.0.4"
     },
     "dependencies": {
-        "@airbrake/browser": "^2.1.8",
         "@chenfengyuan/vue-countdown": "^2.0.0",
         "@ckeditor/ckeditor5-build-balloon": "^35.0.1",
         "@ckeditor/ckeditor5-build-balloon-block": "^35.0.1",
@@ -55,8 +54,5 @@
         "vue-select": "^4.0.0-beta.3",
         "vue-star-rating": "^2.1.0",
         "vue-step-wizard": "^0.1.17"
-    },
-    "engines": {
-        "node": "^18"
     }
 }
