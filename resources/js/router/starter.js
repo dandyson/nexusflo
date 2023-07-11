@@ -266,6 +266,7 @@ let user = {};
 // Guards
 async function authenticated(to) {
   try {
+    console.log('Hello');
     user = await axios.get('api/user');
     to.params.user = user;  // ✅ Adding user to the params for the backend
   } catch (error) {
