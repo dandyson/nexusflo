@@ -1,4 +1,11 @@
-<script setup></script>
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+const user = store.user;
+</script>
 
 <template>
   <!-- Hero -->
@@ -14,8 +21,8 @@
           alt="Avatar"
         />
       </div>
-      <h1 class="h2 text-white mb-0">John Parker</h1>
-      <span class="text-white-75">UI Designer</span>
+      <h1 class="h2 text-white mb-0">{{ user.name }}</h1>
+      <span class="text-white-75">{{ user.email }}</span>
     </div>
   </BaseBackground>
   <!-- END Hero -->

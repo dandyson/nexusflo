@@ -60,11 +60,14 @@ async function onSubmit() {
     return;
   }
 
-  await axios.post('api/register', state)
-    .then((res) => {
-      // Go to dashboard
-      router.push({ name: "backend-dashboard" });
-    }).catch(error => console.log(error));
+  await axios.post('api/register', state);
+  await axios.post('api/login', {
+    'email': state.email,
+    'password': state.password,
+  });
+  // Go to dashboard
+  router.push({ name: "backend-dashboard" });
+
 }
 </script>
 

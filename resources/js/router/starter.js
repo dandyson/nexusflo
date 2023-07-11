@@ -9,6 +9,7 @@ import LayoutBackend from "@/layouts/variations/BackendStarter.vue";
 import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
 import LayoutBackendMegaMenu from "@/layouts/variations/BackendMegaMenu.vue";
 import LayoutBackendSidebarMiniNav from "@/layouts/variations/BackendSidebarMiniNav.vue";
+import axios from "axios";
 
 // TODO: Will not need most of these views - delete the ones not needed when done
 
@@ -261,6 +262,20 @@ const Error404 = () => import("@/views/errors/404View.vue");
 const Error500 = () => import("@/views/errors/500View.vue");
 const Error503 = () => import("@/views/errors/503View.vue");
 
+let user = {};
+
+// Guards
+async function authenticated(to) {
+  try {
+    user = await axios.get('api/user');
+    to.params.user = user;  // ✅ Adding user to the params for the backend
+  } catch (error) {
+    if (error?.response.status === 401) {
+      return router.push("/auth/signin3");
+    }
+  }
+}
+
 // Set all routes
 const routes = [
   /*
@@ -373,6 +388,8 @@ const routes = [
     path: "/backend",
     redirect: "/backend/dashboard",
     component: LayoutBackend,
+    beforeEnter: [authenticated],
+    props: { user: true },
     children: [
       {
         path: "dashboard",

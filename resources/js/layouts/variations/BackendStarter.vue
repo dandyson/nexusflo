@@ -4,11 +4,16 @@ import axios from "axios";
 import BaseLayout from "@/layouts/BaseLayout.vue";
 import BaseNavigation from "@/components/BaseNavigation.vue";
 import { useRouter } from 'vue-router';
-import { ref, onMounted } from "vue";
+import { useRoute } from 'vue-router';
 
 // Main store
 const store = useTemplateStore();
+
+// Router & Route
 const router = useRouter();
+const route = useRoute();
+
+store.user = route.params?.user?.data
 
 // Set default elements for this layout
 store.setLayout({
@@ -27,17 +32,10 @@ const logOut = () => {
   axios.post('api/logout')
     .then((res) => {
       // Go to sign in
-      router.replace({ name: "auth-signin3" });
+      router.push({ name: "auth-signin3" });
     }).catch(() => {});
 }
 
-const user = ref({ name: '', email: '', });
-
-onMounted(() => {
-  axios.get('api/user').then(response => {
-    user.value = response.data;
-  });
-});
 </script>
 
 <template>
@@ -130,7 +128,7 @@ onMounted(() => {
         <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center"
           id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <img class="rounded-circle" src="/assets/media/avatars/avatar10.jpg" alt="Header Avatar" style="width: 21px" />
-          <span class="d-none d-sm-inline-block ms-2">{{ user.name }}</span>
+          <span class="d-none d-sm-inline-block ms-2">{{ store.user.name }}</span>
           <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block opacity-50 ms-1 mt-1"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0 border-0"
@@ -138,7 +136,7 @@ onMounted(() => {
           <div class="p-3 text-center bg-body-light border-bottom rounded-top">
             <img class="img-avatar img-avatar48 img-avatar-thumb" src="/assets/media/avatars/avatar10.jpg"
               alt="Header Avatar" />
-            <p class="mt-2 mb-0 fw-medium">{{ user.email }}</p>
+            <p class="mt-2 mb-0 fw-medium">{{ store.user.email }}</p>
           </div>
           <div class="p-2">
             <RouterLink :to="{ name: 'backend-pages-generic-profile' }"
