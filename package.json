@@ -55,5 +55,8 @@
         "vue-select": "^4.0.0-beta.3",
         "vue-star-rating": "^2.1.0",
         "vue-step-wizard": "^0.1.17"
+    },
+    "engines": {
+        "node": "^18"
     }
 }
