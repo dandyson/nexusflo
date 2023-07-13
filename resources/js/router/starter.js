@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+
 import NProgress from "nprogress/nprogress.js";
 
 // Main layout variations
@@ -264,13 +265,19 @@ const Error503 = () => import("@/views/errors/503View.vue");
 let user = {};
 
 // Guards
+async function token() {
+  try {
+    await axios.get("sanctum/csrf-cookie");
+  } catch (error) {
+    return router.push("/auth/signin3");
+  }
+}
+
 async function authenticated(to) {
   try {
-    console.log('Hello');
     user = await axios.get('api/user');
     to.params.user = user;  // ✅ Adding user to the params for the backend
   } catch (error) {
-    console.log({error});
     if (error?.response.status === 401) {
       return router.push("/auth/signin3");
     }
@@ -389,7 +396,7 @@ const routes = [
     path: "/backend",
     redirect: "/backend/dashboard",
     component: LayoutBackend,
-    beforeEnter: [authenticated],
+    beforeEnter: [token, authenticated],
     props: { user: true },
     children: [
       {
