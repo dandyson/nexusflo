@@ -11,6 +11,10 @@ import LayoutBackendMegaMenu from "@/layouts/variations/BackendMegaMenu.vue";
 import LayoutBackendSidebarMiniNav from "@/layouts/variations/BackendSidebarMiniNav.vue";
 import axios from "axios";
 
+// Axios defaults (for API register/login)
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.withCredentials = true;
+
 // TODO: Will not need most of these views - delete the ones not needed when done
 
 // Frontend: Landing

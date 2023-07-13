@@ -47,14 +47,19 @@ async function onSubmit() {
     return;
   }
 
-  await axios.post('api/login', state, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  axios.get('sanctum/csrf-cookie')
     .then((res) => {
-      // Go to dashboard
-      router.push({ name: "backend-dashboard" });
+      axios.post('api/login', state, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(() => {
+        // Go to dashboard
+        router.push({ name: "backend-dashboard" });
+      }).catch((error) => {
+        credentialError.value = true;
+        credentialErrorMessage.value = error.response.data.message;
+      });
     }).catch((error) => {
       credentialError.value = true;
       credentialErrorMessage.value = error.response.data.message;
