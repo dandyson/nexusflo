@@ -271,6 +271,8 @@ async function authenticated(to) {
     user = await axios.get('api/user');
     to.params.user = user;  // ✅ Adding user to the params for the backend
   } catch (error) {
+    console.log({error});
+    axios.get('api/user').then((res) { console.log({res}); }).catch((error) => console.log({error}));
     if (error?.response.status === 401) {
       return router.push("/auth/signin3");
     }
