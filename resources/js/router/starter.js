@@ -265,13 +265,6 @@ const Error503 = () => import("@/views/errors/503View.vue");
 let user = {};
 
 // Guards
-async function token() {
-  try {
-    await axios.get("sanctum/csrf-cookie");
-  } catch (error) {
-    return router.push("/auth/signin3");
-  }
-}
 
 async function authenticated(to) {
   try {
@@ -396,7 +389,7 @@ const routes = [
     path: "/backend",
     redirect: "/backend/dashboard",
     component: LayoutBackend,
-    beforeEnter: [token, authenticated],
+    beforeEnter: [authenticated],
     props: { user: true },
     children: [
       {
