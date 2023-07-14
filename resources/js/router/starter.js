@@ -272,8 +272,9 @@ let user = {};
 
 async function authenticated(to) {
   try {
-    user = await axios.get('api/user');
-    to.params.user = user;  // ✅ Adding user to the params for the backend
+    await axios.get('/sanctum/csrf-cookie');
+    const response = await axios.get('api/user');
+    to.params.user = response.data;
   } catch (error) {
     console.log({error});
     axios.get('api/user')
