@@ -1,10 +1,12 @@
 <script setup>
-import { useTemplateStore } from "@/stores/template";
+import { useRoute } from 'vue-router';
 
-// Main store
-const store = useTemplateStore();
+const route = useRoute();
 
-const user = store.user;
+const authUser = {
+  name: route.params?.user?.name ?? '',
+  email: route.params?.user?.email ?? '',
+}
 </script>
 
 <template>
@@ -21,8 +23,8 @@ const user = store.user;
           alt="Avatar"
         />
       </div>
-      <h1 class="h2 text-white mb-0">{{ user.name }}</h1>
-      <span class="text-white-75">{{ user.email }}</span>
+      <h1 class="h2 text-white mb-0">{{ authUser.name }}</h1>
+      <span class="text-white-75">{{ authUser.email }}</span>
     </div>
   </BaseBackground>
   <!-- END Hero -->
