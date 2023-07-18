@@ -6,9 +6,6 @@ import NProgress from "nprogress/nprogress.js";
 import LayoutSimple from "@/layouts/variations/Simple.vue";
 import LayoutLanding from "@/layouts/variations/Landing.vue";
 import LayoutBackend from "@/layouts/variations/BackendStarter.vue";
-import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
-import LayoutBackendMegaMenu from "@/layouts/variations/BackendMegaMenu.vue";
-import LayoutBackendSidebarMiniNav from "@/layouts/variations/BackendSidebarMiniNav.vue";
 import axios from "axios";
 
 // Axios defaults (for API register/login)
@@ -134,17 +131,9 @@ const SpecialsStatus = () => import("@/views/specials/StatusView.vue");
 const SpecialsComingSoon = () => import("@/views/specials/ComingSoonView.vue");
 
 // Auth
-const AuthSignIn = () => import("@/views/auth/SignInView.vue");
-const AuthSignIn2 = () => import("@/views/auth/SignIn2View.vue");
 const AuthSignIn3 = () => import("@/views/auth/SignIn3View.vue");
-const AuthSignUp = () => import("@/views/auth/SignUpView.vue");
-const AuthSignUp2 = () => import("@/views/auth/SignUp2View.vue");
 const AuthSignUp3 = () => import("@/views/auth/SignUp3View.vue");
-const AuthLock = () => import("@/views/auth/LockView.vue");
-const AuthLock2 = () => import("@/views/auth/Lock2View.vue");
 const AuthLock3 = () => import("@/views/auth/Lock3View.vue");
-const AuthReminder = () => import("@/views/auth/ReminderView.vue");
-const AuthReminder2 = () => import("@/views/auth/Reminder2View.vue");
 const AuthReminder3 = () => import("@/views/auth/Reminder3View.vue");
 
 // Errors
@@ -537,29 +526,9 @@ const routes = [
     component: LayoutSimple,
     children: [
       {
-        path: "signin",
-        name: "auth-signin",
-        component: AuthSignIn,
-      },
-      {
-        path: "signin2",
-        name: "auth-signin2",
-        component: AuthSignIn2,
-      },
-      {
         path: "signin3",
         name: "auth-signin3",
         component: AuthSignIn3,
-      },
-      {
-        path: "signup",
-        name: "auth-signup",
-        component: AuthSignUp,
-      },
-      {
-        path: "signup2",
-        name: "auth-signup2",
-        component: AuthSignUp2,
       },
       {
         path: "signup3",
@@ -567,29 +536,9 @@ const routes = [
         component: AuthSignUp3,
       },
       {
-        path: "lock",
-        name: "auth-lock",
-        component: AuthLock,
-      },
-      {
-        path: "lock2",
-        name: "auth-lock2",
-        component: AuthLock2,
-      },
-      {
         path: "lock3",
         name: "auth-lock3",
         component: AuthLock3,
-      },
-      {
-        path: "reminder",
-        name: "auth-reminder",
-        component: AuthReminder,
-      },
-      {
-        path: "reminder2",
-        name: "auth-reminder2",
-        component: AuthReminder2,
       },
       {
         path: "reminder3",

@@ -57,7 +57,7 @@ async function onSubmit() {
               :to="{ name: 'landing' }"
               class="link-fx fw-semibold fs-2 text-white"
             >
-              One<span class="fw-normal">UI</span>
+              Centre<span class="fw-normal">App</span>
             </RouterLink>
             <p class="text-white-75 me-xl-8 mt-2">
               Don’t worry, we’ve got your back. You’ll be soon back to your
@@ -102,7 +102,7 @@ async function onSubmit() {
             :to="{ name: 'landing' }"
             class="link-fx fw-semibold fs-3 text-dark"
           >
-            One<span class="fw-normal">UI</span>
+            Centre<span class="fw-normal">App</span>
           </RouterLink>
         </div>
         <div class="p-4 w-100 flex-grow-1 d-flex align-items-center">
@@ -110,11 +110,16 @@ async function onSubmit() {
             <!-- Header -->
             <div class="text-center mb-5">
               <p class="mb-3">
-                <i class="fa fa-2x fa-circle-notch text-primary-light"></i>
+                <img
+                class="img-fluid me-2"
+                src="/assets/media/logos/logo.svg"
+                alt="Logo"
+                width="70"
+              />
               </p>
               <h1 class="fw-bold mb-2">Password Reminder</h1>
               <p class="fw-medium text-muted">
-                Please provide your account’s email or username and we will send
+                Please provide your account’s email address and we will send
                 you your password.
               </p>
             </div>
