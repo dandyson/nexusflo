@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watch, computed } from 'vue';
+import { reactive, watch } from 'vue';
 
 const pomodoro = reactive({
   // Timer variables
@@ -7,8 +7,8 @@ const pomodoro = reactive({
   started: false,
   countdown: '',
   startText: 'Start',
-  minutes: 0,
-  seconds: '05',
+  minutes: 25,
+  seconds: '00',
   // Filler
   fillerWidth: 0,
   fillerIncrement: 0,
@@ -111,7 +111,7 @@ const loop = () => {
     });
 
     // When complete, set all to 0 and clear interval
-    if (pomodoro.seconds < 0, pomodoro.minutes === '00') {
+    if (pomodoro.seconds < 0 && pomodoro.minutes === '00') {
       clearInterval(pomodoro.countdown);
       timerComplete();
     }
