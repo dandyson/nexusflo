@@ -35,6 +35,7 @@ const rules = computed(() => {
 // Use vuelidate
 const v$ = useVuelidate(rules, state);
 
+// Custom Error
 let credentialError = ref(false);
 let credentialErrorMessage = ref('');
 
