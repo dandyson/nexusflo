@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    <title>OneUI Vue Edition</title>
+    <title>CentreApp</title>
 
     <meta name="description"
         content="OneUI Vue Edition is a Bootstrap 5 Admin Template &amp; UI Framework based on Vue.js 3. Created by pixelcave and published on Themeforest">
