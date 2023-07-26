@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\PositiveNewsController;
 use App\Http\Controllers\WorryJournalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\RoutePath;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Auth
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function($token) {
+    return $token;
+})
+    ->middleware(['guest:'.config('fortify.guard')])
+    ->name('password.reset');
 
 // Positive News
 Route::get('/positive-news-feed', [PositiveNewsController::class, 'newsFetch'])->name('news-fetch');

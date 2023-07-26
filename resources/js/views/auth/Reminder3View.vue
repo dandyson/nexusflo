@@ -1,11 +1,12 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
 
 // Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
+import axios from "axios";
 
 // Main store and Router
 const store = useTemplateStore();
@@ -13,13 +14,13 @@ const router = useRouter();
 
 // Input state variables
 const state = reactive({
-  reminder: null,
+  email: null,
 });
 
 // Validation rules
 const rules = computed(() => {
   return {
-    reminder: {
+    email: {
       required,
       minLength: minLength(3),
     },
@@ -28,6 +29,10 @@ const rules = computed(() => {
 
 // Use vuelidate
 const v$ = useVuelidate(rules, state);
+
+// Custom Error
+let credentialError = ref(false);
+let credentialErrorMessage = ref('');
 
 // On form submission
 async function onSubmit() {
@@ -38,8 +43,26 @@ async function onSubmit() {
     return;
   }
 
+  axios.get('sanctum/csrf-cookie')
+    .then((res) => {
+      axios.post('api/forgot-password', state, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(() => {
+        // Go to dashboard
+        router.push({ name: "backend-dashboard" });
+      }).catch((error) => {
+        credentialError.value = true;
+        credentialErrorMessage.value = error.response.data.message;
+      });
+    }).catch((error) => {
+      credentialError.value = true;
+      credentialErrorMessage.value = error.response.data.message;
+    });
+
   // Go to dashboard
-  router.push({ name: "backend-pages-auth" });
+  // router.push({ name: "backend-pages-auth" });
 }
 </script>
 
@@ -117,7 +140,7 @@ async function onSubmit() {
                 width="70"
               />
               </p>
-              <h1 class="fw-bold mb-2">Password Reminder</h1>
+              <h1 class="fw-bold mb-2">Password email</h1>
               <p class="fw-medium text-muted">
                 Please provide your account’s email address and we will send
                 you your password.
@@ -125,25 +148,29 @@ async function onSubmit() {
             </div>
             <!-- END Header -->
 
-            <!-- Reminder Form -->
+            <!-- email Form -->
             <div class="row g-0 justify-content-center">
               <div class="col-sm-8 col-xl-4">
+                <!-- Error alert for incorrect credentials -->
+                <div v-if="credentialError" class="alert alert-danger" role="alert">
+                  {{ credentialErrorMessage }}
+                </div>
                 <form @submit.prevent="onSubmit">
                   <div class="mb-4">
                     <input
                       type="text"
                       class="form-control form-control-lg form-control-alt py-3"
-                      id="reminder-credential"
-                      name="reminder-credential"
+                      id="email-credential"
+                      name="email-credential"
                       placeholder="Username or Email"
                       :class="{
-                        'is-invalid': v$.reminder.$errors.length,
+                        'is-invalid': v$.email.$errors.length,
                       }"
-                      v-model="state.reminder"
-                      @blur="v$.reminder.$touch"
+                      v-model="state.email"
+                      @blur="v$.email.$touch"
                     />
                     <div
-                      v-if="v$.reminder.$errors.length"
+                      v-if="v$.email.$errors.length"
                       class="invalid-feedback animated fadeIn"
                     >
                       Please enter a valid credential
@@ -158,7 +185,7 @@ async function onSubmit() {
                 </form>
               </div>
             </div>
-            <!-- END Reminder Form -->
+            <!-- END email Form -->
           </div>
         </div>
         <div
