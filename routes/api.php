@@ -23,11 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function($token) {
-//     return $token;
-// })
-//     ->middleware(['guest:'.config('fortify.guard')])
-//     ->name('password.reset');
+Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function($token) {
+    return $token;
+})
+    ->middleware(['guest:'.config('fortify.guard')])
+    ->name('password.reset');
 
 // Positive News
 Route::get('/positive-news-feed', [PositiveNewsController::class, 'newsFetch'])->name('news-fetch');
