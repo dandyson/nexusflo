@@ -177,6 +177,11 @@ const routes = [
         name: "landing",
         component: Landing,
       },
+      {
+        path: '/api/reset-password/:toke',
+        name: 'test-landing',
+        component: Landing,
+    },
     ],
   },
 
