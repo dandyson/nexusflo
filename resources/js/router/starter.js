@@ -135,6 +135,7 @@ const AuthSignIn3 = () => import("@/views/auth/SignIn3View.vue");
 const AuthSignUp3 = () => import("@/views/auth/SignUp3View.vue");
 const AuthLock3 = () => import("@/views/auth/Lock3View.vue");
 const AuthReminder3 = () => import("@/views/auth/Reminder3View.vue");
+const PasswordReset = () => import("@/views/auth/PasswordReset.vue");
 
 // Errors
 const Error400 = () => import("@/views/errors/400View.vue");
@@ -175,11 +176,6 @@ const routes = [
       {
         path: "",
         name: "landing",
-        component: Landing,
-      },
-      {
-        path: '/api/reset-password/:toke',
-        name: 'test-landing',
         component: Landing,
       },
     ],
@@ -549,6 +545,13 @@ const routes = [
         path: "reminder3",
         name: "auth-reminder3",
         component: AuthReminder3,
+      },
+      {
+        path: 'password-reset/:token',
+        name: 'password-reset',
+        component: PasswordReset,
+        // TODO: Not sure about the token, seems a bit hacky but not sure how else to do this for now - needs improvement
+        props: (route) => ({ email: route.query.email, token: route.path.split('/password-reset/')[1].split('?')[0] }),
       },
     ],
   },

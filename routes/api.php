@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function($token) {
-    return $token;
+    return view('app');
 })
     ->middleware(['guest:'.config('fortify.guard')])
     ->name('password.reset');
