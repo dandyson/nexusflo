@@ -10,3 +10,22 @@
 // If you have many custom styles, you can create and import additional files
 // For example you can create _component1.scss and include it as follows:
 // @import 'component1';
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.75); /* Higher opacity for a whiteout effect */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Adjust the size of the spinner as needed */
+  .spinner-border {
+    width: 4rem;
+    height: 4rem;
+  }

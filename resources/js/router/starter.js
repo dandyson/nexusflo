@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-
 import NProgress from "nprogress/nprogress.js";
+
+import { useTemplateStore } from "@/stores/template";
 
 // Main layout variations
 import LayoutSimple from "@/layouts/variations/Simple.vue";
@@ -610,6 +611,17 @@ const router = createRouter({
     return { left: 0, top: 0 };
   },
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  const store = useTemplateStore();
+  store.setLoading(true); // Set loading to true when navigating to a new route
+  await next();
+});
+
+router.afterEach((to, from) => {
+  const store = useTemplateStore();
+  store.setLoading(false); // Set loading to false after the route has been loaded
 });
 
 // NProgress

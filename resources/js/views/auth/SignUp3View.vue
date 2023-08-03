@@ -60,6 +60,12 @@ async function onSubmit() {
     return;
   }
 
+    /** TODO: Manually setting the loading to true here, as the 'setLoading' stuff in the router file
+   * only responds once this request is completed - so this is more for the UX so the user does not
+   * think the app is frozen. Need to find another way of doing this maybe?
+   * **/
+  store.setLoading(true);
+
   await axios.post('api/register', state, {
     headers: {
       "Content-Type": "application/json",
@@ -73,6 +79,7 @@ async function onSubmit() {
       "Content-Type": "application/json",
     },
   });
+  store.setLoading(false);
   // Go to dashboard
   router.push({ name: "backend-dashboard" });
 

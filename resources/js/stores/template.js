@@ -4,6 +4,8 @@ import { defineStore } from "pinia";
 export const useTemplateStore = defineStore({
   id: "template",
   state: () => ({
+    // Loading (for loading animations)
+    isLoading: false,
     // Auth User
     user: null,
     // App vital details
@@ -46,6 +48,9 @@ export const useTemplateStore = defineStore({
     },
   }),
   actions: {
+    setLoading(loading) {
+      this.isLoading = loading;
+    },
     // Sets the layout, useful for setting different layouts (under layouts/variations/)
     setLayout(payload) {
       this.layout.header = payload.header;

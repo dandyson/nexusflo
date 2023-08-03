@@ -1,4 +1,17 @@
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+const store = useTemplateStore();
+
+</script>
+
 <template>
+  <!-- Loading Spinner -->
+  <div class="overlay" v-if="store.isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
   <RouterView />
 </template>
 
