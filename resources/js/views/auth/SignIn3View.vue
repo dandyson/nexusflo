@@ -65,10 +65,12 @@ async function onSubmit() {
         // Go to dashboard
         router.push({ name: "backend-dashboard" });
       }).catch((error) => {
+        store.setLoading(false);
         credentialError.value = true;
         credentialErrorMessage.value = error.response.data.message;
       });
     }).catch((error) => {
+      store.setLoading(false);
       credentialError.value = true;
       credentialErrorMessage.value = error.response.data.message;
     });
