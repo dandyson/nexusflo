@@ -178,6 +178,17 @@ const routes = [
         path: "",
         name: "landing",
         component: Landing,
+        beforeEnter: async (to, from, next) => {
+          // Redirect to dashboard if user is already logged in - Logged in users should not see landing page
+          try {
+            await axios.get('/sanctum/csrf-cookie');
+            const response = await axios.get('api/user');
+            to.params.user = response.data;
+            next({ name: 'backend-dashboard' });
+          } catch (error) {
+            next();
+          }
+        },
       },
     ],
   },

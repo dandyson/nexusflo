@@ -67,12 +67,18 @@ async function onSubmit() {
       }).catch((error) => {
         store.setLoading(false);
         credentialError.value = true;
-        credentialErrorMessage.value = error.response.data.message;
+        credentialErrorMessage.value = 
+        error.response?.data?.message !== undefined ? 
+        error.response.data.message : 
+        'There has been an error, please try again';
       });
     }).catch((error) => {
       store.setLoading(false);
       credentialError.value = true;
-      credentialErrorMessage.value = error.response.data.message;
+      credentialErrorMessage.value = 
+      error.response?.data?.message !== undefined ? 
+      error.response.data.message : 
+      'There has been an error, please try again';
     });
 }
 </script>

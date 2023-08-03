@@ -7,6 +7,7 @@ import { useTemplateStore } from "@/stores/template";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 // Main store and Router
 const store = useTemplateStore();
@@ -50,15 +51,29 @@ async function onSubmit() {
           "Content-Type": "application/json",
         },
       }).then(() => {
-        // Go to dashboard
-        router.push({ name: "backend-dashboard" });
+        Swal.fire({
+          icon: 'success',
+          title: 'Sent',
+          text: 'Please check your email for the reset password link!',
+          showConfirmButton: true,
+        }).then((result) => {
+          // Go to dashboard
+          router.push({ name: "auth-signin3" });
+        })
       }).catch((error) => {
+        console.log({error});
         credentialError.value = true;
-        credentialErrorMessage.value = error.response.data.message;
+        credentialErrorMessage.value = 
+        error.response?.data?.message !== undefined ?  
+        error.response.data.message : 
+        'There has been an error, please try again';
       });
     }).catch((error) => {
       credentialError.value = true;
-      credentialErrorMessage.value = error.response.data.message;
+      credentialErrorMessage.value = 
+      error.response?.data?.message !== undefined ? 
+      error.response.data.message : 
+      'There has been an error, please try again';
     });
 
   // Go to dashboard
@@ -140,7 +155,7 @@ async function onSubmit() {
                 width="70"
               />
               </p>
-              <h1 class="fw-bold mb-2">Password email</h1>
+              <h1 class="fw-bold mb-2">Password Reset</h1>
               <p class="fw-medium text-muted">
                 Please provide your account’s email address and we will send
                 you your password.
