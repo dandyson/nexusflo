@@ -74,17 +74,17 @@ async function onSubmit() {
     store.setLoading(false);
     console.log(error);
   });
-  await axios.post('api/login', {
-    'email': state.email,
-    'password': state.password,
-  }, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).catch((error) => {
-    store.setLoading(false);
-    console.log(error);
-  });
+  // await axios.post('api/login', {
+  //   'email': state.email,
+  //   'password': state.password,
+  // }, {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // }).catch((error) => {
+  //   store.setLoading(false);
+  //   console.log(error);
+  // });
   store.setLoading(false);
   // Go to dashboard
   router.push({ name: "backend-dashboard" });
