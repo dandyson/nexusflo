@@ -539,12 +539,12 @@ const routes = [
     component: LayoutSimple,
     children: [
       {
-        path: "signin3",
+        path: "login",
         name: "auth-signin3",
         component: AuthSignIn3,
       },
       {
-        path: "signup3",
+        path: "register",
         name: "auth-signup3",
         component: AuthSignUp3,
       },
