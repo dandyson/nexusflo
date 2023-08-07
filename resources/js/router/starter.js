@@ -157,7 +157,7 @@ async function authenticated(to, from, next) {
     to.params.user = response.data;
     next();
   } catch (error) {
-    next("/auth/signin3");
+    next("/auth/login");
   }
 }
 
