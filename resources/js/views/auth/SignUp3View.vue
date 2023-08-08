@@ -66,7 +66,7 @@ async function onSubmit() {
    * **/
   store.setLoading(true);
 
-  await axios.post('api/register', state, {
+  await axios.post('/api/register', state, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -74,7 +74,7 @@ async function onSubmit() {
     store.setLoading(false);
     console.log(error);
   });
-  await axios.post('api/login', {
+  await axios.post('/api/login', {
     'email': state.email,
     'password': state.password,
   }, {

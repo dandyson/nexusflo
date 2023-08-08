@@ -32,7 +32,7 @@ store.mainContent({ mode: "narrow" });
 
 // Methods
 const logOut = () => {
-  axios.post('api/logout')
+  axios.post('/api/logout')
     .then((res) => {
       // Go to sign in
       router.push({ name: "auth-signin3" });

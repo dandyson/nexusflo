@@ -33,7 +33,7 @@
             const token = window.location.href.split('/reset-password/')[1];
 
             // Redirect the user to the desired Vue Router route
-            window.location.href = `/#/auth/password-reset/${token}`;
+            window.location.href = `/auth/password-reset/${token}`;
         }
     </script>
     
