@@ -1,6 +1,7 @@
 <script setup>
 import axios from "axios";
-import { reactive, computed, ref } from "vue";
+import Swal from "sweetalert2";
+import { reactive, computed, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
 
@@ -17,6 +18,9 @@ const state = reactive({
   email: null,
   password: null,
 });
+
+// Props
+const { verified } = defineProps(['verified']);
 
 // Validation rules
 const rules = computed(() => {
@@ -38,6 +42,21 @@ const v$ = useVuelidate(rules, state);
 // Custom Error
 let credentialError = ref(false);
 let credentialErrorMessage = ref('');
+
+onMounted(() => {
+  if (verified) {
+    axios.post('/api/logout')
+    .then((res) => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Email Verified',
+        text: 'Please login to access your account',
+        showConfirmButton: true,
+      });
+    }).catch((error) => {console.log(error)});
+    
+  }
+});
 
 // On form submission
 async function onSubmit() {

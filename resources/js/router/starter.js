@@ -193,6 +193,13 @@ const routes = [
     ],
   },
 
+  {
+    path: '/email/verify/:id/:token',
+    name: 'verify-email',
+    component: AuthSignIn3,
+    props: (route) => ({ verified: true }),
+  },
+
   /*
   |
   |--------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\WorryJournalController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,3 +28,14 @@ Route::prefix('/worry-journal')->group(function () {
     Route::get('/{worryJournalEntry}/show', [WorryJournalController::class, 'show'])->name('worry-journal.show');
     Route::delete('/{worryJournalEntry}/destroy', [WorryJournalController::class, 'destroy'])->name('worry-journal.destroy');
 });
+
+// 
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+ 
+    return view('app');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::get('{any}', function () {
+    return view('app');
+})->where('any','.*');

@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, withDefaults } from "vue";
+import { reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
 
