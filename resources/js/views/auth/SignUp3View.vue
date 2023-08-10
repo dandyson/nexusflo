@@ -86,8 +86,8 @@ async function onSubmit() {
     console.log(error);
   });
   store.setLoading(false);
-  // Go to dashboard
-  router.push({ name: "backend-dashboard" });
+  // Go to email verify page
+  router.push({ name: "verify-email" });
 
 }
 </script>

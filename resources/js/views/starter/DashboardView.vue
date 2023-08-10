@@ -1,4 +1,25 @@
-<script setup></script>
+<script setup>
+import { onMounted } from "vue";
+import { useTemplateStore } from "@/stores/template";
+import Swal from "sweetalert2";
+
+const store = useTemplateStore();
+
+// Props
+const { verified } = defineProps(['verified']);
+
+onMounted(() => {
+  if (! store.verifiedNotificationShown) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Email Verified',
+      text: 'Welcome to CentreApp!',
+      showConfirmButton: true,
+    });
+    store.setVerificationNotificationShown(true);
+  }
+});
+</script>
 
 <template>
   <BasePageHeading title="Dashboard" subtitle="Welcome!">

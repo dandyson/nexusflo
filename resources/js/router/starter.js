@@ -137,6 +137,7 @@ const AuthSignUp3 = () => import("@/views/auth/SignUp3View.vue");
 const AuthLock3 = () => import("@/views/auth/Lock3View.vue");
 const AuthReminder3 = () => import("@/views/auth/Reminder3View.vue");
 const PasswordReset = () => import("@/views/auth/PasswordReset.vue");
+const VerifyEmail = () => import("@/views/auth/VerifyEmail.vue");
 
 // Errors
 const Error400 = () => import("@/views/errors/400View.vue");
@@ -153,7 +154,7 @@ let user = {};
 async function authenticated(to, from, next) {
   try {
     await axios.get('/sanctum/csrf-cookie');
-    const response = await axios.get('api/user');
+    const response = await axios.get('/api/user');
     to.params.user = response.data;
     next();
   } catch (error) {
@@ -193,12 +194,25 @@ const routes = [
     ],
   },
 
+  // EMAIL VERIFICATION ROUTES
   {
     path: '/email/verify/:id/:token',
-    name: 'verify-email',
-    component: AuthSignIn3,
+    name: 'email-verification',
+    beforeEnter: (to, from, next) => {
+      const store = useTemplateStore();
+      
+      store.setVerificationNotificationShown(false);
+      next('/backend/dashboard');
+    },
     props: (route) => ({ verified: true }),
   },
+  {
+    path: '/verify-email',
+    name: 'verify-email',
+    component: VerifyEmail,
+  },
+
+  
 
   /*
   |
@@ -210,6 +224,7 @@ const routes = [
   {
     path: "/backend",
     redirect: "/backend/dashboard",
+    meta: { requiresEmailVerification: true },
     component: LayoutBackend,
     beforeEnter: [authenticated],
     props: { user: true },
@@ -634,8 +649,28 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const store = useTemplateStore();
   store.setLoading(true); // Set loading to true when navigating to a new route
-  await next();
+  
+  // Check if the route requires email verification
+  if (to.meta.requiresEmailVerification) {
+    try {
+      const response = await axios.get('/api/user');
+      const user = response.data;
+
+      if (user && user.email_verified_at !== null && user.email_verified_at !== undefined) {
+        next();
+      } else {
+        // Email is not verified, redirect to VerifyEmailPage
+        next('/verify-email');
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      next();
+    }
+  } else {
+    next(); // Proceed to the route (no email verification required)
+  }
 });
+
 
 router.afterEach((to, from) => {
   const store = useTemplateStore();

@@ -8,6 +8,8 @@ export const useTemplateStore = defineStore({
     isLoading: false,
     // Auth User
     user: null,
+    // Email verification success notification
+    verifiedNotificationShown: true,
     // App vital details
     app: {
       name: "Centre App",
@@ -50,6 +52,13 @@ export const useTemplateStore = defineStore({
   actions: {
     setLoading(loading) {
       this.isLoading = loading;
+    },
+    setVerificationNotificationShown(shown) {
+      this.verifiedNotificationShown = shown;
+    },
+    clearUserData(state) {
+      this.user = null;
+      this.verifiedNotificationShown = true;
     },
     // Sets the layout, useful for setting different layouts (under layouts/variations/)
     setLayout(payload) {
