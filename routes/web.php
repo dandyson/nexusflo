@@ -33,7 +33,7 @@ Route::prefix('/worry-journal')->group(function () {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
  
-    return view('verified');
+    return view('app');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::get('{any}', function () {
