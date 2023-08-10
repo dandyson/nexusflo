@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
 
@@ -51,6 +51,10 @@ const rules = computed(() => {
 // Use vuelidate
 const v$ = useVuelidate(rules, state);
 
+// Custom Error
+let credentialError = ref(false);
+let credentialErrorMessage = ref('');
+
 // On form submission
 async function onSubmit() {
   const result = await v$.value.$validate();
@@ -66,28 +70,35 @@ async function onSubmit() {
    * **/
   store.setLoading(true);
 
-  await axios.post('/api/register', state, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).catch((error) => {
+  try {
+    // Register the user
+    await axios.post('/api/register', state, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Registration succeeded, proceed with login
+    await axios.post('/api/login', {
+      'email': state.email,
+      'password': state.password,
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Login succeeded, proceed to the email verify page
+    router.push({ name: "verify-email" });
+  } catch (error) {
     store.setLoading(false);
-    console.log(error);
-  });
-  await axios.post('/api/login', {
-    'email': state.email,
-    'password': state.password,
-  }, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).catch((error) => {
-    store.setLoading(false);
-    console.log(error);
-  });
-  store.setLoading(false);
-  // Go to email verify page
-  router.push({ name: "verify-email" });
+    credentialError.value = true;
+    credentialErrorMessage.value = 
+    error.response?.data?.message !== undefined ? 
+    error.response.data.message : 
+    'There has been an error, please try again';
+  }
+
 
 }
 </script>
@@ -177,10 +188,14 @@ async function onSubmit() {
               </p>
             </div>
             <!-- END Header -->
-
+            
             <!-- Sign Up Form -->
             <div class="row g-0 justify-content-center">
               <div class="col-sm-8 col-xl-4">
+                <!-- Error alert for incorrect credentials -->
+                <div v-if="credentialError" class="alert alert-danger" role="alert">
+                  {{ credentialErrorMessage }}
+                </div>
                 <form @submit.prevent="onSubmit">
                   <div class="mb-4">
                     <input
