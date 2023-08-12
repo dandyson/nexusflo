@@ -98,7 +98,8 @@ const router = useRouter();
               <p class="fw-medium text-muted">
                 Welcome, please check your email for the verification link sent to you when you registered.
               </p>
-              <p>Don't have an account? <RouterLink :to="{ name: 'auth-signup3' }">Sign up</RouterLink>
+              <p>Already have an account? <RouterLink :to="{ name: 'auth-signin3' }">Login</RouterLink>
+              Or <RouterLink :to="{ name: 'auth-signup3' }">Sign up</RouterLink>
                 for a new account today!</p>
             </div>
             <!-- END Header -->
