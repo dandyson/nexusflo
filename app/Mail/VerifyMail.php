@@ -30,6 +30,9 @@ class VerifyMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.verify')->to($this->user->email);
+        return $this
+            ->subject('Verify Your Email Address')
+            ->markdown('mail.verify')
+            ->to($this->user->email);
     }
 }
