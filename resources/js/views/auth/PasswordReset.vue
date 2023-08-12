@@ -51,7 +51,7 @@ async function onSubmit() {
 
   console.log(token);
 
-  await axios.post('api/reset-password', {
+  await axios.post('/api/reset-password', {
     'email': email,
     'password': state.password,
     'password_confirmation': state.password_confirmation,

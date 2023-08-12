@@ -46,7 +46,7 @@ async function onSubmit() {
 
   axios.get('sanctum/csrf-cookie')
     .then((res) => {
-      axios.post('api/forgot-password', state, {
+      axios.post('/api/forgot-password', state, {
         headers: {
           "Content-Type": "application/json",
         },
