@@ -44,40 +44,33 @@ async function onSubmit() {
     return;
   }
 
-  axios.get('sanctum/csrf-cookie')
-    .then((res) => {
-      axios.post('/api/forgot-password', state, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(() => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Sent',
-          text: 'Please check your email for the reset password link!',
-          showConfirmButton: true,
-        }).then((result) => {
-          // Go to dashboard
-          router.push({ name: "auth-signin3" });
+  try {
+    axios.get('sanctum/csrf-cookie')
+      .then((res) => {
+        axios.post('/api/forgot-password', state, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Sent',
+            text: 'Please check your email for the reset password link!',
+            showConfirmButton: true,
+          }).then(() => {
+            // Go to Login
+            router.push({ name: "auth-signin3" });
+          })
         })
-      }).catch((error) => {
-        console.log({error});
-        credentialError.value = true;
-        credentialErrorMessage.value = 
-        error.response?.data?.message !== undefined ?  
-        error.response.data.message : 
-        'There has been an error, please try again';
       });
-    }).catch((error) => {
-      credentialError.value = true;
-      credentialErrorMessage.value = 
-      error.response?.data?.message !== undefined ? 
-      error.response.data.message : 
-      'There has been an error, please try again';
-    });
-
-  // Go to dashboard
-  // router.push({ name: "backend-pages-auth" });
+  } catch (error) {
+    store.setLoading(false);
+    credentialError.value = true;
+    credentialErrorMessage.value = 
+    error.response?.data?.message !== undefined ? 
+    error.response.data.message : 
+    'There has been an error, please try again';
+  }
 }
 </script>
 

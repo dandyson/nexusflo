@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
 
@@ -9,6 +9,9 @@ import { required, minLength, sameAs } from "@vuelidate/validators";
 
 // Axios
 import axios from "axios";
+
+// Sweetalerts
+import Swal from "sweetalert2";
 
 // Main store and Router
 const store = useTemplateStore();
@@ -40,6 +43,10 @@ const { token, email } = defineProps(['token', 'email']);
 // Use vuelidate
 const v$ = useVuelidate(rules, state);
 
+// Custom Error
+let error = ref(false);
+let errorMessage = ref('');
+
 // On form submission
 async function onSubmit() {
   const result = await v$.value.$validate();
@@ -49,20 +56,36 @@ async function onSubmit() {
     return;
   }
 
-  console.log(token);
+  try {
+    await axios.post('/api/reset-password', {
+      'email': email,
+      'password': state.password,
+      'password_confirmation': state.password_confirmation,
+      'token': token,
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  await axios.post('/api/reset-password', {
-    'email': email,
-    'password': state.password,
-    'password_confirmation': state.password_confirmation,
-    'token': token,
-  }, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  // Go to dashboard
-  router.push({ name: "auth-signin3" });
+    Swal.fire({
+        icon: 'success',
+        title: 'Password Reset Successfully',
+        text: 'Please login to access your account',
+        showConfirmButton: true,
+      }).then(() => {
+        // Go to login
+        router.push({ name: "auth-signin3" });
+      })
+    } catch (error) {
+      store.setLoading(false);
+      error.value = true;
+      errorMessage.value = 
+      error.response?.data?.message !== undefined ? 
+      error.response.data.message : 
+      'There has been an error, please try again';
+    }
+  
 
 }
 </script>
@@ -156,6 +179,10 @@ async function onSubmit() {
             <!-- Sign Up Form -->
             <div class="row g-0 justify-content-center">
               <div class="col-sm-8 col-xl-4">
+                <!-- Error alert if any exist -->
+                <div v-if="error" class="alert alert-danger" role="alert">
+                  {{ errorMessage }}
+                </div>
                 <form @submit.prevent="onSubmit">
                   <div class="mb-4">
                     <input
