@@ -8,6 +8,7 @@ import LayoutSimple from "@/layouts/variations/Simple.vue";
 import LayoutLanding from "@/layouts/variations/Landing.vue";
 import LayoutBackend from "@/layouts/variations/BackendStarter.vue";
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 // Axios defaults (for API register/login)
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -31,10 +32,10 @@ const MeditationTimer = () => import("@/views/starter/MeditationTimer.vue");
 const PositiveNews = () => import("@/views/starter/PositiveNews.vue");
 
 // Backend: General Notes
-const GeneralNotes = () => import("@/views/starter/GeneralNotes.vue");
+const GeneralNotes = () => import("@/views/starter/journals/GeneralNotes.vue");
 
 // Backend: Worry Journal
-const WorryJournal = () => import("@/views/starter/WorryJournal.vue");
+const WorryJournal = () => import("@/views/starter/journals/WorryJournal.vue");
 
 // Backend: Plugins
 const BackendPluginsImageCropper = () =>
@@ -670,6 +671,33 @@ router.beforeEach(async (to, from, next) => {
     next(); // Proceed to the route (no email verification required)
   }
 });
+
+// Global error handling for route navigation
+router.onError((error) => {
+  debugger;
+  console.log({
+    'error': error.message,
+    'message': error.message.includes('Failed to fetch dynamically imported module')
+  });
+
+  // Check if there is a 404 with a component path
+  if (error.message.includes('Failed to fetch dynamically imported module')) {
+    router.push('/errors/404');
+    return;
+  }
+  
+  // Set loading to false on error
+  const store = useTemplateStore();
+  store.setLoading(false);
+
+  // Display a generic error message using SweetAlert
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: 'An error occurred while loading the page, please try again',
+  });
+});
+
 
 
 router.afterEach((to, from) => {
