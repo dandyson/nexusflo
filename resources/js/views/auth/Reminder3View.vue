@@ -186,8 +186,7 @@ async function onSubmit() {
                   </div>
                   <div class="text-center">
                     <button type="submit" class="btn btn-lg btn-alt-primary">
-                      <i class="fa fa-fw fa-envelope me-1 opacity-50"></i> Send
-                      Mail
+                      <i class="fa fa-fw fa-envelope me-1 opacity-50"></i> Submit
                     </button>
                   </div>
                 </form>
