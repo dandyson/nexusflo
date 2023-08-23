@@ -26,7 +26,6 @@ import 'vue-step-wizard/dist/vue-step-wizard.css';
 import Swal from 'sweetalert2';
 
 export default {
-    name: 'WorryJournal',
     components: {
         FormWizard,
         TabContent,
