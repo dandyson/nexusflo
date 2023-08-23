@@ -33,8 +33,6 @@ const PositiveNews = () => import("@/views/starter/PositiveNews.vue");
 
 // Backend: General Notes
 const GeneralNotes = () => import("@/views/starter/journals/GeneralNotes.vue");
-// Api services
-import { fetchNotebooksFromAPI, fetchNotesFromAPI } from '@/services/api';
 
 // Backend: Worry Journal
 const WorryJournal = () => import("@/views/starter/journals/WorryJournal.vue");
@@ -260,7 +258,7 @@ const routes = [
       {
         path: "general-notes",
         name: "backend-general-notes",
-        component: GeneralNotes,      
+        component: GeneralNotes,
       },
       {
         path: "worry-journal",
@@ -676,7 +674,6 @@ router.beforeEach(async (to, from, next) => {
 
 // Global error handling for route navigation
 router.onError((error) => {
-  debugger;
   console.log({
     'error': error.message,
     'message': error.message.includes('Failed to fetch dynamically imported module')

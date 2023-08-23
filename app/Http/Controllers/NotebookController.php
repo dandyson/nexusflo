@@ -11,8 +11,7 @@ class NotebookController extends Controller
     public function index()
     {
         // Fetch all notebooks for the authenticated user
-        $notebooks = auth()->user()->notebooks;
-
+        $notebooks = auth()->user()->notebooks()->with('notes')->get();
         return response()->json($notebooks);
     }
 
@@ -20,7 +19,7 @@ class NotebookController extends Controller
     {
         // Validate request
         $request->validate([
-            'title' => 'required|string|max:255',
+            'id' => 'required|integer',
         ]);
 
         // Create a new notebook for the authenticated user

@@ -29,9 +29,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/notebooks', [NotebookController::class, 'index']);
     Route::post('/notebooks', [NotebookController::class, 'store']);
     // Notes
-    Route::get('/notes', [NoteController::class, 'index']);
-    Route::post('/notes', [NoteController::class, 'store']);
-});
+    Route::resource('notes', NoteController::class)->except(['show'])
+        ->names([
+            'index' => 'notes.index',
+            'store' => 'notes.store',
+            'destroy' => 'notes.destroy',
+        ]);
+    });
 
 Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function($token) {
     return view('app');

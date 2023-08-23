@@ -1,129 +1,164 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import Tiptap from '../../components/Tiptap.vue'
-
-const props = defineProps({
-  notebooks: Array,
-  notes: Array,
-});
-
-// You can access notebooks and notes using props.notebooks and props.notes
-
-onMounted(() => {
-  console.log('User\'s notebooks:', props.notebooks);
-  console.log('User\'s notes:', props.notes);
-});
-
-const notebooks = ref([
-    {
-        id: 1,
-        title: 'Notebook 1',
-        notes: [
-            { id: 11, title: 'Note 1', content: 'Content of Note 1' },
-            { id: 12, title: 'Note 2', content: 'Content of Note 2' },
-        ],
-    },
-    {
-        id: 2,
-        title: 'Notebook 2',
-        notes: [
-            { id: 21, title: 'Note 1', content: 'Content of Note 1' },
-            { id: 22, title: 'Note 2', content: 'Content of Note 2' },
-        ],
-    },
-]);
+import TiptapStyled from '../../components/TiptapStyled.vue';
+import TiptapTitle from '../../components/TiptapTitle.vue';
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const selectedNotebook = ref(null);
 const selectedNote = ref(null);
+const notebooks = ref([]);
+
+const fetchNotebooks = async (load) => {
+	try {
+    const notebookResponse = await axios.get('/api/notebooks');
+    notebooks.value = notebookResponse.data;
+		// On first load, set selected notebook to be first one if there are any
+		if (load && notebooks.value) {
+			selectedNotebook.value = notebooks.value[0];
+		}
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
 
 const selectNotebook = (notebook) => {
-    selectedNotebook.value = notebook;
-    selectedNote.value = null;
+  selectedNotebook.value = notebook;
+  selectedNote.value = null;
 };
 
 const selectNote = (note) => {
-    selectedNote.value = note;
+  selectedNote.value = note;
 };
+
+const addNotebook = () => {
+  
+};
+
+const addNote = (notebook) => {
+	axios.get('sanctum/csrf-cookie')
+    .then((res) => {
+			axios.post('/api/notes', { 
+				id: notebook.id
+			})
+				.then((res) => {
+					const newNote = res.data;
+					notebook.notes.push(newNote);
+					selectedNote.value = newNote;
+				});
+		});
+};
+
+const saveNote = (note) => {
+	axios.get('sanctum/csrf-cookie')
+    .then((res) => {
+			axios.put(`/api/notes/${note.id}`, { 
+				note: note,
+			})
+				.then((res) => {
+					
+				});
+		});
+};
+
+const deleteNote = (note) => {
+	axios.get('sanctum/csrf-cookie')
+		.then(() => {
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-success',
+					cancelButton: 'btn btn-danger me-2'
+				},
+				buttonsStyling: false
+			});
+
+			swalWithBootstrapButtons.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Yes, delete it!',
+				cancelButtonText: 'No, cancel!',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					axios.delete(`/api/notes/${note.id}`)
+						.then(() => {
+							// Success message
+							swalWithBootstrapButtons.fire(
+								'Deleted!',
+								'Your note has been deleted.',
+								'success'
+							);
+							// Remove deleted note from the frontend
+							const notebookIndex = notebooks.value.findIndex(nb => nb.id === selectedNotebook.value.id);
+							if (notebookIndex > -1) {
+								const noteIndex = notebooks.value[notebookIndex].notes.findIndex(n => n.id === note.id);
+								if (noteIndex > -1) {
+									notebooks.value[notebookIndex].notes.splice(noteIndex, 1);
+									if (selectedNote.value && selectedNote.value.id === note.id) {
+										selectedNote.value = null;
+									}
+								}
+							}
+						})
+						.catch((err) => console.log(err));
+				}
+			});
+		});
+};
+
+
+onMounted(async () => {
+  fetchNotebooks(true);
+});
 </script>
 
 <template>
-    <div class="notes-page">
-        <div class="sidebar">
-            <div class="notebooks">
-                <div v-for="notebook in notebooks" :key="notebook.id" @click="selectNotebook(notebook)"
-                    :class="{ active: selectedNotebook === notebook }">
-                    {{ notebook.title }}
-                </div>
-            </div>
+    <div class="container mt-4">
+    	<button type="button" class="btn btn-success my-2" @click="addNotebook">+ Add Notebook</button>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="list-group">
+            <button
+              v-for="notebook in notebooks"
+              :key="notebook.id"
+              type="button"
+              class="list-group-item list-group-item-action"
+              @click="selectNotebook(notebook)"
+              :class="{ active: selectedNotebook === notebook }"
+            >
+              {{ notebook.title }}
+            </button>
+          </div>
         </div>
-        <div class="content">
-            <div class="notes-tabs">
-                <div v-for="note in selectedNotebook?.notes || []" :key="note.id" @click="selectNote(note)"
-                    :class="{ active: selectedNote === note }">
-                    {{ note.title }}
-                </div>
+        
+        <div class="col-md-8">
+          <button v-if="selectedNotebook" type="button" class="btn btn-success my-3" @click="addNote(selectedNotebook)">+ Add Note</button>
+          <div class="d-flex">
+            <div v-for="note in selectedNotebook?.notes || []" :key="note.id" class="border">
+              <button
+                type="button"
+                class="btn btn-link"
+                @click="selectNote(note)"
+                :class="{ active: selectedNote === note }"
+              >
+								{{ note.title.replace(/<\/?h1>/g, '') }}
+              </button>
             </div>
-            <div class="note-content">
-                <div v-if="selectedNote">
-                    <h2>{{ selectedNote.title }}</h2>
-                    <tiptap v-model="selectedNote.content" />
-                </div>
-                <div v-else>
-                    <p>Select a note to display its content.</p>
-                </div>
-            </div>
+          </div>
+          <div v-if="selectedNote" class="mt-3">
+						<div>
+							<TiptapTitle v-model="selectedNote.title" />
+						</div>
+            <TiptapStyled v-model="selectedNote.content" />
+						<button v-if="selectedNotebook" type="button" class="btn btn-success mb-3 me-2" @click="saveNote(selectedNote)">Save Note</button>
+						<button v-if="selectedNotebook" type="button" class="btn btn-danger mb-3" @click="deleteNote(selectedNote)">Delete Note</button>
+          </div>
+          <div v-else class="mt-3">
+            <p class="text-muted">Select a note to display its content.</p>
+          </div>
         </div>
+      </div>
     </div>
-</template>
-
-<style scoped>
-.notes-page {
-    display: flex;
-    height: 100vh;
-}
-
-.sidebar {
-    width: 25%;
-    padding: 20px;
-    border-right: 1px solid #ccc;
-}
-
-.notebooks {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.notebooks div {
-    cursor: pointer;
-    padding: 5px;
-    background-color: #f1f1f1;
-}
-
-.active {
-    background-color: #ddd;
-}
-
-.content {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.notes-tabs {
-    display: flex;
-    gap: 10px;
-}
-
-.notes-tabs div {
-    cursor: pointer;
-    padding: 5px;
-    background-color: #f1f1f1;
-}
-
-.note-content {
-    margin-top: 20px;
-}
-</style>
-  
+  </template>

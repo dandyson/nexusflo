@@ -29,3 +29,11 @@
     width: 4rem;
     height: 4rem;
   }
+
+  // Tiptap WYSIWYG - custom styling
+  .tiptapStyled .ProseMirror {
+    min-height: 10rem;
+    background: white;
+    padding: 2rem;
+    margin: 2rem 0rem;
+  }
