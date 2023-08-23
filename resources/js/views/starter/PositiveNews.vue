@@ -4,6 +4,12 @@
     <div class="row mx-5 my-5">
         <h2 class="my-3">Positive.News</h2>
         <div class="row row-sm">
+            <div v-if="positiveNewsError" class="alert alert-danger alert-dismissible" role="alert">
+                <h3 class="alert-heading h4 my-2">Error</h3>
+                <p class="mb-0"> 
+                    There was an error loading the data. Please check your internet connection, refresh and try again! 
+                </p>
+            </div>
             <div class="d-flex justify-content-center" v-if="positiveNewsLoading === true">
                 <div class="spinner-border text-primary m-1" role="status">
                     <span class="sr-only">Loading...</span>
@@ -33,6 +39,12 @@
     <div class="row mx-5 my-5">
         <h2 class="my-3">Good News Network</h2>
         <div class="row row-sm">
+            <div v-if="goodNewsNetworkError" class="alert alert-danger alert-dismissible" role="alert">
+                <h3 class="alert-heading h4 my-2">Error</h3>
+                <p class="mb-0"> 
+                    There was an error loading the data. Please check your internet connection, refresh and try again! 
+                </p>
+            </div>
             <div class="d-flex justify-content-center" v-if="goodNewsNetworkLoading === true">
                 <div class="spinner-border text-primary m-1" role="status">
                     <span class="sr-only">Loading...</span>
@@ -71,9 +83,11 @@ export default {
         return {
             positiveNewsData: '',
             positiveNewsLoading: true,
+            positiveNewsError: false,
 
             goodNewsNetworkData: '',
             goodNewsNetworkLoading: true,
+            goodNewsNetworkError: false,
         }
     },
 
@@ -86,7 +100,13 @@ export default {
                 this.goodNewsNetworkData = res.data.data["good-news-network"];
                 this.goodNewsNetworkLoading = false;
             })
-            .catch(error => console.error(error));
+            .catch(error => {
+                this.positiveNewsLoading = false;
+                this.goodNewsNetworkLoading = false;
+                this.goodNewsNetworkError = true;
+                this.positiveNewsError = true;
+                console.error(error);
+            });
     },
 
 }

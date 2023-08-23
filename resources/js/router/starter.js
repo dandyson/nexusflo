@@ -33,6 +33,8 @@ const PositiveNews = () => import("@/views/starter/PositiveNews.vue");
 
 // Backend: General Notes
 const GeneralNotes = () => import("@/views/starter/journals/GeneralNotes.vue");
+// Api services
+import { fetchNotebooksFromAPI, fetchNotesFromAPI } from '@/services/api';
 
 // Backend: Worry Journal
 const WorryJournal = () => import("@/views/starter/journals/WorryJournal.vue");
@@ -258,7 +260,7 @@ const routes = [
       {
         path: "general-notes",
         name: "backend-general-notes",
-        component: GeneralNotes,
+        component: GeneralNotes,      
       },
       {
         path: "worry-journal",

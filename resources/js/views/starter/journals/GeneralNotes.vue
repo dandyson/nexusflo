@@ -1,5 +1,18 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import Tiptap from '../../components/Tiptap.vue'
+
+const props = defineProps({
+  notebooks: Array,
+  notes: Array,
+});
+
+// You can access notebooks and notes using props.notebooks and props.notes
+
+onMounted(() => {
+  console.log('User\'s notebooks:', props.notebooks);
+  console.log('User\'s notes:', props.notes);
+});
 
 const notebooks = ref([
     {
@@ -53,7 +66,7 @@ const selectNote = (note) => {
             <div class="note-content">
                 <div v-if="selectedNote">
                     <h2>{{ selectedNote.title }}</h2>
-                    <p>{{ selectedNote.content }}</p>
+                    <tiptap v-model="selectedNote.content" />
                 </div>
                 <div v-else>
                     <p>Select a note to display its content.</p>

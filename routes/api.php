@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PositiveNewsController;
+use App\Http\Controllers\NotebookController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\WorryJournalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +20,17 @@ use Laravel\Fortify\RoutePath;
 |
 */
 
-// Auth
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Auth
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    // Notebooks
+    Route::get('/notebooks', [NotebookController::class, 'index']);
+    Route::post('/notebooks', [NotebookController::class, 'store']);
+    // Notes
+    Route::get('/notes', [NoteController::class, 'index']);
+    Route::post('/notes', [NoteController::class, 'store']);
 });
 
 Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function($token) {
