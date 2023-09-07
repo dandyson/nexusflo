@@ -229,8 +229,8 @@ onMounted(async () => {
 <template>
     <div class="container mt-4">
     	<button type="button" class="btn btn-success my-2" @click="addNotebook">+ Add Notebook</button>
-      <div class="d-flex justify-content-between">
-        <div class="col-12 col-md-2">
+      <div class="d-flex flex-column flex-md-row justify-content-between">
+        <div class="col-12 col-md-2 mb-4 mb-md-0">
           <div class="list-group">
             <button
               v-for="notebook in notebooks"
@@ -261,7 +261,7 @@ onMounted(async () => {
 						<div class="block-bordered block">
 							<div class="block-content">
 								<button v-if="selectedNotebook" type="button" class="btn btn-success my-3" @click="addNote(selectedNotebook)">+ Add Note</button>
-								<div class="d-flex">
+								<div class="d-flex flex-column flex-md-row">
 									<div v-for="note in selectedNotebook?.notes || []" :key="note.id" class="border">
 										<button
 											type="button"
