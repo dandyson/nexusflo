@@ -1,78 +1,65 @@
 <template>
-  <div class="tiptapTitle">
-    <editor-content :editor="editor" />
+  <div class="tiptapHello">
+    <editor-content :editor="editor" ref="titleEditorContent" />
   </div>
 </template>
 
-<script>
+<script setup>
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 
-export default {
-  components: {
-    EditorContent,
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
   },
+})
 
-  props: {
-    modelValue: {
-      type: String,
-      default: '',
-    },
-  },
+const emit = defineEmits(['update:modelValue'])
 
-  emits: ['update:modelValue'],
+const editor = ref(null)
+const titleEditorContent = ref(null)
 
-  data() {
-    return {
-      editor: null,
-    }
-  },
-
-  watch: {
-    modelValue(value) {
+onMounted(() => {
+  editor.value = new Editor({
+    content: `<h2>${props.modelValue}</h2>`,
+    extensions: [
+      StarterKit.configure({
+        schema: {
+          rules: [
+            {
+              // Add a custom rule to enforce <h2> tags for content
+              // This assumes you want all content to be an <h2> tag
+              // Modify the rule as needed for your use case
+              tag: 'h2',
+            },
+          ],
+        },
+      }),
+    ],
+    onUpdate: () => {
       // HTML
-      const isSame = this.editor.getHTML() === value
+      emit('update:modelValue', editor.value.getHTML())
 
       // JSON
-      // const isSame = JSON.stringify(this.editor.getJSON()) === JSON.stringify(value)
-
-      if (isSame) {
-        return
-      }
-
-      this.editor.commands.setContent(`<h1>${value}</h1>`, false)
+      // emit('update:modelValue', editor.value.getJSON())
     },
-  },
+  })
+})
 
-  mounted() {
-    this.editor = new Editor({
-      content: `<h1>${this.modelValue}</h1>`,
-      extensions: [
-        StarterKit.configure({
-          schema: {
-            rules: [
-              {
-                // Add a custom rule to enforce <h1> tags for content
-                // This assumes you want all content to be an <h1> tag
-                // Modify the rule as needed for your use case
-                tag: 'h1',
-              },
-            ],
-          },
-        }),
-      ],
-      onUpdate: () => {
-        // HTML
-        this.$emit('update:modelValue', this.editor.getHTML())
+onBeforeUnmount(() => {
+  editor.value.destroy()
+})
 
-        // JSON
-        // this.$emit('update:modelValue', this.editor.getJSON())
-      },
-    })
-  },
-
-  beforeUnmount() {
-    this.editor.destroy()
-  },
-}
+  watch(
+    () => props.modelValue,
+    (value) => {
+      const isSame = editor.value.getHTML() === value
+  
+      if (!isSame) {
+        editor.value.commands.setContent(value, false)
+      }
+    }
+  )
 </script>

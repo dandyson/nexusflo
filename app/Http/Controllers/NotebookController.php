@@ -3,6 +3,7 @@
 // app/Http/Controllers/NotebookController.php
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Notebook;
 
@@ -15,19 +16,42 @@ class NotebookController extends Controller
         return response()->json($notebooks);
     }
 
-    public function store(Request $request)
+    public function store()
     {
-        // Validate request
-        $request->validate([
-            'id' => 'required|integer',
-        ]);
-
         // Create a new notebook for the authenticated user
         $notebook = auth()->user()->notebooks()->create([
-            'title' => $request->input('title'),
+            'title' => 'New Notebook',
         ]);
 
         return response()->json($notebook, 201);
+    }
+
+    public function update(Request $request, Notebook $notebook)
+    {
+        // Validate request
+        $request->validate([
+            'title' => 'required|string',
+        ]);
+    
+        // Update the note with the new data
+        $notebook->update([
+            'title' => $request->title,
+        ]);
+    
+        return response()->json($notebook);
+    }
+
+    public function destroy(Notebook $notebook)
+    {
+        // Check if the authenticated user owns the note
+        if ($notebook->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Delete the note
+        $notebook->delete();
+
+        return response()->json(['message' => 'Notebook deleted'], 200);
     }
 }
 

@@ -60,9 +60,6 @@ class NoteController extends Controller
     
         return response()->json($note);
     }
-    
-    
-    
 
     public function destroy(Note $note)
     {

@@ -12,6 +12,16 @@ class Notebook extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'title',
+    ];
+
+
+    /**
      * Get the user associated with the notebook.
      */
     public function user(): BelongsTo

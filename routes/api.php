@@ -26,8 +26,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
     // Notebooks
-    Route::get('/notebooks', [NotebookController::class, 'index']);
-    Route::post('/notebooks', [NotebookController::class, 'store']);
+    Route::resource('notebooks', NotebookController::class)->except(['show'])
+        ->names([
+            'index' => 'notebooks.index',
+            'store' => 'notebooks.store',
+            'destroy' => 'notebooks.destroy',
+        ]);
     // Notes
     Route::resource('notes', NoteController::class)->except(['show'])
         ->names([

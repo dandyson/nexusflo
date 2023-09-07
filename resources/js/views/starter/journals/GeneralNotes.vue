@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import TiptapStyled from '../../components/TiptapStyled.vue';
 import TiptapTitle from '../../components/TiptapTitle.vue';
 import axios from "axios";
@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 const selectedNotebook = ref(null);
 const selectedNote = ref(null);
 const notebooks = ref([]);
+
 
 const fetchNotebooks = async (load) => {
 	try {
@@ -29,13 +30,48 @@ const selectNotebook = (notebook) => {
 
 const selectNote = (note) => {
   selectedNote.value = note;
+  console.log(selectedNote.value.title);
 };
 
+const toastMessage = (type, message) => {
+	const Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 3000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.addEventListener('mouseenter', Swal.stopTimer)
+			toast.addEventListener('mouseleave', Swal.resumeTimer)
+		}
+	});
+
+	Toast.fire({
+		icon: type,
+		title: message,
+	});
+}
+
 const addNotebook = () => {
-  
+	selectedNotebook.value = null;
+	selectedNote.value = null;
+  axios.get("sanctum/csrf-cookie").then((res) => {
+    axios
+      .post("/api/notebooks")
+      .then((res) => {
+        const newNotebook = res.data;
+        // Add a property of 'notes' to the new notebook
+        newNotebook.notes = [];
+        notebooks.value.push(newNotebook);
+        selectedNotebook.value = newNotebook;
+      }).catch((error) => {
+			toastMessage('error', 'There has been an error, please try again.');
+		});
+  });
 };
 
 const addNote = (notebook) => {
+	selectedNote.value = null;
 	axios.get('sanctum/csrf-cookie')
     .then((res) => {
 			axios.post('/api/notes', { 
@@ -45,8 +81,81 @@ const addNote = (notebook) => {
 					const newNote = res.data;
 					notebook.notes.push(newNote);
 					selectedNote.value = newNote;
+				}).catch((error) => {
+					toastMessage('error', 'There has been an error, please try again.');
 				});
 		});
+};
+
+const saveNotebook = (notebook) => {
+	axios.get('sanctum/csrf-cookie')
+    .then((res) => {
+			axios.put(`/api/notebooks/${notebook.id}`, { 
+				title: notebook.title,
+			})
+				.then((res) => {
+					toastMessage('success', 'Saved Notebook Title Successfully');
+				}).catch((error) => {
+					toastMessage('error', 'There has been an error, please try again.');
+				});
+		});
+};
+
+const deleteNotebook = (notebook) => {
+  axios.get('sanctum/csrf-cookie')
+    .then(() => {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger me-2'
+        },
+        buttonsStyling: false
+      });
+
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "Deleting this notebook will also delete all its Notes.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete this!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete(`/api/notebooks/${notebook.id}`)
+            .then(() => {
+              // Success message
+              swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your notebook and all relevant notes have been deleted.',
+                'success'
+              );
+
+			//   Set selected note to null
+			selectedNote.value = null;
+
+              // Remove deleted notebook from the frontend
+              const notebookIndex = notebooks.value.findIndex(nb => nb.id === notebook.id);
+              if (notebookIndex > -1) {
+                notebooks.value.splice(notebookIndex, 1);
+
+                // Check if there are remaining notebooks
+                if (notebooks.value.length > 0) {
+                  // Set selectedNotebook to the previous notebook
+                  const prevNotebookIndex = notebookIndex > 0 ? notebookIndex - 1 : 0;
+                  selectedNotebook.value = notebooks.value[prevNotebookIndex];
+                } else {
+                  // No remaining notebooks, set selectedNotebook to null
+                  selectedNotebook.value = null;
+                }
+              }
+            })
+            .catch((error) => {
+				toastMessage('error', 'There has been an error, please try again.');
+			});
+        }
+      });
+    });
 };
 
 const saveNote = (note) => {
@@ -56,7 +165,9 @@ const saveNote = (note) => {
 				note: note,
 			})
 				.then((res) => {
-					
+					toastMessage('success', 'Saved Note Successfully');
+				}).catch((error) => {
+					toastMessage('error', 'There has been an error, please try again.');
 				});
 		});
 };
@@ -102,12 +213,13 @@ const deleteNote = (note) => {
 								}
 							}
 						})
-						.catch((err) => console.log(err));
+						.catch((error) => {
+							toastMessage('error', 'There has been an error, please try again.');
+						});
 				}
 			});
 		});
 };
-
 
 onMounted(async () => {
   fetchNotebooks(true);
@@ -117,8 +229,8 @@ onMounted(async () => {
 <template>
     <div class="container mt-4">
     	<button type="button" class="btn btn-success my-2" @click="addNotebook">+ Add Notebook</button>
-      <div class="row">
-        <div class="col-md-4">
+      <div class="d-flex justify-content-between">
+        <div class="col-12 col-md-2">
           <div class="list-group">
             <button
               v-for="notebook in notebooks"
@@ -128,37 +240,54 @@ onMounted(async () => {
               @click="selectNotebook(notebook)"
               :class="{ active: selectedNotebook === notebook }"
             >
-              {{ notebook.title }}
+				{{ notebook.title.replace(/<\/?h2>/g, '') }}
             </button>
           </div>
         </div>
-        
-        <div class="col-md-8">
-          <button v-if="selectedNotebook" type="button" class="btn btn-success my-3" @click="addNote(selectedNotebook)">+ Add Note</button>
-          <div class="d-flex">
-            <div v-for="note in selectedNotebook?.notes || []" :key="note.id" class="border">
-              <button
-                type="button"
-                class="btn btn-link"
-                @click="selectNote(note)"
-                :class="{ active: selectedNote === note }"
-              >
-								{{ note.title.replace(/<\/?h1>/g, '') }}
-              </button>
-            </div>
-          </div>
-          <div v-if="selectedNote" class="mt-3">
-						<div>
-							<TiptapTitle v-model="selectedNote.title" />
+
+				<div class="col-12 col-md-9">
+					<div v-if="selectedNotebook">
+						<div class="block-bordered block">
+							<div class="input-group">
+								<input v-model="selectedNotebook.title" class="form-control" @blur="saveNotebook(selectedNotebook)"/>
+							<button type="button" class="btn btn-sm btn-success" @click="saveNotebook(selectedNotebook)">
+								<i class="far fa-2x fa-circle-check"></i>
+							</button>
+							<button type="button" class="btn btn-sm btn-danger" @click="deleteNotebook(selectedNotebook)">
+								<i class="far fa-2x fa-circle-xmark"></i>
+							</button>
+							</div>
 						</div>
-            <TiptapStyled v-model="selectedNote.content" />
-						<button v-if="selectedNotebook" type="button" class="btn btn-success mb-3 me-2" @click="saveNote(selectedNote)">Save Note</button>
-						<button v-if="selectedNotebook" type="button" class="btn btn-danger mb-3" @click="deleteNote(selectedNote)">Delete Note</button>
-          </div>
-          <div v-else class="mt-3">
-            <p class="text-muted">Select a note to display its content.</p>
-          </div>
-        </div>
+						<div class="block-bordered block">
+							<div class="block-content">
+								<button v-if="selectedNotebook" type="button" class="btn btn-success my-3" @click="addNote(selectedNotebook)">+ Add Note</button>
+								<div class="d-flex">
+									<div v-for="note in selectedNotebook?.notes || []" :key="note.id" class="border">
+										<button
+											type="button"
+											class="btn btn-link"
+											@click="selectNote(note)"
+											:class="{ active: selectedNote === note }"
+										>
+											{{ note.title.replace(/<\/?h2>/g, '') }}
+										</button>
+									</div>
+								</div>
+								<div v-if="selectedNote" class="mt-3">
+									<div class="mb-2">
+										<TiptapTitle v-model="selectedNote.title" />
+									</div>
+									<button v-if="selectedNotebook" type="button" class="btn btn-success mb-3 me-2" @click="saveNote(selectedNote)">Save Note</button>
+									<button v-if="selectedNotebook" type="button" class="btn btn-danger mb-3" @click="deleteNote(selectedNote)">Delete Note</button>
+									<TiptapStyled v-model="selectedNote.content" />
+								</div>
+								<div v-else class="mt-3">
+									<p class="text-muted">Select a note to display its content.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
       </div>
     </div>
   </template>
