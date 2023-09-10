@@ -52,6 +52,6 @@ Route::get('/positive-news-feed', [PositiveNewsController::class, 'newsFetch'])-
 
 // Thinking Traps
 Route::prefix('/worry-journal')->group(function () {
-    Route::get('/thinking-traps', [WorryJournalController::class, 'getTraps'])->name('get-traps');
+    Route::get('/thinking-traps', [WorryJournalController::class, 'getTraps'])->name('index');
     Route::get('all-entries', [WorryJournalController::class, 'getWorryJournalEntries'])->name('get-worry-journal-entries');
 });
