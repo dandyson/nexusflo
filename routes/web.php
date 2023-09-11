@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\WorryJournalController;
+use App\Http\Controllers\WorryJournalEntryController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
@@ -17,16 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('app');
-});
-
-// JOURNALS
-// Worry Journal
-Route::prefix('/worry-journal')->group(function () {
-    Route::get('/index', [WorryJournalController::class, 'index'])->name('worry-journal.index');
-    Route::get('/create', [WorryJournalController::class, 'create'])->name('worry-journal.create');
-    Route::get('/{worryJournalEntry}/edit', [WorryJournalController::class, 'edit'])->name('worry-journal.edit');
-    Route::get('/{worryJournalEntry}/show', [WorryJournalController::class, 'show'])->name('worry-journal.show');
-    Route::delete('/{worryJournalEntry}/destroy', [WorryJournalController::class, 'destroy'])->name('worry-journal.destroy');
 });
 
 // 

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class WorryJournalEntry extends Model
 {
@@ -12,16 +14,22 @@ class WorryJournalEntry extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'main_worry',
-        'balanced_thought',
         'thinking_traps',
+        'balanced_thought',
     ];
 
     /**
      * Get the thinking traps for the worry journal entry.
      */
-    public function thinkingTraps()
+    public function thinkingTraps(): BelongsToMany
     {
         return $this->belongsToMany(ThinkingTraps::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

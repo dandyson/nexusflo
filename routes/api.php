@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PositiveNewsController;
+use App\Http\Controllers\Api\ThinkingTrapController;
 use App\Http\Controllers\NotebookController;
 use App\Http\Controllers\NoteController;
-use App\Http\Controllers\WorryJournalController;
+use App\Http\Controllers\WorryJournalEntryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\RoutePath;
@@ -32,6 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'store' => 'notebooks.store',
             'destroy' => 'notebooks.destroy',
         ]);
+    // JOURNALS
     // Notes
     Route::resource('notes', NoteController::class)->except(['show'])
         ->names([
@@ -40,6 +42,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'destroy' => 'notes.destroy',
         ]);
     });
+
+    // Worry Journal
+    Route::resource('worry-journal', WorryJournalEntryController::class)->except(['show']);
 
 Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function($token) {
     return view('app');
@@ -50,8 +55,8 @@ Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function
 // Positive News
 Route::get('/positive-news-feed', [PositiveNewsController::class, 'newsFetch'])->name('news-fetch');
 
-// Thinking Traps
+// Worry Journal
+Route::get('/thinking-traps', [ThinkingTrapController::class, 'index'])->name('index');
 Route::prefix('/worry-journal')->group(function () {
-    Route::get('/thinking-traps', [WorryJournalController::class, 'getTraps'])->name('index');
-    Route::get('all-entries', [WorryJournalController::class, 'getWorryJournalEntries'])->name('get-worry-journal-entries');
+    Route::get('all-entries', [WorryJournalEntryController::class, 'getWorryJournalEntries'])->name('get-worry-journal-entries');
 });

@@ -9,16 +9,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class WorryJournalController extends Controller
+class WorryJournalEntryController extends Controller
 {
-    public function getTraps(): JsonResponse
-    {
-        $thinkingTraps = ThinkingTraps::all()->makeHidden(['created_at', 'updated_at']);
-
-        return response()->json([
-            'thinkingTraps' => $thinkingTraps,
-        ]);
-    }
 
     public function getWorryJournalEntries(): JsonResponse
     {
@@ -50,21 +42,24 @@ class WorryJournalController extends Controller
             ->with(['thinkingTraps' => $thinkingTraps]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'main_worry' => 'required',
-            'balanced_thought' => 'required',
+            'main_worry' => 'required|string',
+            'thinking_traps' => 'required|array',
+            'balanced_thought' => 'required|string',
         ]);
 
-        $worryJournalEntry = WorryJournalEntry::create($validated);
-
-        // TODO: Need to add 'thinking traps' as a relation rather than a DB column, using a JSON column for now
-        $worryJournalEntry->thinking_traps = json_encode($request->thinking_traps);
+        $worryJournalEntry = WorryJournalEntry::create([
+            'user_id' => auth()->user()->id,
+            'main_worry' => $validated['main_worry'],
+            'thinking_traps' => json_encode($validated['thinking_traps']),
+            'balanced_thought' => $validated['balanced_thought'],
+        ]);
 
         $worryJournalEntry->save();
 
-        return redirect()->route('worry-journal.index')->with(['worry' => $worryJournalEntry]);
+        return response()->json(['type' => 'success', 'message' => 'Journal Entry Completed', $worryJournalEntry]);
     }
 
     public function update()

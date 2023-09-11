@@ -11,8 +11,6 @@
             </div>
         </div>
 
-
-
         <div class="block-rounded block">
             <div class="block-header block-header-default">
                 <h3 class="block-title"> Worry Journal</h3><!---->
@@ -38,7 +36,7 @@
                     <h3>Step 1</h3>
                     <p class="mb-1">What's worrying you right now?</p>
                     <small>Make it quite specific - instead of 'I am dreading work tomorrow', write the actual problem, like 'I am afraid I will not finish the work due by the end of the day tomorrow and I will be in big trouble'.</small>
-                    <textarea rows="4" v-model="form.name" class="form-control mt-4" placeholder="Write here.."></textarea>
+                    <textarea rows="4" v-model="mainWorry" class="form-control mt-4" placeholder="Write here.."></textarea>
                 </div>
 
                 <div v-if="currentStep === 2" class="my-4">
@@ -49,18 +47,18 @@
                     </div>
                     <div class="d-flex flex-wrap justify-content-evenly">
                         <div 
-                            class="col-12 col-md-3 mb-4 mx-2" 
+                            class="col-12 col-md-5 mb-4 mx-2" 
                             v-for="trap in thinkingTraps" 
                             :key="trap.title"
                             @click="toggleTrapSelection(trap)"
                         >
                         <div
                             class="card h-100 block-link-pop cursor-pointer"
-                            :class="{ 'border-selected': selectedTraps.includes(trap.title) }"
+                            :class="{ 'border-selected': selectedTraps.includes(trap) }"
                         >
                             <div class="overlay-container">
                                 <img class="card-img-top" :src="trap.image" alt="Thinking Trap Image">
-                                <div class="overlay" :class="{ 'overlay-selected': selectedTraps.includes(trap.title) }">
+                                <div class="overlay" :class="{ 'overlay-selected': selectedTraps.includes(trap) }">
                                     <i class="far fa-circle-check"></i>
                                 </div>
                             </div>
@@ -88,7 +86,7 @@
                         <strong>Realistic and Balanced Rewrite:</strong>
                         <p>"I made a mistake at work today during the presentation, and it was embarrassing. However, everyone makes mistakes from time to time, and my colleagues likely understand that. It's possible that some of them might have even been in similar situations before. I'll take this as an opportunity to learn from my mistake and improve my skills. It doesn't mean my entire career is at risk, and I can work on regaining confidence in my abilities."</p>
                     </div>
-                    <textarea rows="4" v-model="form.message" class="form-control" placeholder="Rewrite your thoughts.."></textarea>
+                    <textarea rows="4" v-model="balancedThought" class="form-control" placeholder="Rewrite your thoughts.."></textarea>
                 </div>
             </div>
         </div>
@@ -99,12 +97,11 @@
 <script setup>
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+import Swal from "sweetalert2";
 
-const form = ref({
-    name: '',
-    email: '',
-    message: ''
-});
+// Data
+const mainWorry = ref('');
+const balancedThought = ref('');
 
 const currentStep = ref(1);
 const totalSteps = 3;
@@ -126,24 +123,48 @@ const prevStep = () => {
 };
 
 const toggleTrapSelection = (trap) => {
-    const index = selectedTraps.value.indexOf(trap.title); // Assuming trap.title is unique for each trap
+    const index = selectedTraps.value.findIndex(selectedTrap => selectedTrap.id === trap.id);
+
     if (index === -1) {
-        selectedTraps.value.push(trap.title);
+        selectedTraps.value.push(trap);
     } else {
         selectedTraps.value.splice(index, 1);
     }
 };
 
 
+
 const submitForm = () => {
-    console.log('Form submitted:', form.value);
+    axios.get('sanctum/csrf-cookie')
+    .then((res) => {
+			axios.post('/api/worry-journal', { 
+				'main_worry': mainWorry.value,
+                'thinking_traps': selectedTraps.value.map(trap => trap.id),
+                'balanced_thought': balancedThought.value,
+			})
+				.then((res) => {
+					if (res.data?.type === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Journal Entry Stored Successfully',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then(() => {
+                            // Go to Login
+                            router.push({ name: "auth-signin3" });
+                        })
+                    }
+				}).catch((error) => {
+					toastMessage('error', 'There has been an error, please try again.');
+				});
+		});
 };
 
 const thinkingTraps = ref([]);
 
 onMounted(async () => {
     try {
-        const res = await axios.get('/api/worry-journal/thinking-traps');
+        const res = await axios.get('/api/thinking-traps');
         thinkingTraps.value = res.data.thinkingTraps;
     } catch (error) {
         console.error('Error fetching thinkingTraps:', error);
