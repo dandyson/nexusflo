@@ -61,4 +61,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasManyThrough(Note::class, Notebook::class);
     }
+
+    /**
+     * Get the worry journal entries of the user.
+     */
+    public function worryJournalEntries(): HasMany
+    {
+        return $this->hasMany(WorryJournalEntry::class);
+    }
 }

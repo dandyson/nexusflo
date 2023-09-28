@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('worry_journal_entries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('title');
             $table->longText('main_worry');
             $table->json('thinking_traps');
             $table->longText('balanced_thought');

@@ -4,11 +4,11 @@ import TiptapStyled from '../../components/TiptapStyled.vue';
 import TiptapTitle from '../../components/TiptapTitle.vue';
 import axios from "axios";
 import Swal from "sweetalert2";
+import { toastMessage } from '../../../components/toast.js';
 
 const selectedNotebook = ref(null);
 const selectedNote = ref(null);
 const notebooks = ref([]);
-
 
 const fetchNotebooks = async (load) => {
 	try {
@@ -32,25 +32,6 @@ const selectNote = (note) => {
   selectedNote.value = note;
   console.log(selectedNote.value.title);
 };
-
-const toastMessage = (type, message) => {
-	const Toast = Swal.mixin({
-		toast: true,
-		position: 'top-end',
-		showConfirmButton: false,
-		timer: 3000,
-		timerProgressBar: true,
-		didOpen: (toast) => {
-			toast.addEventListener('mouseenter', Swal.stopTimer)
-			toast.addEventListener('mouseleave', Swal.resumeTimer)
-		}
-	});
-
-	Toast.fire({
-		icon: type,
-		title: message,
-	});
-}
 
 const addNotebook = () => {
 	selectedNotebook.value = null;

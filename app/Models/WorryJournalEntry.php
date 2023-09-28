@@ -15,6 +15,7 @@ class WorryJournalEntry extends Model
      */
     protected $fillable = [
         'user_id',
+        'title',
         'main_worry',
         'thinking_traps',
         'balanced_thought',

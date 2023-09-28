@@ -12,20 +12,10 @@ use Illuminate\Http\Request;
 class WorryJournalEntryController extends Controller
 {
 
-    public function getWorryJournalEntries(): JsonResponse
-    {
-        $worryJournalEntries = WorryJournalEntry::all();
-
-        return response()->json([
-            'worryJournalEntries' => $worryJournalEntries,
-        ]);
-    }
-
     public function index()
     {
-        $worryJournalEntries = WorryJournalEntry::all();
-        return view('worryJournal.index')
-            ->with('worryJournalEntries', $worryJournalEntries);
+        $worryJournalEntries = auth()->user()->worryjournalentries;
+        return response()->json($worryJournalEntries);
     }
 
     public function show(WorryJournalEntry $worryJournalEntry)
@@ -45,6 +35,7 @@ class WorryJournalEntryController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
+            'title' => 'required|string',
             'main_worry' => 'required|string',
             'thinking_traps' => 'required|array',
             'balanced_thought' => 'required|string',
@@ -52,6 +43,7 @@ class WorryJournalEntryController extends Controller
 
         $worryJournalEntry = WorryJournalEntry::create([
             'user_id' => auth()->user()->id,
+            'title' => $validated['title'],
             'main_worry' => $validated['main_worry'],
             'thinking_traps' => json_encode($validated['thinking_traps']),
             'balanced_thought' => $validated['balanced_thought'],

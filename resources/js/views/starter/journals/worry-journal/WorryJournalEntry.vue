@@ -34,8 +34,20 @@
 
                 <div v-if="currentStep === 1" class="my-4">
                     <h3>Step 1</h3>
-                    <p class="mb-1">What's worrying you right now?</p>
-                    <small>Make it quite specific - instead of 'I am dreading work tomorrow', write the actual problem, like 'I am afraid I will not finish the work due by the end of the day tomorrow and I will be in big trouble'.</small>
+                    <div>
+                        <p class="mb-1">Title of Entry:</p>
+                        <small>Choose a specific title for this entry, e.g., 'Worry about work tomorrow'</small>
+                        <input
+                            type="text"
+                            class="form-control form-control-lg my-3"
+                            placeholder="Title..."
+                            v-model="title"
+                            />
+                    </div>
+                    <div>
+                        <p class="mb-1">What's worrying you right now?</p>
+                        <small>Be specific, e.g., 'I'm afraid I won't finish tomorrow's work on time.'</small>
+                    </div>
                     <textarea rows="4" v-model="mainWorry" class="form-control mt-4" placeholder="Write here.."></textarea>
                 </div>
 
@@ -98,8 +110,10 @@
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import Swal from "sweetalert2";
+import router from '../../../../router/starter';
 
 // Data
+const title = ref('');
 const mainWorry = ref('');
 const balancedThought = ref('');
 
@@ -137,7 +151,8 @@ const toggleTrapSelection = (trap) => {
 const submitForm = () => {
     axios.get('sanctum/csrf-cookie')
     .then((res) => {
-			axios.post('/api/worry-journal', { 
+			axios.post('/api/worry-journal', {
+                'title': title.value,
 				'main_worry': mainWorry.value,
                 'thinking_traps': selectedTraps.value.map(trap => trap.id),
                 'balanced_thought': balancedThought.value,
@@ -150,12 +165,15 @@ const submitForm = () => {
                             showConfirmButton: false,
                             timer: 1500,
                         }).then(() => {
-                            // Go to Login
-                            router.push({ name: "auth-signin3" });
+                            router.push({ name: "backend-worry-journal" });
                         })
                     }
 				}).catch((error) => {
-					toastMessage('error', 'There has been an error, please try again.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'There has been an error, please try again.',
+                        showConfirmButton: true,
+                    });
 				});
 		});
 };

@@ -35,8 +35,8 @@ const PositiveNews = () => import("@/views/starter/PositiveNews.vue");
 const GeneralNotes = () => import("@/views/starter/journals/GeneralNotes.vue");
 
 // Backend: Worry Journal
-const WorryJournal = () => import("@/views/starter/journals/WorryJournal.vue");
-
+const WorryJournal = () => import("@/views/starter/journals/worry-journal/WorryJournal.vue");
+const WorryJournalEntry = () => import("@/views/starter/journals/worry-journal/WorryJournalEntry.vue");
 // Backend: Plugins
 const BackendPluginsImageCropper = () =>
   import("@/views/backend/plugins/ImageCropperView.vue");
@@ -264,6 +264,11 @@ const routes = [
         path: "worry-journal",
         name: "backend-worry-journal",
         component: WorryJournal,
+      },
+      {
+        path: "worry-journal/create-entry",
+        name: "backend-worry-journal-entry",
+        component: WorryJournalEntry,
       },
 
       /*
