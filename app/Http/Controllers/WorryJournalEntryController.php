@@ -20,8 +20,7 @@ class WorryJournalEntryController extends Controller
 
     public function show(WorryJournalEntry $worryJournalEntry)
     {
-        return view('worryJournal.show')
-            ->with('worryJournalEntry', $worryJournalEntry);
+        return response()->json($worryJournalEntry);
     }
 
     public function create()
@@ -54,9 +53,25 @@ class WorryJournalEntryController extends Controller
         return response()->json(['type' => 'success', 'message' => 'Journal Entry Completed', $worryJournalEntry]);
     }
 
-    public function update()
+    public function update(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
     {
-        dd("UPDATE");
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'main_worry' => 'required|string',
+            'thinking_traps' => 'required|array',
+            'balanced_thought' => 'required|string',
+        ]);
+
+        // Update the attributes of the existing entry
+        $worryJournalEntry->title = $validated['title'];
+        $worryJournalEntry->main_worry = $validated['main_worry'];
+        $worryJournalEntry->thinking_traps = json_encode($validated['thinking_traps']);
+        $worryJournalEntry->balanced_thought = $validated['balanced_thought'];
+
+        // Save the changes to the database
+        $worryJournalEntry->save();
+
+        return response()->json(['type' => 'success', 'message' => 'Journal Entry Updated', 'entry' => $worryJournalEntry]);
     }
 
     public function destroy(WorryJournalEntry $worryJournalEntry): JsonResponse

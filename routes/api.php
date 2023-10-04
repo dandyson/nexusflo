@@ -44,8 +44,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     // Worry Journal
-    Route::resource('worry-journal', WorryJournalEntryController::class)->except(['show', 'destroy']);
-    // Separate delete route for correct param name, as cannot use default 'worry-journal' in param in WorryJournal Vue component
+    Route::resource('worry-journal', WorryJournalEntryController::class)->except(['show', 'update', 'destroy']);
+    // Separate routes instead of resource one for correct param name, as cannot use default 'worry-journal' in param in WorryJournal Vue component
+    Route::put('/worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'update'])->name('worry-journal.update');
+    Route::get('/worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'show'])->name('worry-journal.show');
     Route::delete('/worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'destroy'])->name('worry-journal.destroy');
 
 Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function($token) {

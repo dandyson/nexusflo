@@ -21,14 +21,18 @@
                 </div>
 
                 <div class="mt-4">
-                    <button v-if="currentStep === 1" @click="nextStep" class="btn btn-primary">Next</button>
+                    <div v-if="currentStep === 1">
+                        <button @click="nextStep" class="btn btn-primary">Next</button>
+                        <button v-if="entry" @click="submitForm" class="btn btn-success ms-2">Update Entry</button>
+                    </div>
                     <div v-else-if="currentStep === 2">
                         <button @click="prevStep" class="btn btn-secondary">Previous</button>
                         <button @click="nextStep" class="btn btn-primary ms-2">Next</button>
+                        <button v-if="entry" @click="submitForm" class="btn btn-success ms-2">Update Entry</button>
                     </div>
                     <div v-else-if="currentStep === 3">
                         <button @click="prevStep" class="btn btn-secondary">Previous</button>
-                        <button @click="submitForm" class="btn btn-success ms-2">Submit</button>
+                        <button @click="submitForm" class="btn btn-success ms-2">{{ entry ? 'Update Entry' : 'Submit' }}</button>
                     </div>
                 </div>
 
@@ -109,12 +113,17 @@
 <script setup>
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import router from '../../../../router/starter';
 
+// Props
+const { id } = defineProps(['id']); // Specify the prop type
+
 // Data
+const entry = ref(null); // Store the fetched entry data
 const title = ref('');
 const mainWorry = ref('');
+const thinkingTraps = ref([]);
 const balancedThought = ref('');
 
 const currentStep = ref(1);
@@ -123,70 +132,123 @@ const progress = ref((currentStep.value / totalSteps) * 100);
 const selectedTraps = ref([]);
 
 const nextStep = () => {
-    if (currentStep.value < totalSteps) {
-        currentStep.value++;
-        progress.value = (currentStep.value / totalSteps) * 100;
-    }
+  if (currentStep.value < totalSteps) {
+    currentStep.value++;
+    progress.value = (currentStep.value / totalSteps) * 100;
+  }
 };
 
 const prevStep = () => {
-    if (currentStep.value > 1) {
-        currentStep.value--;
-        progress.value = (currentStep.value / totalSteps) * 100;
-    }
+  if (currentStep.value > 1) {
+    currentStep.value--;
+    progress.value = (currentStep.value / totalSteps) * 100;
+  }
 };
 
 const toggleTrapSelection = (trap) => {
-    const index = selectedTraps.value.findIndex(selectedTrap => selectedTrap.id === trap.id);
+  const index = selectedTraps.value.findIndex(
+    (selectedTrap) => selectedTrap.id === trap.id
+  );
 
-    if (index === -1) {
-        selectedTraps.value.push(trap);
-    } else {
-        selectedTraps.value.splice(index, 1);
-    }
+  if (index === -1) {
+    selectedTraps.value.push(trap);
+  } else {
+    selectedTraps.value.splice(index, 1);
+  }
 };
-
-
 
 const submitForm = () => {
-    axios.get('sanctum/csrf-cookie')
-    .then((res) => {
-			axios.post('/api/worry-journal', {
-                'title': title.value,
-				'main_worry': mainWorry.value,
-                'thinking_traps': selectedTraps.value.map(trap => trap.id),
-                'balanced_thought': balancedThought.value,
-			})
-				.then((res) => {
-					if (res.data?.type === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Journal Entry Stored Successfully',
-                            showConfirmButton: false,
-                            timer: 1500,
-                        }).then(() => {
-                            router.push({ name: "backend-worry-journal" });
-                        })
-                    }
-				}).catch((error) => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'There has been an error, please try again.',
-                        showConfirmButton: true,
-                    });
-				});
-		});
+  axios.get('sanctum/csrf-cookie').then((res) => {
+    if (entry.value) {
+      axios
+        .put(`/api/worry-journal/${entry.value.id}`, {
+          title: title.value,
+          main_worry: mainWorry.value,
+          thinking_traps: selectedTraps.value.map((trap) => trap.id),
+          balanced_thought: balancedThought.value,
+        })
+        .then((res) => {
+          if (res.data?.type === 'success') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Journal Entry Stored Successfully',
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              router.push({ name: 'backend-worry-journal' });
+            });
+          }
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'There has been an error, please try again.',
+            showConfirmButton: true,
+          });
+        });
+    } else {
+      axios
+        .post('/api/worry-journal', {
+          title: title.value,
+          main_worry: mainWorry.value,
+          thinking_traps: selectedTraps.value.map((trap) => trap.id),
+          balanced_thought: balancedThought.value,
+        })
+        .then((res) => {
+          if (res.data?.type === 'success') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Journal Entry Stored Successfully',
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              router.push({ name: 'backend-worry-journal' });
+            });
+          }
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'There has been an error, please try again.',
+            showConfirmButton: true,
+          });
+        });
+    }
+  });
 };
 
-const thinkingTraps = ref([]);
-
 onMounted(async () => {
-    try {
-        const res = await axios.get('/api/thinking-traps');
-        thinkingTraps.value = res.data.thinkingTraps;
-    } catch (error) {
-        console.error('Error fetching thinkingTraps:', error);
+  try {
+    // Fetch thinking traps
+    const thinkingTrapsResponse = await axios.get('/api/thinking-traps');
+    thinkingTraps.value = thinkingTrapsResponse.data.thinkingTraps;
+  } catch (error) {
+    console.error('Error fetching thinkingTraps:', error);
+    // Handle the error here (e.g., show an error message to the user)
+  }
+
+  try {
+    // Fetch worry journal entry
+    const worryJournalResponse = await axios.get(`/api/worry-journal/${id}`);
+    entry.value = worryJournalResponse.data;
+
+    // Populate fields if there's an entry
+    if (entry.value) {
+      title.value = entry.value.title || '';
+      mainWorry.value = entry.value.main_worry || '';
+      balancedThought.value = entry.value.balanced_thought || '';
+
+      // Select thinking traps based on entry data
+      if (entry.value.thinking_traps) {
+        selectedTraps.value = thinkingTraps.value.filter((trap) =>
+          entry.value.thinking_traps.includes(trap.id)
+        );
+      }
     }
+  } catch (error) {
+    console.error('An error occurred:', error);
+    // Handle the error here (e.g., show an error message to the user)
+  }
 });
 </script>
 

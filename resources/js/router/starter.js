@@ -270,6 +270,12 @@ const routes = [
         name: "backend-worry-journal-entry",
         component: WorryJournalEntry,
       },
+      {
+        path: 'worry-journal/edit/:id',
+        name: 'backend-edit-worry-journal-entry',
+        component: WorryJournalEntry,
+        props: true,
+      },      
 
       /*
       |--------------------------------------------------------------------------

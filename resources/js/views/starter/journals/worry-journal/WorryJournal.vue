@@ -34,58 +34,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="worryJournalEntry in worryJournalEntries">
-                            <td class="text-center" scope="row">{{ formatDate(worryJournalEntry.created_at) }}</td>
+                        <tr v-for="worryJournalEntry in worryJournalEntries" :key="worryJournalEntry.id">
+                          <td class="text-center" scope="row">{{ formatDate(worryJournalEntry.created_at) }}</td>
                             <td class="fw-semibold fs-sm">
                                 <a href="javascript:void(0)">{{ worryJournalEntry.title }}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 <div class="d-flex flex-row overlapping-circles">
-                                    <div
-                                        v-for="(trapId, index) in JSON.parse(worryJournalEntry.thinking_traps)"
-                                        :key="trapId"
-                                        class="position-relative"
-                                    >
-                                        <div class="circular-frame">
+                                  <div v-for="trap in filteredThinkingTraps(JSON.parse(worryJournalEntry.thinking_traps))" :key="trap.id" class="position-relative">
+                                    <div class="circular-frame">
                                         <img
-                                            v-if="thinkingTraps.find(trap => trap.id === trapId)"
-                                            :src="thinkingTraps.find(trap => trap.id === trapId).image"
-                                            :alt="thinkingTraps.find(trap => trap.id === trapId).title"
+                                            :src="trap.image"
+                                            :alt="trap.title"
                                             class="img-thumbnail"
                                         />
-                                        </div>
-                                    </div>
+                                  </div>
                                 </div>
-
+                              </div>
                             </td>
                             <td class="text-center">
                                 <div class="btn-group">
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-alt-secondary"
-                                    >
-                                        <i
-                                            class="fa fa-fw fa-eye"
-                                        ></i></button
-                                    >
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-alt-secondary"
-                                    >
-                                        <i
-                                            class="fa fa-fw fa-pencil-alt"
-                                        ></i></button
-                                    ><button
-                                        @click="deleteEntry(worryJournalEntry)"
-                                        type="button"
-                                        class="btn btn-sm btn-alt-secondary"
-                                    >
+                                    <!-- Pass the worryJournalEntry as a prop to the modal component -->
+                                    <ExtraLarge :entry="worryJournalEntry" :selectedTraps="filteredThinkingTraps(JSON.parse(worryJournalEntry.thinking_traps))"></ExtraLarge>
+                                    <router-link class="btn btn-sm btn-alt-secondary" :to="`worry-journal/edit/${worryJournalEntry.id}`">
+                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                    </router-link>
+                                    <button @click="deleteEntry(worryJournalEntry)" type="button" class="btn btn-sm btn-alt-secondary">
                                         <i class="fa fa-fw fa-times"></i>
                                     </button>
                                 </div>
                             </td>
                         </tr>
-                        
                     </tbody>
                 </table>
                 <div v-else class="container mb-3 text-center">
@@ -103,6 +82,7 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import Swal from "sweetalert2";
 import { toastMessage } from '../../../../components/toast.js';
+import ExtraLarge from '../../../components/modals/ExtraLarge.vue';
 
 // Data
 const worryJournalEntries = ref([]);
@@ -160,6 +140,10 @@ const deleteEntry = (worryJournalEntry) => {
         }
       });
     });
+};
+
+const filteredThinkingTraps = (entry) => {
+  return thinkingTraps.value.filter(trap => entry.includes(trap.id));
 };
 
 onMounted(async () => {
