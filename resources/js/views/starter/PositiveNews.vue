@@ -13,7 +13,7 @@
               <span class="sr-only">Loading...</span>
             </div>
           </div>
-          <div v-for="(item, index) in positiveNewsData" :key="index" class="col-md-4 col-lg-4">
+          <div v-for="(item, index) in positiveNewsData" :key="index" class="col-md-4 col-lg-4 mb-4">
             <div class="card">
               <a target="_blank" :href="item['link']">
                 <img alt="Image" class="img-fluid card-img-top" :src="item['image']">
@@ -45,7 +45,7 @@
               <span class="sr-only">Loading...</span>
             </div>
           </div>
-          <div v-for="(item, index) in goodNewsNetworkData" :key="index" class="col-md-4 col-lg-4">
+          <div v-for="(item, index) in goodNewsNetworkData" :key="index" class="col-md-4 col-lg-4 mb-4">
             <div class="card">
               <a target="_blank" :href="item['link']">
                 <img alt="Image" class="img-fluid card-img-top" :src="item['image']">
