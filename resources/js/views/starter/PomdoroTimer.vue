@@ -214,28 +214,28 @@ watch(pomodoro, (val) => {
                     </div>
                   </div>
   
-                  <div id="buttons" class="d-flex justify-content-evenly my-5">
-                    <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0 bg-danger text-center">
+                  <div id="buttons" class="d-flex flex-column flex-lg-row align-items-center justify-content-evenly my-5 mx-4">
+                    <div class="bg-danger text-center w-100">
                       <button
-                        class="btn btn-block pomodoro-button pomo-category w-100"
+                        class="btn btn-block pomodoro-button pomo-category"
                         id="work"
                         @click="timerButtonSound(); work()"
                       >
                         Work
                       </button>
                     </div>
-                    <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0 bg-info text-center">
+                    <div class="bg-info text-center w-100">
                       <button
-                        class="btn btn-block pomodoro-button pomo-category w-100"
+                        class="btn btn-block pomodoro-button pomo-category"
                         id="shortBreak"
                         @click="timerButtonSound(); shortBreak()"
                       >
                         Short Break
                       </button>
                     </div>
-                    <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0 bg-info text-center">
+                    <div class="bg-info text-center w-100">
                       <button
-                        class="btn btn-block pomodoro-button pomo-category w-100"
+                        class="btn btn-block pomodoro-button pomo-category"
                         id="longBreak"
                         @click="timerButtonSound(); longBreak()"
                       >

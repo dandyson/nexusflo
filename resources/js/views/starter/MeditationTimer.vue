@@ -1,6 +1,6 @@
 <template>
     <div class="content row d-flex justify-content-center">
-      <div class="col-8">
+      <div class="col-12 col-lg-8">
         <div>
           <div>
             <a class="main-header-arrow" href="" id="ChatBodyHide">
