@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import TiptapStyled from '../../components/TiptapStyled.vue';
-import TiptapTitle from '../../components/TiptapTitle.vue';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { toastMessage } from '../../../components/toast.js';
@@ -202,6 +201,12 @@ const deleteNote = (note) => {
 		});
 };
 
+const checkEmpty = () => {
+	if (selectedNote.value.title === "") {
+		selectedNote.value.title = "New Note";
+	}
+}
+
 onMounted(async () => {
   fetchNotebooks(true);
 });
@@ -256,7 +261,7 @@ onMounted(async () => {
 								</div>
 								<div v-if="selectedNote" class="mt-3">
 									<div class="mb-2">
-										<TiptapTitle v-model="selectedNote.title" />
+										<input type="text" v-model="selectedNote.title" class="form-control note-title" @blur="checkEmpty">
 									</div>
 									<button v-if="selectedNotebook" type="button" class="btn btn-success mb-3 me-2" @click="saveNote(selectedNote)">Save Note</button>
 									<button v-if="selectedNotebook" type="button" class="btn btn-danger mb-3" @click="deleteNote(selectedNote)">Delete Note</button>
@@ -272,3 +277,13 @@ onMounted(async () => {
       </div>
     </div>
   </template>
+
+  <style>
+	.note-title {
+		width: 100%;
+		height: 2rem;
+		font-size: 1.4rem;
+		padding: 1.1rem 0.5rem;
+		margin: 1rem 0;
+	}
+</style>
