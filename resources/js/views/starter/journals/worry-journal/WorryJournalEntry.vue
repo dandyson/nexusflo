@@ -38,8 +38,9 @@
 
                 <div v-if="currentStep === 1" class="my-4">
                     <h3>Step 1</h3>
+                    <h2 class="mb-4"><strong>Write out your worry</strong></h2>
                     <div>
-                        <p class="mb-1">Title of Entry:</p>
+                        <p class="mb-1"><strong>Title of Entry:</strong></p>
                         <small>Choose a specific title for this entry, e.g., 'Worry about work tomorrow'</small>
                         <input
                             type="text"
@@ -49,7 +50,7 @@
                             />
                     </div>
                     <div>
-                        <p class="mb-1">What's worrying you right now?</p>
+                        <p class="mb-1"><strong>What's worrying you right now?</strong></p>
                         <small>Be specific, e.g., 'I'm afraid I won't finish tomorrow's work on time.'</small>
                     </div>
                     <textarea rows="4" v-model="mainWorry" class="form-control mt-4" placeholder="Write here.."></textarea>
@@ -58,8 +59,11 @@
                 <div v-if="currentStep === 2" class="my-4">
                     <div class="my-4">
                         <h3>Step 2</h3>
-                        <p class="mb-1">Identify Thinking Traps</p>
-                        <small>Look at the cards below - do any of them fit your worries? Select one more more of the ones that do</small>
+                        <h2 class="mb-1"><strong>Identify Thinking Traps</strong></h2>
+                        <p v-if="mainWorry !== ''" class="lead my-5 mx-3">"{{ mainWorry }}"</p>
+                        
+                        <small>Look at the cards below - do any of them fit your worries? Use your worry above for reference.
+                          Select one more more of the ones that do</small>
                     </div>
                     <div class="d-flex flex-wrap justify-content-evenly">
                         <div 
@@ -91,7 +95,28 @@
 
                 <div v-if="currentStep === 3" class="my-4">
                     <h3>Step 3</h3>
-                    <p class="mb-1">Rewrite your thoughts</p>
+                    <h2 class="mb-4"><strong>Rewrite your thoughts</strong></h2>
+                    <div class="d-flex flex-column mb-3">
+                      <div v-if="mainWorry !== ''">
+                        <strong>Main Worry:</strong>
+                        <p class="lead my-3 mx-3">"{{ mainWorry }}"</p>
+                      </div>
+                      <div v-if="selectedTraps.length !== 0" class="mt-3">
+                        <strong>Thinking Traps:</strong>
+                        <div class="row justify-content-evenly">
+                          <div v-for="trap in selectedTraps" :key="trap.id" class="col-12 col-sm-4">
+                              <a class="block block-rounded block-link-pop text-center" href="javascript:void(0)">
+                              <div class="block-content block-content-full">
+                                <img class="img-avatar" :src="trap.image" alt="">
+                              </div>
+                              <div class="block-content block-content-full bg-body-light">
+                                <p class="fw-semibold mb-0">{{ trap.title }}</p>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <small>Taking into account the previous Thinking Trap(s), how would you rewrite that thought to be more realistic? For example:</small>
                     <div class="mt-4">
                         <strong>Catastrophic Thought:</strong>
@@ -228,21 +253,24 @@ onMounted(async () => {
   }
 
   try {
-    // Fetch worry journal entry
-    const worryJournalResponse = await axios.get(`/api/worry-journal/${id}`);
-    entry.value = worryJournalResponse.data;
+      if (id) {
+        // 'id' is defined, so fetch the worry journal entry
+        const worryJournalResponse = await axios.get(`/api/worry-journal/${id}`);
+        entry.value = worryJournalResponse.data;
 
-    // Populate fields if there's an entry
-    if (entry.value) {
-      title.value = entry.value.title || '';
-      mainWorry.value = entry.value.main_worry || '';
-      balancedThought.value = entry.value.balanced_thought || '';
+        // Populate fields if there's an entry
+        if (entry.value) {
+        // Your code to handle the populated fields
+        title.value = entry.value.title || '';
+        mainWorry.value = entry.value.main_worry || '';
+        balancedThought.value = entry.value.balanced_thought || '';
 
-      // Select thinking traps based on entry data
-      if (entry.value.thinking_traps) {
-        selectedTraps.value = thinkingTraps.value.filter((trap) =>
-          entry.value.thinking_traps.includes(trap.id)
-        );
+        // Select thinking traps based on entry data
+        if (entry.value.thinking_traps) {
+          selectedTraps.value = thinkingTraps.value.filter((trap) =>
+            entry.value.thinking_traps.includes(trap.id)
+          );
+        }
       }
     }
   } catch (error) {
