@@ -101,8 +101,6 @@
                           <div class="block-content block-content-full bg-body-light">
                             <p class="fw-semibold mb-0">{{ trap.title }}</p>
                           </div>
-                          
-                          
                         </a>
                       </div>
                     </div>
