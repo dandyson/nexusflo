@@ -111,6 +111,8 @@ const BackendPagesGenericSearch = () =>
   import("@/views/backend/pages/generic/SearchView.vue");
 const BackendPagesGenericProfile = () =>
   import("@/views/backend/pages/generic/ProfileView.vue");
+  const BackendPagesGenericEditProfile = () =>
+  import("@/views/backend/pages/generic/ProfileEditView.vue");
 const BackendPagesGenericInvoice = () =>
   import("@/views/backend/pages/generic/InvoiceView.vue");
 const BackendPagesGenericPricingPlans = () =>
@@ -484,6 +486,12 @@ const routes = [
             path: "profile",
             name: "backend-pages-generic-profile",
             component: BackendPagesGenericProfile,
+            beforeEnter: [authenticated]
+          },
+          {
+            path: "profile/edit",
+            name: "backend-pages-generic-edit-profile",
+            component: BackendPagesGenericEditProfile,
             beforeEnter: [authenticated]
           },
           {
