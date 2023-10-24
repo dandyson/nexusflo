@@ -3,6 +3,8 @@ import { reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router';
 import { useTemplateStore } from "@/stores/template";
+import axios from "axios";
+import Swal from 'sweetalert2';
 
 // Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
 import useVuelidate from "@vuelidate/core";
@@ -26,9 +28,9 @@ const detailState = reactive({
 });
 
 const passwordState = reactive({
+  current_password: null,
   password: null,
-  newPassword: null,
-  confirmNewPassword: null,
+  password_confirmation: null,
 });
 
 // Validation rules
@@ -44,6 +46,10 @@ const detailRules = computed(() => {
     },
   };
 });
+
+// Custom Error
+let credentialError = ref(false);
+let credentialErrorMessage = ref('');
 
 const passwordRules = computed(() => {
   return {
@@ -67,11 +73,51 @@ const vDetailRules$ = useVuelidate(detailRules, detailState);
 const vPasswordlRules$ = useVuelidate(passwordRules, passwordState);
 
 const detailSubmit = () => {
-
+  axios.get('sanctum/csrf-cookie')
+    .then(() => {
+      axios.post(`/api/users/${route.params?.user.id}/update`, detailState, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response) => {
+        if (response.data?.type === 'success') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Information Updated Successfully!',
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              router.push({ name: 'backend-pages-generic-profile' });
+            });
+          }
+      }).catch((error) => {
+        console.log({ error });
+      });
+    });
 }
 
 const passwordSubmit = () => {
-  
+  axios.get('sanctum/csrf-cookie')
+    .then(() => {
+      axios.post(`/api/users/${route.params?.user.id}/update-password`, passwordState, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response) => {
+        if (response.data?.type === 'success') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Password Updated Successfully!',
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              router.push({ name: 'backend-pages-generic-profile' });
+            });
+          }
+      }).catch((error) => {
+        console.log({ error });
+      });
+    });
 }
 
 </script>
@@ -89,7 +135,7 @@ const passwordSubmit = () => {
           />
         </div>
         <h1 class="h2 text-white mb-0">Edit Account</h1>
-        <h2 class="h4 fw-normal text-white-75">John Parker</h2>
+        <h2 class="h4 fw-normal text-white-75">{{ authUser.name }}</h2>
         <RouterLink
           :to="{ name: 'backend-pages-generic-profile' }"
           class="btn btn-alt-secondary"
@@ -105,7 +151,7 @@ const passwordSubmit = () => {
   <div class="content content-boxed">
     <!-- User Profile -->
     <BaseBlock title="User Profile">
-      <form @submit.prevent="changeDetails">
+      <form @submit.prevent="detailSubmit">
         <div class="row push">
           <div class="col-lg-4">
             <p class="fs-sm text-muted">
@@ -168,7 +214,7 @@ const passwordSubmit = () => {
 
     <!-- Change Password -->
     <BaseBlock title="Change Password">
-      <form @submit.prevent="changePassword">
+      <form @submit.prevent="passwordSubmit">
         <div class="row push">
           <div class="col-lg-4">
             <p class="fs-sm text-muted">
@@ -186,6 +232,7 @@ const passwordSubmit = () => {
                 class="form-control"
                 id="one-profile-edit-password"
                 name="one-profile-edit-password"
+                v-model="passwordState.current_password"
               />
             </div>
             <div class="row mb-4">
@@ -198,6 +245,7 @@ const passwordSubmit = () => {
                   class="form-control"
                   id="one-profile-edit-password-new"
                   name="one-profile-edit-password-new"
+                  v-model="passwordState.password"
                 />
               </div>
             </div>
@@ -213,6 +261,7 @@ const passwordSubmit = () => {
                   class="form-control"
                   id="one-profile-edit-password-new-confirm"
                   name="one-profile-edit-password-new-confirm"
+                  v-model="passwordState.password_confirmation"
                 />
               </div>
             </div>

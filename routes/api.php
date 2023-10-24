@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\PositiveNewsController;
 use App\Http\Controllers\Api\ThinkingTrapController;
 use App\Http\Controllers\NotebookController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorryJournalEntryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,13 @@ Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function
 })
     ->middleware(['guest:'.config('fortify.guard')])
     ->name('password.reset');
+
+// Update profile information
+Route::post('/users/{user}/update', [UserController::class, 'updateDetails'])->name('user.update');
+Route::post('/users/{user}/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
+
+// Delete profile
+Route::delete('/users/{user}/delete', [UserController::class, 'deleteAccount'])->name('user.account.delete');
 
 // Positive News
 Route::get('/positive-news-feed', [PositiveNewsController::class, 'newsFetch'])->name('news-fetch');

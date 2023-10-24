@@ -1,5 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router';
+import axios from "axios";
+import Swal from 'sweetalert2';
 
 const route = useRoute();
 
@@ -27,9 +29,63 @@ const memberDuration = (createdAt) => {
   if (years > 0) {
     return `${years} year${years > 1 ? 's' : ''} and ${days} day${days > 1 ? 's' : ''}`;
   } else {
-    return `${days} day${days > 1 ? 's' : ''}`;
+    return `${days} days`;
   }
 };
+
+const deleteAccount = () => {
+  axios.get('sanctum/csrf-cookie')
+    .then(() => {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger me-2'
+        },
+        buttonsStyling: false
+      });
+
+      swalWithBootstrapButtons.fire({
+        title: 'Delete Account',
+        text: 'Are you sure you want to delete your account?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete My Account',
+        cancelButtonText: 'Cancel',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete(`/api/users/${route.params?.user.id}/delete`, {
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+            .then((response) => {
+              if (response.data?.type === 'success') {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Account Deleted Successfully',
+                  showConfirmButton: false,
+                  timer: 1500
+                }).then(() => {
+                  logOut();
+                });
+              }
+            })
+            .catch((error) => {
+              console.log({ error });
+            });
+        }
+      });
+    });
+}
+
+const logOut = () => {
+  axios.post('/api/logout')
+    .then((res) => {
+      // Reload so the page is redirected to signin
+      location.reload();
+    }).catch(() => {});
+}
 </script>
 
 <template>
@@ -76,7 +132,7 @@ const memberDuration = (createdAt) => {
           >
             <i class="fa fa-fw fa-pencil-alt me-1"></i>Edit
           </RouterLink>
-          <button class="btn btn-danger"><i class="far fa-fw fa-trash-alt me-1"></i>Delete Account</button>
+          <button @click="deleteAccount" class="btn btn-danger"><i class="far fa-fw fa-trash-alt me-1"></i>Delete Account</button>
         </div>
       </div>
     </div>
