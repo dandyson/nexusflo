@@ -20,11 +20,10 @@ class UserController extends Controller
      *
      * @param  array<string, string>  $input
      */
-    protected function updateDetails(Request $request, User $user): JsonResponse
+    public function updateDetails(Request $request, User $user): JsonResponse
     {
-        Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-
             'email' => [
                 'required',
                 'string',
@@ -33,9 +32,12 @@ class UserController extends Controller
                 Rule::unique('users')->ignore($user->id),
             ],
         ]);
-
-        if ($request['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+    
+        if ($request['email'] !== $user->email && $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $request);
         } else {
             $user->forceFill([
@@ -43,7 +45,7 @@ class UserController extends Controller
                 'email' => $request['email'],
             ])->save();
         }
-
+    
         return response()->json(['type' => 'success', 'message' => 'Details Updated Successfully!']);
     }
 
@@ -52,15 +54,12 @@ class UserController extends Controller
      *
      * @param  array<string, string>  $input
      */
-    protected function updateVerifiedUser(User $user, Request $request): JsonResponse
+    public function updateVerifiedUser(User $user, Request $request): JsonResponse
     {
         $user->forceFill([
             'name' => $request['name'],
             'email' => $request['email'],
-            'email_verified_at' => null,
         ])->save();
-
-        $user->sendEmailVerificationNotification();
 
         return response()->json(['type' => 'success', 'message' => 'Details Updated Successfully!']);
     }

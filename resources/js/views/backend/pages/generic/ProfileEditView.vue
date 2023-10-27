@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router';
 import { useTemplateStore } from "@/stores/template";
@@ -47,30 +47,32 @@ const detailRules = computed(() => {
   };
 });
 
-// Custom Error
-let credentialError = ref(false);
-let credentialErrorMessage = ref('');
-
 const passwordRules = computed(() => {
   return {
+    current_password: {
+      required,
+      minLength: minLength(5),
+    },
     password: {
       required,
       minLength: minLength(5),
     },
-    newPassword: {
-      required,
-      minLength: minLength(5),
-    },
-    confirmNewPassword: {
+    password_confirmation: {
       required,
       sameAs: sameAs(passwordState.newPassword),
     },
   }
 });
 
+// Custom Errors
+let credentialDetailError = ref(false);
+let credentialDetailErrorMessage = ref('');
+let credentialPasswordError = ref(false);
+let credentialPasswordErrorMessage = ref('');
+
 // Use vuelidate
 const vDetailRules$ = useVuelidate(detailRules, detailState);
-const vPasswordlRules$ = useVuelidate(passwordRules, passwordState);
+const vPasswordRules$ = useVuelidate(passwordRules, passwordState);
 
 const detailSubmit = () => {
   axios.get('sanctum/csrf-cookie')
@@ -91,7 +93,8 @@ const detailSubmit = () => {
             });
           }
       }).catch((error) => {
-        console.log({ error });
+        credentialDetailError.value = true;
+        credentialDetailErrorMessage.value = 'There has been an error, please try again';
       });
     });
 }
@@ -115,7 +118,8 @@ const passwordSubmit = () => {
             });
           }
       }).catch((error) => {
-        console.log({ error });
+        credentialPasswordError.value = true;
+        credentialPasswordErrorMessage.value = 'There has been an error, please try again';
       });
     });
 }
@@ -151,6 +155,9 @@ const passwordSubmit = () => {
   <div class="content content-boxed">
     <!-- User Profile -->
     <BaseBlock title="User Profile">
+      <div v-if="credentialDetailError" class="alert alert-danger" role="alert">
+        {{ credentialDetailErrorMessage }}
+      </div>
       <form @submit.prevent="detailSubmit">
         <div class="row push">
           <div class="col-lg-4">
@@ -168,7 +175,21 @@ const passwordSubmit = () => {
                 name="one-profile-edit-name"
                 placeholder="Enter your name.."
                 v-model="detailState.name"
+                :class="{
+                  'is-invalid': vDetailRules$.name.$errors.length,
+                }"
+                @blur="vDetailRules$.name.$touch"
               />
+              <div
+                  v-if="vDetailRules$.name.$errors.length"
+                  class="invalid-feedback animated fadeIn"
+                >
+                <ul style="list-style: none" class="p-0">
+                  <li v-for="error in vDetailRules$.name.$errors" :key="error.$uid">
+                    {{ error.$message }}
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="mb-4">
               <label class="form-label" for="one-profile-edit-email"
@@ -181,7 +202,21 @@ const passwordSubmit = () => {
                 name="one-profile-edit-email"
                 placeholder="Enter your email.."
                 v-model="detailState.email"
+                :class="{
+                  'is-invalid': vDetailRules$.email.$errors.length,
+                }"
+                @blur="vDetailRules$.email.$touch"
               />
+              <div
+                  v-if="vDetailRules$.email.$errors.length"
+                  class="invalid-feedback animated fadeIn"
+                >
+                <ul style="list-style: none" class="p-0">
+                  <li v-for="error in vDetailRules$.email.$errors" :key="error.$uid">
+                    {{ error.$message }}
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="mb-4">
               <label class="form-label">Your Avatar</label>
@@ -214,6 +249,9 @@ const passwordSubmit = () => {
 
     <!-- Change Password -->
     <BaseBlock title="Change Password">
+      <div v-if="credentialPasswordError" class="alert alert-danger" role="alert">
+        {{ credentialPasswordErrorMessage }}
+      </div>
       <form @submit.prevent="passwordSubmit">
         <div class="row push">
           <div class="col-lg-4">
@@ -233,7 +271,21 @@ const passwordSubmit = () => {
                 id="one-profile-edit-password"
                 name="one-profile-edit-password"
                 v-model="passwordState.current_password"
+                :class="{
+                  'is-invalid': vPasswordRules$.current_password.$errors.length,
+                }"
+                @blur="vPasswordRules$.current_password.$touch"
               />
+              <div
+                  v-if="vPasswordRules$.current_password.$errors.length"
+                  class="invalid-feedback animated fadeIn"
+                >
+                <ul style="list-style: none" class="p-0">
+                  <li v-for="error in vPasswordRules$.current_password.$errors" :key="error.$uid">
+                    {{ error.$message }}
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="row mb-4">
               <div class="col-12">
@@ -246,7 +298,20 @@ const passwordSubmit = () => {
                   id="one-profile-edit-password-new"
                   name="one-profile-edit-password-new"
                   v-model="passwordState.password"
+                  :class="{
+                  'is-invalid': vPasswordRules$.password.$errors.length}"
+                  @blur="vPasswordRules$.password.$touch"
                 />
+                <div
+                    v-if="vPasswordRules$.password.$errors.length"
+                    class="invalid-feedback animated fadeIn"
+                  >
+                  <ul style="list-style: none" class="p-0">
+                    <li v-for="error in vPasswordRules$.password.$errors" :key="error.$uid">
+                      {{ error.$message }}
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
             <div class="row mb-4">
@@ -262,7 +327,22 @@ const passwordSubmit = () => {
                   id="one-profile-edit-password-new-confirm"
                   name="one-profile-edit-password-new-confirm"
                   v-model="passwordState.password_confirmation"
+                  :class="{
+                  'is-invalid': vPasswordRules$.password_confirmation.$errors.length}"
+                  @blur="vPasswordRules$.password_confirmation.$touch"
                 />
+                <div
+                    v-if="vPasswordRules$.password_confirmation.$errors.length"
+                    class="invalid-feedback animated fadeIn"
+                  >
+                  <ul style="list-style: none" class="p-0">
+                    <li v-for="error in vPasswordRules$.password_confirmation.$errors" :key="error.$uid">
+                      {{ error.$message === 'The value must be equal to the other value' ? 
+                      'The passwords do not match' : 
+                      error.$message }}
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
             <div class="mb-4">
