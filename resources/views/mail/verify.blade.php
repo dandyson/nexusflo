@@ -1,5 +1,5 @@
 @component('mail::message')
-# Welcome to CentreApp!
+# Welcome to NexusFlo!
 
 Hi {{ $user->name }},
 

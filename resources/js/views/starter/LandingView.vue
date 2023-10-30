@@ -19,7 +19,7 @@ const store = useTemplateStore();
               width="100"
             />
           <h1 class="fw=bold mt-3 mb-2">
-            Centre
+            Center
             <span class="fw-light">Your Life</span>
           </h1>
           <p class="fs-lg fw-medium text-muted mb-4">

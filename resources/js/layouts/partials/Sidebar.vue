@@ -107,7 +107,7 @@ onMounted(() => {
               width="40"
             />
             <span class="smini-hide fs-5 tracking-wider">
-              <span class="fw-normal">Centre</span>
+              <span class="fw-normal">NexusFlo</span>
             </span>
           </RouterLink>
           <!-- END Logo -->

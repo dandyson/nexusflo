@@ -36,8 +36,8 @@ store.mainContent({ mode: "boxed" });
               alt="Logo"
               width="40"
             />
-          Centre
-          <span class="fw-normal">App</span>
+          Nexus
+          <span class="fw-normal">Flo</span>
         </RouterLink>
         <!-- END Logo -->
 

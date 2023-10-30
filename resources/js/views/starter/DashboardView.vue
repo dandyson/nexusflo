@@ -13,7 +13,7 @@ onMounted(() => {
     Swal.fire({
       icon: 'success',
       title: 'Email Verified',
-      text: 'Welcome to CentreApp!',
+      text: 'Welcome to NexusFlo!',
       showConfirmButton: true,
     });
     store.setVerificationNotificationShown(true);

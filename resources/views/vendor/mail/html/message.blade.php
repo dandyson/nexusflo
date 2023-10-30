@@ -10,7 +10,7 @@
         alt="{{config('app.name')}}"
         width="80"
     />
-    <h1><strong>Centre</strong>App</h1>
+    <h1><strong>Nexus</strong>Flo</h1>
 </div>
 @endcomponent
 @endslot

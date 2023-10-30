@@ -12,7 +12,7 @@ export const useTemplateStore = defineStore({
     verifiedNotificationShown: true,
     // App vital details
     app: {
-      name: "Centre App",
+      name: "Nexus Flo",
       version: "1",
       copyright: new Date().getFullYear(),
     },

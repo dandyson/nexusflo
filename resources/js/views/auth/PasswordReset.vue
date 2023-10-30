@@ -110,7 +110,7 @@ async function onSubmit() {
               alt="Logo"
               width="40"
             />
-          Centre<span class="fw-normal">App</span>
+          Nexus<span class="fw-normal">Flo</span>
             </RouterLink>
             <p class="text-white-75 me-xl-8 mt-2">
               Creating a new account is completely free. Get started today!
@@ -154,7 +154,7 @@ async function onSubmit() {
             :to="{ name: 'landing' }"
             class="link-fx fw-semibold fs-3 text-dark"
           >
-            Centre<span class="fw-normal">App</span>
+            Nexus<span class="fw-normal">Flo</span>
           </RouterLink>
         </div>
         <div class="p-4 w-100 flex-grow-1 d-flex align-items-center">
