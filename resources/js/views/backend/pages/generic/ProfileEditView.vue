@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router';
 import { useTemplateStore } from "@/stores/template";
 import axios from "axios";
 import Swal from 'sweetalert2';
+import ImageUploader from '../../../components/ImageUploader.vue';
 
 // Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
 import useVuelidate from "@vuelidate/core";
@@ -19,12 +20,14 @@ const authUser = {
   name: route.params?.user?.name ?? '',
   email: route.params?.user?.email ?? '',
   created_at: route.params?.user?.created_at ?? '',
+  avatar: route.params?.user?.avatar ?? '',
 }
 
 // Input state variables
 const detailState = reactive({
   name: authUser.name ?? null,
   email: authUser.email ?? null,
+  avatar: null,
 });
 
 const passwordState = reactive({
@@ -75,29 +78,53 @@ const vDetailRules$ = useVuelidate(detailRules, detailState);
 const vPasswordRules$ = useVuelidate(passwordRules, passwordState);
 
 const detailSubmit = () => {
+  // Send the avatar file first
   axios.get('sanctum/csrf-cookie')
     .then(() => {
-      axios.post(`/api/users/${route.params?.user.id}/update`, detailState, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((response) => {
-        if (response.data?.type === 'success') {
-            Swal.fire({
-              icon: 'success',
-              title: 'Information Updated Successfully!',
-              showConfirmButton: false,
-              timer: 1500,
-            }).then(() => {
-              router.push({ name: 'backend-pages-generic-profile' });
-            });
-          }
-      }).catch((error) => {
-        credentialDetailError.value = true;
-        credentialDetailErrorMessage.value = 'There has been an error, please try again';
-      });
+      if (detailState.avatar) {
+        // Create FormData and append the avatar file
+        const formData = new FormData();
+        formData.append('avatar', detailState.avatar);
+
+        axios.post(`/api/users/${route.params?.user.id}/upload-avatar`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // Use multipart/form-data for file upload
+          },
+        })
+        .then((response) => {
+          console.log(response);
+
+          // Now that the avatar is uploaded, you can proceed with your main update request
+          axios.post(`/api/users/${route.params?.user.id}/update`, detailState, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            if (response.data?.type === 'success') {
+              Swal.fire({
+                icon: 'success',
+                title: 'Information Updated Successfully!',
+                showConfirmButton: false,
+                timer: 1500,
+              }).then(() => {
+                router.push({ name: 'backend-pages-generic-profile' });
+              });
+            }
+          })
+          .catch((error) => {
+            credentialDetailError.value = true;
+            credentialDetailErrorMessage.value = 'There has been an error, please try again';
+          });
+        })
+        .catch((error) => {
+          console.log({ error });
+          return;
+        });
+      }
     });
-}
+};
+
 
 const passwordSubmit = () => {
   axios.get('sanctum/csrf-cookie')
@@ -124,6 +151,14 @@ const passwordSubmit = () => {
     });
 }
 
+const selectedImage = ref('');
+const emit = defineEmits();
+
+const onImageChange = (newImage) => {
+  console.log({newImage});
+  detailState.avatar = newImage;
+  console.log({'avatar: ': detailState.avatar});
+};
 </script>
 
 <template>
@@ -218,26 +253,7 @@ const passwordSubmit = () => {
                 </ul>
               </div>
             </div>
-            <div class="mb-4">
-              <label class="form-label">Your Avatar</label>
-              <div class="mb-4">
-                <img
-                  class="img-avatar"
-                  src="/assets/media/avatars/avatar13.jpg"
-                  alt=""
-                />
-              </div>
-              <div class="mb-4">
-                <label for="one-profile-edit-avatar" class="form-label"
-                  >Choose a new avatar</label
-                >
-                <input
-                  class="form-control"
-                  type="file"
-                  id="one-profile-edit-avatar"
-                />
-              </div>
-            </div>
+            <ImageUploader :userAvatar="authUser.avatar" @imageChanged="onImageChange"></ImageUploader>
             <div class="mb-4">
               <button type="submit" class="btn btn-alt-primary">Update</button>
             </div>

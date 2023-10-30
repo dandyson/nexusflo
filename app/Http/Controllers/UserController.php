@@ -11,6 +11,9 @@ use Laravel\Fortify\Contracts\UpdatesUserPasswords;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Rules\Password;
 use Validator;
+use finfo;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class UserController extends Controller
@@ -94,4 +97,25 @@ class UserController extends Controller
         return response()->json(['type' => 'success', 'message' => 'Account Deleted Successfully!']);
     }
 
+    public function uploadAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as needed
+        ]);
+
+        if ($request->hasFile('avatar')) {
+            $user = Auth::user();
+            $image = $request->file('avatar');
+            $avatarPath = 'avatars'; // Change this to your desired storage path
+            $avatarName = 'avatar_' . $user->id . '.' . $image->getClientOriginalExtension();
+
+            $image->storeAs($avatarPath, $avatarName);
+            $user->avatar = $avatarPath . '/' . $avatarName;
+            $user->save();
+
+            return response()->json(['message' => 'Image uploaded successfully']);
+        } else {
+            return response()->json(['error' => 'Invalid file'], 400);
+        }
+    }
 }
