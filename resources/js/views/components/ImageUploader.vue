@@ -1,11 +1,10 @@
 <template>
-
-
     <div class="mb-4">
         <label class="form-label">Your Avatar</label>
         <div class="mb-4">
-            <img v-if="userAvatar" :src="userAvatar" class="img-avatar" alt="Avatar" />
-            <img v-else class="img-avatar" :src="selectedImage" alt="Avatar" />
+            <img v-if="selectedImage" class="img-avatar" :src="selectedImage" alt="Selected Avatar" />
+            <img v-else-if="props.userAvatar !== ''" :src="props.userAvatar" class="img-avatar" alt="User Avatar" />
+            <img v-else src="/assets/media/avatars/avatar13.jpg" class="img-avatar" alt="Default Avatar" />
         </div>
 
         <div class="mb-4">
@@ -21,12 +20,12 @@
 <script setup>
 import { ref } from 'vue';
 
-const selectedImage = ref('/assets/media/avatars/avatar13.jpg'); // Default avatar
+const selectedImage = ref('');
 const emit = defineEmits();
 const invalidFile = ref(false);
 const invalidFileMessage = ref('');
 const props = defineProps({
-  userAvatar: String, // Define the userAvatar prop with the expected type
+    userAvatar: String, // Define the userAvatar prop with the expected type
 });
 
 const onFileChange = (e) => {
@@ -52,16 +51,13 @@ const onFileChange = (e) => {
         const reader = new FileReader();
         reader.onload = (e) => {
             selectedImage.value = e.target.result;
-
-            // Emit an event to notify the parent component of the image change
             emit('imageChanged', file);
         };
 
-        console.log(file);
         reader.readAsDataURL(file);
-};
-    }
+    };
+}
 
-    
+
 </script>
   

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
 use Illuminate\Support\Facades\Hash;
@@ -13,8 +15,6 @@ use Laravel\Fortify\Rules\Password;
 use Validator;
 use finfo;
 use Illuminate\Support\Facades\Auth;
-
-
 
 class UserController extends Controller
 {
@@ -100,20 +100,29 @@ class UserController extends Controller
     public function uploadAvatar(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as needed
+            'avatar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-
+    
         if ($request->hasFile('avatar')) {
             $user = Auth::user();
             $image = $request->file('avatar');
-            $avatarPath = 'avatars'; // Change this to your desired storage path
-            $avatarName = 'avatar_' . $user->id . '.' . $image->getClientOriginalExtension();
+            $avatarPath = "users/$user->id/avatar";
+            $avatarName = $image->getClientOriginalName();
+    
+            // Store in S3 Bucket
+            $request->file('avatar')->storeAs(
+                $avatarPath,
+                $avatarName,
+                's3'
+            );
 
-            $image->storeAs($avatarPath, $avatarName);
-            $user->avatar = $avatarPath . '/' . $avatarName;
+            // Update DB
+            $user->avatar = Storage::disk('s3')->url("$avatarPath/$avatarName");
             $user->save();
 
-            return response()->json(['message' => 'Image uploaded successfully']);
+            return response()->json([
+                'message'=> "Image uploaded successfully",
+            ]);
         } else {
             return response()->json(['error' => 'Invalid file'], 400);
         }

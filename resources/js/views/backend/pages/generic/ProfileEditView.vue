@@ -108,7 +108,7 @@ const detailSubmit = () => {
                 showConfirmButton: false,
                 timer: 1500,
               }).then(() => {
-                router.push({ name: 'backend-pages-generic-profile' });
+                location.reload();
               });
             }
           })
@@ -124,7 +124,6 @@ const detailSubmit = () => {
       }
     });
 };
-
 
 const passwordSubmit = () => {
   axios.get('sanctum/csrf-cookie')
@@ -151,13 +150,10 @@ const passwordSubmit = () => {
     });
 }
 
-const selectedImage = ref('');
 const emit = defineEmits();
 
 const onImageChange = (newImage) => {
-  console.log({newImage});
   detailState.avatar = newImage;
-  console.log({'avatar: ': detailState.avatar});
 };
 </script>
 
@@ -167,11 +163,8 @@ const onImageChange = (newImage) => {
     <div class="bg-primary-dark-op">
       <div class="content content-full text-center">
         <div class="my-3">
-          <img
-            class="img-avatar img-avatar-thumb"
-            src="/assets/media/avatars/avatar13.jpg"
-            alt=""
-          />
+          <img v-if="authUser.avatar !== ''" :src="authUser.avatar" class="img-avatar img-avatar-thumb" alt="User Avatar" />
+          <img v-else src="/assets/media/avatars/avatar13.jpg" class="img-avatar img-avatar-thumb" alt="Default Avatar" />
         </div>
         <h1 class="h2 text-white mb-0">Edit Account</h1>
         <h2 class="h4 fw-normal text-white-75">{{ authUser.name }}</h2>

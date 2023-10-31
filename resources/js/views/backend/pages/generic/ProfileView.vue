@@ -8,6 +8,7 @@ const route = useRoute();
 const authUser = {
   name: route.params?.user?.name ?? '',
   email: route.params?.user?.email ?? '',
+  avatar: route.params?.user?.avatar ?? '',
   created_at: route.params?.user?.created_at ?? '',
 }
 
@@ -97,6 +98,14 @@ const logOut = () => {
     <div class="content content-full text-center">
       <div class="my-3">
         <img
+          v-if="authUser.avatar !== ''" 
+          :src="authUser.avatar"
+          class="img-avatar img-avatar-thumb"
+          src="/assets/media/avatars/avatar13.jpg"
+          alt="Avatar"
+        />
+        <img
+          v-else
           class="img-avatar img-avatar-thumb"
           src="/assets/media/avatars/avatar13.jpg"
           alt="Avatar"
