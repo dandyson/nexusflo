@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PositiveNewsController;
+use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\ThinkingTrapController;
 use App\Http\Controllers\NotebookController;
 use App\Http\Controllers\NoteController;
@@ -27,6 +28,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    // Dashboard
+    // Quotes
+    Route::get('quotes', [QuoteController::class, 'index'])->name('quotes');
     // Notebooks
     Route::resource('notebooks', NotebookController::class)->except(['show'])
         ->names([
