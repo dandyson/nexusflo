@@ -1,128 +1,110 @@
 <template>
-    <div>
-      <!-- Positive News -->
-      <div class="row mx-5 my-5">
-        <h2 class="my-3">Positive.News</h2>
-        <div class="row row-sm">
-          <div v-if="positiveNewsError" class="alert alert-danger alert-dismissible" role="alert">
-            <h3 class="alert-heading h4 my-2">Error</h3>
-            <p class="mb-0">There was an error loading the data. Please check your internet connection, refresh and try again!</p>
-          </div>
-          <div class="d-flex justify-content-center" v-if="positiveNewsLoading === true">
-            <div class="spinner-border text-primary m-1" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
-          </div>
-          <div v-for="(item, index) in positiveNewsData" :key="index" class="col-md-4 col-lg-4 mb-4">
-            <div class="card">
-              <a target="_blank" :href="item['link']">
-                <img alt="Image" class="img-fluid card-img-top" :src="item['image']">
-              </a>
-              <div class="card-body">
-                <a target="_blank" :href="item['link']">
-                  <h4 class="card-title news-headline">{{ item['title'] }}</h4>
-                </a>
-                <p class="card-text">{{ item['description'] }}</p>
-              </div>
-            </div>
-          </div><!-- col-4 -->
+  <div>
+    <!-- Positive News -->
+    <div class="row mx-5 my-5">
+      <h2 class="my-3">Positive.News</h2>
+      <div class="row row-sm">
+        <div v-if="positiveNewsError" class="alert alert-danger alert-dismissible" role="alert">
+          <h3 class="alert-heading h4 my-2">Error</h3>
+          <p class="mb-0">There was an error loading the data. Please check your internet connection, refresh and try again!</p>
         </div>
-      </div>
-      <!-- End of Positive News -->
-  
-      <hr class="my-4">
-  
-      <!-- Good News Network -->
-      <div class="row mx-5 my-5">
-        <h2 class="my-3">Good News Network</h2>
-        <div class="row row-sm">
-          <div v-if="goodNewsNetworkError" class="alert alert-danger alert-dismissible" role="alert">
-            <h3 class="alert-heading h4 my-2">Error</h3>
-            <p class="mb-0">There was an error loading the data. Please check your internet connection, refresh and try again!</p>
+        <div class="d-flex justify-content-center" v-if="positiveNewsLoading === true">
+          <div class="spinner-border text-primary m-1" role="status">
+            <span class="sr-only">Loading...</span>
           </div>
-          <div class="d-flex justify-content-center" v-if="goodNewsNetworkLoading === true">
-            <div class="spinner-border text-primary m-1" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
-          </div>
-          <div v-for="(item, index) in goodNewsNetworkData" :key="index" class="col-md-4 col-lg-4 mb-4">
-            <div class="card">
-              <a target="_blank" :href="item['link']">
-                <img alt="Image" class="img-fluid card-img-top" :src="item['image']">
-              </a>
-              <div class="card-body">
-                <a target="_blank" :href="item['link']">
-                  <h4 class="card-title news-headline">{{ item['title'] }}</h4>
-                </a>
-                <p class="card-text">{{ item['description'] }}</p>
-              </div>
-            </div>
-          </div><!-- col-4 -->
         </div>
+        <div v-for="(item, index) in positiveNewsData" :key="index" class="col-md-4 col-lg-4 mb-4">
+          <div class="card">
+            <a target="_blank" :href="item.link">
+              <img alt="Image" class="img-fluid card-img-top" :src="item.image">
+            </a>
+            <div class="card-body">
+              <a target="_blank" :href="item.link">
+                <h4 class="card-title news-headline">{{ item.title }}</h4>
+              </a>
+              <p class="card-text">{{ item.description }}</p>
+            </div>
+          </div>
+        </div><!-- col-4 -->
       </div>
-      <!-- End of Good News Network -->
     </div>
-  </template>
-  
-  <script>
-  import axios from "axios";
-  import cheerio from "cheerio";
-  
-  export default {
-    props: {
-      routes: Object,
-    },
-  
-    data() {
-      return {
-        positiveNewsData: [],
-        positiveNewsLoading: true,
-        positiveNewsError: false,
-  
-        goodNewsNetworkData: [],
-        goodNewsNetworkLoading: true,
-        goodNewsNetworkError: false,
-      };
-    },
-  
-    mounted() {
-      // Check if cached data exists and is not stale
-      const cachedPositiveNews = JSON.parse(localStorage.getItem('positiveNewsCache'));
-      const cachedGoodNewsNetwork = JSON.parse(localStorage.getItem('goodNewsNetworkCache'));
-      const currentTime = new Date().getTime();
-      const isPositiveNewsCacheValid = cachedPositiveNews && currentTime - cachedPositiveNews.timestamp < 3600000; // Cache valid for 1 hour (adjust as needed)
-      const isGoodNewsCacheValid = cachedGoodNewsNetwork && currentTime - cachedGoodNewsNetwork.timestamp < 3600000;
+    <!-- End of Positive News -->
 
-      if (isPositiveNewsCacheValid && isGoodNewsCacheValid) {
-        this.positiveNewsData = cachedPositiveNews.data;
-        this.positiveNewsLoading = false;
-        this.goodNewsNetworkData = cachedGoodNewsNetwork.data;
-        this.goodNewsNetworkLoading = false;
-      } else {
-        axios
-          .get("/api/positive-news-feed")
-          .then((res) => {
-            this.positiveNewsData = res.data.data["positive-news"];
-            this.positiveNewsLoading = false;
+    <hr class="my-4">
 
-            this.goodNewsNetworkData = res.data.data["good-news-network"];
-            this.goodNewsNetworkLoading = false;
-  
-            // Cache the data
-            localStorage.setItem('positiveNewsCache', JSON.stringify({ data: this.positiveNewsData, timestamp: currentTime }));
-            localStorage.setItem('goodNewsNetworkCache', JSON.stringify({ data: this.goodNewsNetworkData, timestamp: currentTime }));
-          })
-          .catch((error) => {
-            this.positiveNewsLoading = false;
-            this.positiveNewsError = true;
-            console.error(error);
-          });
-      }
-    },
-  };
-  </script>
-  
-  <style>
-    /* Add your styles here */
-  </style>
-  
+    <!-- Good News Network -->
+    <div class="row mx-5 my-5">
+      <h2 class="my-3">Good News Network</h2>
+      <div class="row row-sm">
+        <div v-if="goodNewsNetworkError" class="alert alert-danger alert-dismissible" role="alert">
+          <h3 class="alert-heading h4 my-2">Error</h3>
+          <p class="mb-0">There was an error loading the data. Please check your internet connection, refresh and try again!</p>
+        </div>
+        <div class="d-flex justify-content-center" v-if="goodNewsNetworkLoading === true">
+          <div class="spinner-border text-primary m-1" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div v-for="(item, index) in goodNewsNetworkData" :key="index" class="col-md-4 col-lg-4 mb-4">
+          <div class="card">
+            <a target="_blank" :href="item.link">
+              <img alt="Image" class="img-fluid card-img-top" :src="item.image">
+            </a>
+            <div class="card-body">
+              <a target="_blank" :href="item.link">
+                <h4 class="card-title news-headline">{{ item.title }}</h4>
+              </a>
+              <p class="card-text">{{ item.description }}</p>
+            </div>
+          </div>
+        </div><!-- col-4 -->
+      </div>
+    </div>
+    <!-- End of Good News Network -->
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+const positiveNewsData = ref([]);
+const positiveNewsLoading = ref(true);
+const positiveNewsError = ref(false);
+
+const goodNewsNetworkData = ref([]);
+const goodNewsNetworkLoading = ref(true);
+const goodNewsNetworkError = ref(false);
+
+onMounted(async () => {
+  // Check if cached data exists and is not stale
+  const cachedPositiveNews = JSON.parse(localStorage.getItem('positiveNewsCache'));
+  const cachedGoodNewsNetwork = JSON.parse(localStorage.getItem('goodNewsNetworkCache'));
+  const currentTime = new Date().getTime();
+  const isPositiveNewsCacheValid = cachedPositiveNews && currentTime - cachedPositiveNews.timestamp < 3600000; // Cache valid for 1 hour (adjust as needed)
+  const isGoodNewsCacheValid = cachedGoodNewsNetwork && currentTime - cachedGoodNewsNetwork.timestamp < 3600000;
+
+  if (isPositiveNewsCacheValid && isGoodNewsCacheValid) {
+    positiveNewsData.value = cachedPositiveNews.data;
+    positiveNewsLoading.value = false;
+    goodNewsNetworkData.value = cachedGoodNewsNetwork.data;
+    goodNewsNetworkLoading.value = false;
+  } else {
+    try {
+      const res = await axios.get('/api/positive-news-feed');
+      positiveNewsData.value = res.data.data['positive-news'];
+      positiveNewsLoading.value = false;
+      goodNewsNetworkData.value = res.data.data['good-news-network'];
+      goodNewsNetworkLoading.value = false;
+
+      // Cache the data
+      localStorage.setItem('positiveNewsCache', JSON.stringify({ data: positiveNewsData.value, timestamp: currentTime }));
+      localStorage.setItem('goodNewsNetworkCache', JSON.stringify({ data: goodNewsNetworkData.value, timestamp: currentTime }));
+    } catch (error) {
+      positiveNewsLoading.value = false;
+      positiveNewsError.value = true;
+      console.error(error);
+    }
+  }
+});
+</script>
