@@ -1,16 +1,12 @@
 <template>
     <div class="content">
-
-        <div class="block-rounded block">
-            <div class="block-header block-header-default">
-                <h3 class="block-title"> Worry Journal</h3><!---->
-            </div>
-            <div class="block-content">
-                <p>Fill out the below form to record your worries, spot any thinking traps and to try to re-balance your
-                    thought by challenging your beliefs about the situation.</p>
-            </div>
-        </div>
-
+        <SectionIntro 
+          title="Worry Journal" 
+          description="Fill out the below form to record your worries, 
+          spot any thinking traps and to try to re-balance your thought 
+          by challenging your beliefs about the situation." 
+          :tutorial="tutorialData"
+        ></SectionIntro>
         <div class="block-rounded block">
             <div class="block-header block-header-default">
                 <router-link class="btn btn-success" to="worry-journal/create-entry">+ Create New Entry</router-link>
@@ -83,8 +79,48 @@ import { ref, onMounted } from 'vue';
 import Swal from "sweetalert2";
 import { toastMessage } from '../../../../components/toast.js';
 import WorryJournalSummary from '../../../components/modals/WorryJournalSummary.vue';
+import * as imagePaths from '../../../../assets/photos/tutorialImagePaths.js';
+import SectionIntro from '../../../components/SectionIntro.vue';
 
-// Data
+// Tutorial Data
+const tutorialData = ref([
+    {
+        id: 0,
+        image: imagePaths.worryJournalStep1,
+        description: 'Create a new Image by clicking the "Create New Entry" button',
+    },
+    {
+        id: 1,
+        image: imagePaths.worryJournalStep2,
+        description: 'Fill out the "Step 1" section before continuing by clicking the "next" button',
+    },
+    {
+        id: 2,
+        image: imagePaths.worryJournalStep3,
+        description: 'Choose "Thinking Traps" - common patterns of anxious thought that may apply to you. Select all that apply',
+    },
+    {
+        id: 3,
+        image: imagePaths.worryJournalStep4,
+        description: 'Step 3 gives you the chance to balance your worry after reviewing it and the Thinking Traps involved',
+    },
+    {
+        id: 4,
+        image: imagePaths.worryJournalStep5,
+        description: 'When you are done, hit the Submit button to save the entry',
+    },
+    {
+        id: 5,
+        image: imagePaths.worryJournalStep6,
+        description: 'You will now see the entry stored!',
+    },
+    {
+        id: 6,
+        image: imagePaths.worryJournalStep7,
+        description: 'From this table you can quick view, edit or delete entries',
+    },
+]);
+
 const worryJournalEntries = ref([]);
 const thinkingTraps = ref([]);
 
