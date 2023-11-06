@@ -64,6 +64,15 @@ const logOut = () => {
             icon: 'si si-speedometer',
           },
           {
+            name: 'News',
+            heading: true,
+          },
+          {
+            name: 'Positive News',
+            to: 'backend-positive-news',
+            icon: 'fa fa-newspaper',
+          },
+          {
             name: 'Timers',
             heading: true,
           },
@@ -76,15 +85,6 @@ const logOut = () => {
             name: 'Meditation Timer',
             to: 'backend-meditation',
             icon: 'fa fa-fw fa-clock',
-          },
-          {
-            name: 'News',
-            heading: true,
-          },
-          {
-            name: 'Positive News',
-            to: 'backend-positive-news',
-            icon: 'fa fa-newspaper',
           },
           {
             name: 'Journals',
