@@ -121,8 +121,8 @@ const currentQuoteIndex = ref(0); // Index to keep track of the current quote
 let timer; // Timer for the quote slider
 
 // Check if cached data exists and is not stale
-const cachedPositiveNews = JSON.parse(localStorage.getItem('positiveNewsCache'));
-const cachedGoodNewsNetwork = JSON.parse(localStorage.getItem('goodNewsNetworkCache'));
+const cachedPositiveNews = JSON.parse(localStorage.getItem('positiveNewsCacheLatest'));
+const cachedGoodNewsNetwork = JSON.parse(localStorage.getItem('goodNewsNetworkCacheLatest'));
 const currentTime = new Date().getTime();
 const isPositiveNewsCacheValid = cachedPositiveNews && currentTime - cachedPositiveNews.timestamp < 3600000; // Cache valid for 1 hour
 const isGoodNewsCacheValid = cachedGoodNewsNetwork && currentTime - cachedGoodNewsNetwork.timestamp < 3600000;
@@ -157,14 +157,14 @@ onMounted(async () => {
   } else {
     try {
       const res = await axios.get('/api/positive-news-feed');
-      latestPositiveNews.value = res.data.data['positive-news'];
+      latestPositiveNews.value = res.data.data['positive-news'].slice(0, 1);
       positiveNewsLoading.value = false;
-      latestGoodNews.value = res.data.data['good-news-network'];
+      latestGoodNews.value = res.data.data['good-news-network'].slice(0, 1);
       goodNewsNetworkLoading.value = false;
 
       // Cache the data
-      localStorage.setItem('positiveNewsCache', JSON.stringify({ data: latestPositiveNews.value, timestamp: currentTime }));
-      localStorage.setItem('goodNewsNetworkCache', JSON.stringify({ data: latestGoodNews.value, timestamp: currentTime }));
+      localStorage.setItem('positiveNewsCacheLatest', JSON.stringify({ data: latestPositiveNews.value, timestamp: currentTime }));
+      localStorage.setItem('goodNewsNetworkCacheLatest', JSON.stringify({ data: latestGoodNews.value, timestamp: currentTime }));
     } catch (error) {
       positiveNewsLoading.value = false;
       positiveNewsError.value = true;
