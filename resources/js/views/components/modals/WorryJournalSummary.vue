@@ -4,16 +4,16 @@
       type="button"
       class="btn btn-sm btn-alt-secondary"
       data-bs-toggle="modal"
-      :data-bs-target="`#modal-block-tabs-alt-${modalId}`"
+      :data-bs-target="`#modal-block-tabs-alt-worry-${modalId}`"
     >
     <i class="fa fa-fw fa-eye"></i>
     </button>
     <div
       class="modal fade"
-      :id="`modal-block-tabs-alt-${modalId}`"
+      :id="`modal-block-tabs-alt-worry-${modalId}`"
       tabindex="-1"
       role="dialog"
-      :aria-labelledby="`modal-block-tabs-alt-${modalId}`"
+      :aria-labelledby="`modal-block-tabs-alt-worry-${modalId}`"
       aria-hidden="true"
     >
       <div class="modal-dialog modal-xl" role="document">
@@ -25,11 +25,11 @@
                   <button
                     type="button"
                     class="nav-link active"
-                    :id="`btabs-alt-static-main-worry-tab-${modalId}`"
+                    :id="`btabs-alt-static-main-worry-tab-worry-${modalId}`"
                     data-bs-toggle="tab"
-                    :data-bs-target="`#btabs-alt-static-main-worry-${modalId}`"
+                    :data-bs-target="`#btabs-alt-static-main-worry-worry-${modalId}`"
                     role="tab"
-                    :aria-controls="`btabs-alt-static-main-worry-${modalId}`"
+                    :aria-controls="`btabs-alt-static-main-worry-worry-${modalId}`"
                     aria-selected="true"
                   >
                     Main Worry
@@ -39,11 +39,11 @@
                   <button
                     type="button"
                     class="nav-link"
-                    :id="`btabs-alt-static-thinking-trap-tab-${modalId}`"
+                    :id="`btabs-alt-static-thinking-trap-tab-worry-${modalId}`"
                     data-bs-toggle="tab"
-                    :data-bs-target="`#btabs-alt-static-thinking-trap-${modalId}`"
+                    :data-bs-target="`#btabs-alt-static-thinking-trap-worry-${modalId}`"
                     role="tab"
-                    :aria-controls="`btabs-alt-static-thinking-tra-${modalId}`"
+                    :aria-controls="`btabs-alt-static-thinking-tra-worry-${modalId}`"
                     aria-selected="false"
                   >
                     Thinking Traps
@@ -53,11 +53,11 @@
                   <button
                     type="button"
                     class="nav-link"
-                    :id="`btabs-alt-static-balanced-thought-tab-${modalId}`"
+                    :id="`btabs-alt-static-balanced-thought-tab-worry-${modalId}`"
                     data-bs-toggle="tab"
-                    :data-bs-target="`#btabs-alt-static-balanced-thought-${modalId}`"
+                    :data-bs-target="`#btabs-alt-static-balanced-thought-worry-${modalId}`"
                     role="tab"
-                    :aria-controls="`btabs-alt-static-balanced-thought-${modalId}`"
+                    :aria-controls="`btabs-alt-static-balanced-thought-worry-${modalId}`"
                     aria-selected="false"
                   >
                     Balanced Thought
@@ -77,18 +77,18 @@
               <div class="block-content tab-content">
                 <div
                   class="tab-pane active m-3 m-lg-6"
-                  :id="`btabs-alt-static-main-worry-${modalId}`"
+                  :id="`btabs-alt-static-main-worry-worry-${modalId}`"
                   role="tabpanel"
-                  :aria-labelledby="`btabs-alt-static-main-worry-tab-${modalId}`"
+                  :aria-labelledby="`btabs-alt-static-main-worry-tab-worry-${modalId}`"
                   tabindex="0"
                 >
                   <p class="lead">"{{ entry.main_worry }}"</p>
                 </div>
                 <div
                   class="tab-pane m-3 m-lg-1"
-                  :id="`btabs-alt-static-thinking-trap-${modalId}`"
+                  :id="`btabs-alt-static-thinking-trap-worry-${modalId}`"
                   role="tabpanel"
-                  :aria-labelledby="`btabs-alt-static-thinking-trap-tab-${modalId}`"
+                  :aria-labelledby="`btabs-alt-static-thinking-trap-tab-worry-${modalId}`"
                   tabindex="0"
                 >
                   <div class="content">
@@ -108,9 +108,9 @@
                 </div>
                 <div
                   class="tab-pane m-3 m-lg-6"
-                  :id="`btabs-alt-static-balanced-thought-${modalId}`"
+                  :id="`btabs-alt-static-balanced-thought-worry-${modalId}`"
                   role="tabpanel"
-                  :aria-labelledby="`btabs-alt-static-balanced-thought-tab-${modalId}`"
+                  :aria-labelledby="`btabs-alt-static-balanced-thought-tab-worry-${modalId}`"
                   tabindex="0"
                 >
                   <p class="lead">"{{ entry.balanced_thought }}"</p>

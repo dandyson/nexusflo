@@ -55,7 +55,7 @@
                             <td class="text-center">
                                 <div class="btn-group">
                                     <!-- Pass the worryJournalEntry as a prop to the modal component -->
-                                    <ExtraLarge :entry="worryJournalEntry" :selectedTraps="filteredThinkingTraps(JSON.parse(worryJournalEntry.thinking_traps))"></ExtraLarge>
+                                    <WorryJournalSummary :entry="worryJournalEntry" :selectedTraps="filteredThinkingTraps(JSON.parse(worryJournalEntry.thinking_traps))"></WorryJournalSummary>
                                     <router-link class="btn btn-sm btn-alt-secondary" :to="`worry-journal/edit/${worryJournalEntry.id}`">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                     </router-link>
@@ -82,7 +82,7 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import Swal from "sweetalert2";
 import { toastMessage } from '../../../../components/toast.js';
-import ExtraLarge from '../../../components/modals/ExtraLarge.vue';
+import WorryJournalSummary from '../../../components/modals/WorryJournalSummary.vue';
 
 // Data
 const worryJournalEntries = ref([]);
