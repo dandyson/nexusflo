@@ -25,7 +25,7 @@ const emit = defineEmits();
 const invalidFile = ref(false);
 const invalidFileMessage = ref('');
 const props = defineProps({
-    userAvatar: String, // Define the userAvatar prop with the expected type
+    userAvatar: String,
 });
 
 const onFileChange = (e) => {
