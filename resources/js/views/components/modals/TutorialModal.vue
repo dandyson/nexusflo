@@ -1,4 +1,5 @@
 <template>
+    <!-- TODO: Need to change this whole thing to be a carousel, or at least wait until all images are loaded before displaying! -->
     <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="modal" data-bs-target="#tutorialModal">
         <i class="fa fa-fw fa-circle-question"></i>
     </button>
