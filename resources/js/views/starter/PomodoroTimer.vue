@@ -1,4 +1,11 @@
 <template>
+  <div class="content">
+    <SectionIntro 
+        title="Pomodoro Timer" 
+        description="Use this timer to maximise your activity and keep your goals on track." 
+        :tutorial="tutorialData"
+      ></SectionIntro>
+  </div>
   <div class="content row d-flex justify-content-center">
     <div class="col-8">
       <a class="main-header-arrow" href="" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
@@ -49,7 +56,32 @@
 </template>
 
 <script setup>
-import { reactive, watch } from 'vue';
+import { ref, reactive, watch } from 'vue';
+import SectionIntro from '../components/SectionIntro.vue';
+import * as imagePaths from '../../assets/photos/tutorialImagePaths.js';
+
+const tutorialData = ref([
+    {
+        id: 0,
+        image: imagePaths.pomodoroStep1,
+        description: "Choose a task to work on, and the click the 'start' button when ready to begin the timer",
+    },
+		{
+        id: 1,
+        image: imagePaths.pomodoroStep2,
+        description: "Work on only that task for the next 25 minutes",
+    },
+    {
+        id: 2,
+        image: imagePaths.pomodoroStep3,
+        description: "When the timer is up, this will be one completed 'pomodoro' - click start again to activate the short break. Take a 5 minute break before hitting start again to start another 25 minutes",
+    },
+    {
+        id: 3,
+        image: imagePaths.pomodoroStep4,
+        description: "Repeat this until the task is done. After four completed pomodoros, there will be a long break of 15 minutes. Re-assess your task, and then start the timer again as needed!",
+    },
+]);
 
 const pomodoro = reactive({
   // Timer variables
