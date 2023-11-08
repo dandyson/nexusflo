@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { toastMessage } from '../components/toast.js';
 
 // Main Pinia Store
 export const useTemplateStore = defineStore({
@@ -50,6 +51,7 @@ export const useTemplateStore = defineStore({
     },
   }),
   actions: {
+    // CUSTOM
     setLoading(loading) {
       this.isLoading = loading;
     },
@@ -60,6 +62,10 @@ export const useTemplateStore = defineStore({
       this.user = null;
       this.verifiedNotificationShown = true;
     },
+    createVerifiedToast() {
+      toastMessage('success', 'Email Verified! Please login to continue.');
+    },
+    // END OF CUSTOM
     // Sets the layout, useful for setting different layouts (under layouts/variations/)
     setLayout(payload) {
       this.layout.header = payload.header;

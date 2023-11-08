@@ -141,8 +141,8 @@ onMounted(async () => {
     // Display a success notification if not already shown
     Swal.fire({
       icon: 'success',
-      title: 'Email Verified',
-      text: 'Welcome to NexusFlo!',
+      title: 'Welcome!',
+      text: 'Welcome to NexusFlo! This is your Dashboard. Use the navigation on the left-hand side to explore and use the Profile dropdown in the top right to manage your account. Enjoy!',
       showConfirmButton: true,
     });
     store.setVerificationNotificationShown(true);

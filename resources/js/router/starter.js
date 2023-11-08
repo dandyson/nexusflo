@@ -204,12 +204,24 @@ const routes = [
     name: 'email-verification',
     beforeEnter: (to, from, next) => {
       const store = useTemplateStore();
-      
       store.setVerificationNotificationShown(false);
-      next('/backend/dashboard');
+
+      axios.post('/api/logout') 
+        .then((res) => {
+          console.log({res});
+            store.createVerifiedToast();
+            next('/auth/login');
+        })
+        .catch(error => {
+            console.error('Logout error:', error);
+            // If logout fails, you might still want to proceed to the email verification page
+            store.createVerifiedToast();
+            next();
+        });
     },
     props: (route) => ({ verified: true }),
   },
+
   {
     path: '/verify-email',
     name: 'verify-email',

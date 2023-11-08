@@ -78,16 +78,6 @@ async function onSubmit() {
       },
     });
 
-    // Registration succeeded, proceed with login
-    await axios.post('/api/login', {
-      'email': state.email,
-      'password': state.password,
-    }, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
     // Login succeeded, proceed to the email verify page
     router.push({ name: "verify-email" });
   } catch (error) {
