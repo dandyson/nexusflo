@@ -80,38 +80,8 @@ import * as imagePaths from '../../assets/photos/tutorialImagePaths.js';
 const tutorialData = ref([
     {
         id: 0,
-        image: imagePaths.worryJournalStep1,
-        description: 'Create a new Image by clicking the "Create New Entry" button',
-    },
-    {
-        id: 1,
-        image: imagePaths.worryJournalStep2,
-        description: 'Fill out the "Step 1" section before continuing by clicking the "next" button',
-    },
-    {
-        id: 2,
-        image: imagePaths.worryJournalStep3,
-        description: 'Choose "Thinking Traps" - common patterns of anxious thought that may apply to you. Select all that apply',
-    },
-    {
-        id: 3,
-        image: imagePaths.worryJournalStep4,
-        description: 'Step 3 gives you the chance to balance your worry after reviewing it and the Thinking Traps involved',
-    },
-    {
-        id: 4,
-        image: imagePaths.worryJournalStep5,
-        description: 'When you are done, hit the Submit button to save the entry',
-    },
-    {
-        id: 5,
-        image: imagePaths.worryJournalStep6,
-        description: 'You will now see the entry stored!',
-    },
-    {
-        id: 6,
-        image: imagePaths.worryJournalStep7,
-        description: 'From this table you can quick view, edit or delete entries',
+        image: imagePaths.positiveNewsStep1,
+        description: "Discover the most recent positive news stories, and simply click on any article to read it directly on the source website",
     },
 ]);
 

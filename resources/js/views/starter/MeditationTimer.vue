@@ -1,4 +1,11 @@
 <template>
+  <div class="content">
+    <SectionIntro 
+        title="Meditation Timer" 
+        description="Use this timer to track your meditation sessions." 
+        :tutorial="tutorialData"
+      ></SectionIntro>
+  </div>
   <div class="content row d-flex justify-content-center">
     <div class="col-12 col-lg-8">
       <div>
@@ -54,7 +61,27 @@
 </template>
   
 <script setup>
-import { reactive, watch } from 'vue';
+import { ref, reactive, watch } from 'vue';
+import SectionIntro from '../components/SectionIntro.vue';
+import * as imagePaths from '../../assets/photos/tutorialImagePaths.js';
+
+const tutorialData = ref([
+    {
+        id: 0,
+        image: imagePaths.meditationStep1,
+        description: "Use the up and down arrows to change the time on the timer",
+    },
+		{
+        id: 1,
+        image: imagePaths.meditationStep2,
+        description: "When you are ready, click 'Start' to begin your session",
+    },
+    {
+        id: 2,
+        image: imagePaths.meditationStep3,
+        description: "You can reset the timer at any timer by clicking the 'reset' button",
+    },
+]);
 
 const timer = reactive({
   started: false,

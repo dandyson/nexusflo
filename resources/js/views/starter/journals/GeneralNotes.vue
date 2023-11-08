@@ -1,6 +1,13 @@
 <template>
-	<div class="container mt-4">
-		<button type="button" class="btn btn-success my-2" @click="addNotebook">+ Add Notebook</button>
+	<div class="content">
+    <SectionIntro 
+        title="General Notes" 
+        description="Use this as your go-to tool for capturing and organizing the daily aspects of your life. It will help you to stay organized and boost productivity as you manage your notes with ease." 
+        :tutorial="tutorialData"
+      ></SectionIntro>
+  </div>
+	<div class="content container pt-1">
+		<button type="button" class="btn btn-success mb-5" @click="addNotebook">+ Add Notebook</button>
 		<div class="d-flex flex-column flex-md-row justify-content-between">
 			<div class="col-12 col-md-2 mb-4 mb-md-0">
 				<div class="list-group">
@@ -64,6 +71,36 @@ import TiptapStyled from '../../components/TiptapStyled.vue';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { toastMessage } from '../../../components/toast.js';
+import SectionIntro from '../../components/SectionIntro.vue';
+import * as imagePaths from '../../../assets/photos/tutorialImagePaths.js';
+
+const tutorialData = ref([
+    {
+        id: 0,
+        image: imagePaths.generalNotesStep1,
+        description: "Create a new notebook by clicking the 'Add Notebook' button",
+    },
+		{
+        id: 1,
+        image: imagePaths.generalNotesStep2,
+        description: "You can change the title of your new notebook here. Click the tick button to save, or the X button to delete",
+    },
+    {
+        id: 2,
+        image: imagePaths.generalNotesStep3,
+        description: "You will see all new notebooks in this left hand side. To create a new note, click the 'Add Note' button",
+    },
+    {
+        id: 3,
+        image: imagePaths.generalNotesStep4,
+        description: "Welcome to your new note! You can enter a title and add your content. When you are done, click 'Save Note'. If you want to delete it, click 'Delete Note'",
+    },
+    {
+        id: 4,
+        image: imagePaths.generalNotesStep5,
+        description: "You can add as many notebooks and notes as you like - don't forget to save your notes when you are done!",
+    },
+]);
 
 const selectedNotebook = ref(null);
 const selectedNote = ref(null);

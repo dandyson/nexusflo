@@ -23,7 +23,7 @@ const Landing = () => import("@/views/starter/LandingView.vue");
 const AdminDashboard = () => import("@/views/starter/DashboardView.vue");
 
 // Backend: Pomodoro Timer
-const PomodoroTimer = () => import("@/views/starter/PomdoroTimer.vue");
+const PomodoroTimer = () => import("@/views/starter/PomodoroTimer.vue");
 
 // Backend: Meditation Timer
 const MeditationTimer = () => import("@/views/starter/MeditationTimer.vue");
@@ -37,6 +37,7 @@ const GeneralNotes = () => import("@/views/starter/journals/GeneralNotes.vue");
 // Backend: Worry Journal
 const WorryJournal = () => import("@/views/starter/journals/worry-journal/WorryJournal.vue");
 const WorryJournalEntry = () => import("@/views/starter/journals/worry-journal/WorryJournalEntry.vue");
+
 // Backend: Plugins
 const BackendPluginsImageCropper = () =>
   import("@/views/backend/plugins/ImageCropperView.vue");
