@@ -61,7 +61,7 @@ Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function
     ->middleware(['guest:'.config('fortify.guard')])
     ->name('password.reset');
 
-// Update profile information
+// User
 Route::post('/users/{user}/update', [UserController::class, 'updateDetails'])->name('user.update');
 Route::post('/users/{user}/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
 Route::post('/users/{user}/upload-avatar', [UserController::class, 'uploadAvatar'])->name('user.upload-avatar');

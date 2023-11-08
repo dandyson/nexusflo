@@ -19,7 +19,6 @@ Route::get('/', function () {
     return view('app');
 });
 
-// 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
  
