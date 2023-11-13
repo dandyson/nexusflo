@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Page Content -->
   <div class="hero">

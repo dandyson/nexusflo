@@ -8,78 +8,79 @@ use App\Models\WorryJournalEntry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class WorryJournalEntryController extends Controller
 {
 
-    public function index()
-    {
-        $worryJournalEntries = auth()->user()->worryjournalentries;
-        return response()->json($worryJournalEntries);
-    }
+  public function index(): JsonResponse
+  {
+    $worryJournalEntries = auth()->user()->worryjournalentries;
+    return response()->json($worryJournalEntries);
+  }
 
-    public function show(WorryJournalEntry $worryJournalEntry)
-    {
-        return response()->json($worryJournalEntry);
-    }
+  public function show(WorryJournalEntry $worryJournalEntry): JsonResponse
+  {
+    return response()->json($worryJournalEntry);
+  }
 
-    public function create()
-    {
-        $thinkingTraps = ThinkingTraps::all()->makeHidden(['created_at', 'updated_at']);
-        
-        return view('worryJournal.create')
-            ->with(['thinkingTraps' => $thinkingTraps]);
-    }
+  public function create(): View
+  {
+    $thinkingTraps = ThinkingTraps::all()->makeHidden(['created_at', 'updated_at']);
 
-    public function store(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'title' => 'required|string',
-            'main_worry' => 'required|string',
-            'thinking_traps' => 'required|array',
-            'balanced_thought' => 'required|string',
-        ]);
+    return view('worryJournal.create')
+      ->with(['thinkingTraps' => $thinkingTraps]);
+  }
 
-        $worryJournalEntry = WorryJournalEntry::create([
-            'user_id' => auth()->user()->id,
-            'title' => $validated['title'],
-            'main_worry' => $validated['main_worry'],
-            'thinking_traps' => json_encode($validated['thinking_traps']),
-            'balanced_thought' => $validated['balanced_thought'],
-        ]);
+  public function store(Request $request): JsonResponse
+  {
+    $validated = $request->validate([
+      'title' => 'required|string',
+      'main_worry' => 'required|string',
+      'thinking_traps' => 'required|array',
+      'balanced_thought' => 'required|string',
+    ]);
 
-        $worryJournalEntry->save();
+    $worryJournalEntry = WorryJournalEntry::create([
+      'user_id' => auth()->user()->id,
+      'title' => $validated['title'],
+      'main_worry' => $validated['main_worry'],
+      'thinking_traps' => json_encode($validated['thinking_traps']),
+      'balanced_thought' => $validated['balanced_thought'],
+    ]);
 
-        return response()->json(['type' => 'success', 'message' => 'Journal Entry Completed', $worryJournalEntry]);
-    }
+    $worryJournalEntry->save();
 
-    public function update(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
-    {
-        $validated = $request->validate([
-            'title' => 'required|string',
-            'main_worry' => 'required|string',
-            'thinking_traps' => 'required|array',
-            'balanced_thought' => 'required|string',
-        ]);
+    return response()->json(['type' => 'success', 'message' => 'Journal Entry Completed', $worryJournalEntry]);
+  }
 
-        // Update the attributes of the existing entry
-        $worryJournalEntry->title = $validated['title'];
-        $worryJournalEntry->main_worry = $validated['main_worry'];
-        $worryJournalEntry->thinking_traps = json_encode($validated['thinking_traps']);
-        $worryJournalEntry->balanced_thought = $validated['balanced_thought'];
+  public function update(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
+  {
+    $validated = $request->validate([
+      'title' => 'required|string',
+      'main_worry' => 'required|string',
+      'thinking_traps' => 'required|array',
+      'balanced_thought' => 'required|string',
+    ]);
 
-        // Save the changes to the database
-        $worryJournalEntry->save();
+    // Update the attributes of the existing entry
+    $worryJournalEntry->title = $validated['title'];
+    $worryJournalEntry->main_worry = $validated['main_worry'];
+    $worryJournalEntry->thinking_traps = json_encode($validated['thinking_traps']);
+    $worryJournalEntry->balanced_thought = $validated['balanced_thought'];
 
-        return response()->json(['type' => 'success', 'message' => 'Journal Entry Updated', 'entry' => $worryJournalEntry]);
-    }
+    // Save the changes to the database
+    $worryJournalEntry->save();
 
-    public function destroy(WorryJournalEntry $worryJournalEntry): JsonResponse
-    {
-        $worryJournalEntry->delete();
+    return response()->json(['type' => 'success', 'message' => 'Journal Entry Updated', 'entry' => $worryJournalEntry]);
+  }
 
-        return response()->json([
-            'success' => 'Worry Journal Entry Deleted Successfully!',
-        ]);
-    }
+  public function destroy(WorryJournalEntry $worryJournalEntry): JsonResponse
+  {
+    $worryJournalEntry->delete();
+
+    return response()->json([
+      'success' => 'Worry Journal Entry Deleted Successfully!',
+    ]);
+  }
 }

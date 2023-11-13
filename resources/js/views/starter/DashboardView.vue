@@ -116,18 +116,16 @@ import axios from "axios";
 
 // Initialize Vue 3 Composition API setup
 const store = useTemplateStore();
-const quotes = ref([]); // Array for quotes
-const currentQuoteIndex = ref(0); // Index to keep track of the current quote
-let timer; // Timer for the quote slider
+const quotes = ref([]); 
+const currentQuoteIndex = ref(0); 
+let timer; 
 
-// Check if cached data exists and is not stale
 const cachedPositiveNews = JSON.parse(localStorage.getItem('positiveNewsCacheLatest'));
 const cachedGoodNewsNetwork = JSON.parse(localStorage.getItem('goodNewsNetworkCacheLatest'));
 const currentTime = new Date().getTime();
 const isPositiveNewsCacheValid = cachedPositiveNews && currentTime - cachedPositiveNews.timestamp < 3600000; // Cache valid for 1 hour
 const isGoodNewsCacheValid = cachedGoodNewsNetwork && currentTime - cachedGoodNewsNetwork.timestamp < 3600000;
 
-// Arrays for positive and good news
 const latestPositiveNews = ref([]);
 const positiveNewsLoading = ref(true);
 const positiveNewsError = ref(false);
@@ -135,10 +133,8 @@ const latestGoodNews = ref([]);
 const goodNewsNetworkLoading = ref(true);
 const goodNewsNetworkError = ref(false);
 
-// Perform actions when the component is mounted
 onMounted(async () => {
   if (!store.verifiedNotificationShown) {
-    // Display a success notification if not already shown
     Swal.fire({
       icon: 'success',
       title: 'Welcome!',
@@ -178,14 +174,12 @@ onMounted(async () => {
   setupQuoteSlider();
 });
 
-// Set up the quote slider
 const setupQuoteSlider = () => {
   timer = setInterval(() => {
     nextQuote();
-  }, 5000); // Change quote every 10 seconds
+  }, 5000);
 };
 
-// Switch to the next quote in the slider
 const nextQuote = () => {
   currentQuoteIndex.value = (currentQuoteIndex.value + 1) % quotes.value.length;
 };

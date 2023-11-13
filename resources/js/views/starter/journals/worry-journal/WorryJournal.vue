@@ -1,75 +1,67 @@
 <template>
-    <div class="content">
-        <SectionIntro 
-          title="Worry Journal" 
-          description="Fill out the below form to record your worries, 
+  <div class="content">
+    <SectionIntro title="Worry Journal" description="Fill out the below form to record your worries, 
           spot any thinking traps and to try to re-balance your thought 
-          by challenging your beliefs about the situation." 
-          :tutorial="tutorialData"
-        ></SectionIntro>
-        <div class="block-rounded block">
-            <div class="block-header block-header-default">
-                <router-link class="btn btn-success" to="worry-journal/create-entry">+ Create New Entry</router-link>
-            </div>
-            <div class="block-content">
-                <!---->
-                <table v-if="worryJournalEntries.length !== 0" class="table table-vcenter">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Date</th>
-                            <th>Title</th>
-                            <th
-                                class="d-none d-sm-table-cell"
-                                style="width: 15%"
-                            >
-                                Thinking Traps
-                            </th>
-                            <th class="text-center" style="width: 100px">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="worryJournalEntry in worryJournalEntries" :key="worryJournalEntry.id">
-                          <td class="text-center" scope="row">{{ formatDate(worryJournalEntry.created_at) }}</td>
-                            <td class="fw-semibold fs-sm">
-                                <a href="javascript:void(0)">{{ worryJournalEntry.title }}</a>
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                <div class="d-flex flex-row overlapping-circles">
-                                  <div v-for="trap in filteredThinkingTraps(JSON.parse(worryJournalEntry.thinking_traps))" :key="trap.id" class="position-relative">
-                                    <div class="circular-frame">
-                                        <img
-                                            :src="trap.image"
-                                            :alt="trap.title"
-                                            class="img-thumbnail"
-                                        />
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-center">
-                                <div class="btn-group">
-                                    <!-- Pass the worryJournalEntry as a prop to the modal component -->
-                                    <WorryJournalSummary :entry="worryJournalEntry" :selectedTraps="filteredThinkingTraps(JSON.parse(worryJournalEntry.thinking_traps))"></WorryJournalSummary>
-                                    <router-link class="btn btn-sm btn-alt-secondary" :to="`worry-journal/edit/${worryJournalEntry.id}`">
-                                        <i class="fa fa-fw fa-pencil-alt"></i>
-                                    </router-link>
-                                    <button @click="deleteEntry(worryJournalEntry)" type="button" class="btn btn-sm btn-alt-secondary">
-                                        <i class="fa fa-fw fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div v-else class="container mb-3 text-center">
-                    <strong>No Worry Journal Entries</strong>
+          by challenging your beliefs about the situation." :tutorial="tutorialData"></SectionIntro>
+    <div class="block-rounded block">
+      <div class="block-header block-header-default">
+        <router-link class="btn btn-success" to="worry-journal/create-entry">+ Create New Entry</router-link>
+      </div>
+      <div class="block-content">
+        <!---->
+        <table v-if="worryJournalEntries.length !== 0" class="table table-vcenter">
+          <thead>
+            <tr>
+              <th class="text-center">Date</th>
+              <th>Title</th>
+              <th class="d-none d-sm-table-cell" style="width: 15%">
+                Thinking Traps
+              </th>
+              <th class="text-center" style="width: 100px">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="worryJournalEntry in worryJournalEntries" :key="worryJournalEntry.id">
+              <td class="text-center" scope="row">{{ formatDate(worryJournalEntry.created_at) }}</td>
+              <td class="fw-semibold fs-sm">
+                <a href="javascript:void(0)">{{ worryJournalEntry.title }}</a>
+              </td>
+              <td class="d-none d-sm-table-cell">
+                <div class="d-flex flex-row overlapping-circles">
+                  <div v-for="trap in filteredThinkingTraps(JSON.parse(worryJournalEntry.thinking_traps))" :key="trap.id"
+                    class="position-relative">
+                    <div class="circular-frame">
+                      <img :src="trap.image" :alt="trap.title" class="img-thumbnail" />
+                    </div>
+                  </div>
                 </div>
-            </div>
-            <!---->
+              </td>
+              <td class="text-center">
+                <div class="btn-group">
+                  <!-- Pass the worryJournalEntry as a prop to the modal component -->
+                  <WorryJournalSummary :entry="worryJournalEntry"
+                    :selectedTraps="filteredThinkingTraps(JSON.parse(worryJournalEntry.thinking_traps))">
+                  </WorryJournalSummary>
+                  <router-link class="btn btn-sm btn-alt-secondary" :to="`worry-journal/edit/${worryJournalEntry.id}`">
+                    <i class="fa fa-fw fa-pencil-alt"></i>
+                  </router-link>
+                  <button @click="deleteEntry(worryJournalEntry)" type="button" class="btn btn-sm btn-alt-secondary">
+                    <i class="fa fa-fw fa-times"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div v-else class="container mb-3 text-center">
+          <strong>No Worry Journal Entries</strong>
         </div>
+      </div>
+      <!---->
     </div>
+  </div>
 </template>
   
 
@@ -84,41 +76,41 @@ import SectionIntro from '../../../components/SectionIntro.vue';
 
 // Tutorial Data
 const tutorialData = ref([
-    {
-        id: 0,
-        image: imagePaths.worryJournalStep1,
-        description: "Create a new Image by clicking the 'Create New Entry' button",
-    },
-    {
-        id: 1,
-        image: imagePaths.worryJournalStep2,
-        description: "Fill out the 'Step 1' section before continuing by clicking the 'next' button",
-    },
-    {
-        id: 2,
-        image: imagePaths.worryJournalStep3,
-        description: "Choose 'Thinking Traps' - common patterns of anxious thought that may apply to you. Select all that apply",
-    },
-    {
-        id: 3,
-        image: imagePaths.worryJournalStep4,
-        description: "Step 3 gives you the chance to balance your worry after reviewing it and the Thinking Traps involved",
-    },
-    {
-        id: 4,
-        image: imagePaths.worryJournalStep5,
-        description: "When you are done, hit the Submit button to save the entry",
-    },
-    {
-        id: 5,
-        image: imagePaths.worryJournalStep6,
-        description: "You will now see the entry stored!",
-    },
-    {
-        id: 6,
-        image: imagePaths.worryJournalStep7,
-        description: "From this table you can quick view, edit or delete entries",
-    },
+  {
+    id: 0,
+    image: imagePaths.worryJournalStep1,
+    description: "Create a new Image by clicking the 'Create New Entry' button",
+  },
+  {
+    id: 1,
+    image: imagePaths.worryJournalStep2,
+    description: "Fill out the 'Step 1' section before continuing by clicking the 'next' button",
+  },
+  {
+    id: 2,
+    image: imagePaths.worryJournalStep3,
+    description: "Choose 'Thinking Traps' - common patterns of anxious thought that may apply to you. Select all that apply",
+  },
+  {
+    id: 3,
+    image: imagePaths.worryJournalStep4,
+    description: "Step 3 gives you the chance to balance your worry after reviewing it and the Thinking Traps involved",
+  },
+  {
+    id: 4,
+    image: imagePaths.worryJournalStep5,
+    description: "When you are done, hit the Submit button to save the entry",
+  },
+  {
+    id: 5,
+    image: imagePaths.worryJournalStep6,
+    description: "You will now see the entry stored!",
+  },
+  {
+    id: 6,
+    image: imagePaths.worryJournalStep7,
+    description: "From this table you can quick view, edit or delete entries",
+  },
 ]);
 
 const worryJournalEntries = ref([]);
@@ -171,8 +163,8 @@ const deleteEntry = (worryJournalEntry) => {
               worryJournalEntries.value.splice(entryIndex, 1);
             })
             .catch((error) => {
-				toastMessage('error', 'There has been an error, please try again.');
-			});
+              toastMessage('error', 'There has been an error, please try again.');
+            });
         }
       });
     });
@@ -183,39 +175,39 @@ const filteredThinkingTraps = (entry) => {
 };
 
 onMounted(async () => {
-    // Worry Journal Entries
-    try {
-        const res = await axios.get('/api/worry-journal');
-        worryJournalEntries.value = res.data;
-    } catch (error) {
-        console.error('Error fetching Worry Journal Entries:', error);
-    }
+  // Worry Journal Entries
+  try {
+    const res = await axios.get('/api/worry-journal');
+    worryJournalEntries.value = res.data;
+  } catch (error) {
+    console.error('Error fetching Worry Journal Entries:', error);
+  }
 
-    // Thinking Traps
-    try {
-        const res = await axios.get('/api/thinking-traps');
-        thinkingTraps.value = res.data.thinkingTraps;
-    } catch (error) {
-        console.error('Error fetching thinkingTraps:', error);
-    }
+  // Thinking Traps
+  try {
+    const res = await axios.get('/api/thinking-traps');
+    thinkingTraps.value = res.data.thinkingTraps;
+  } catch (error) {
+    console.error('Error fetching thinkingTraps:', error);
+  }
 });
 </script>
 
 <style scoped>
 .card {
-    border: none; /* Remove the default card border */
-    transition: 0.3s ease-in-out;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+  border: none;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .card:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .border-selected {
-    border: 5px solid green; /* Customize the border size and color as needed */
-    border-radius: 10px;
-    transition: 0.2s ease-in-out;
+  border: 5px solid green;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
 }
 
 .overlay-container {
@@ -228,8 +220,8 @@ onMounted(async () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 255, 0, 0.5); /* Green with 0.5 opacity */
-  opacity: 0; /* Initially, hide the overlay */
+  background-color: rgba(0, 255, 0, 0.5);
+  opacity: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -237,31 +229,30 @@ onMounted(async () => {
 }
 
 .overlay-selected {
-  opacity: 1; /* Show the overlay when the card is selected */
+  opacity: 1;
 }
 
 .overlay i {
-  font-size: 24px; /* Adjust the size of the icon */
-  color: white; /* Set the color of the icon */
+  font-size: 24px;
+  color: white;
 }
 
 .circular-frame {
-  width: 50px; /* Adjust the width and height as needed */
+  width: 50px;
   height: 50px;
   overflow: hidden;
-  border-radius: 50%; /* Creates a circular shape */
-  border: 2px solid #ccc; /* Add your desired border style */
+  border-radius: 50%;
+  border: 2px solid #ccc;
 }
 
 .circular-frame img {
-  width: 100%; /* Ensures the image covers the circular frame */
+  width: 100%;
   height: 100%;
   border-radius: 50%;
-  object-fit: cover; /* Keeps the image aspect ratio and covers the frame */
+  object-fit: cover;
 }
+
 .overlapping-circles .position-relative:not(:first-child) {
-    margin-left: -20px; /* Adjust the margin to control the amount of overlap */
+  margin-left: -20px;
 }
-
-
 </style>

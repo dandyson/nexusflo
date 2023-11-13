@@ -201,28 +201,22 @@ const deleteNotebook = (notebook) => {
 				if (result.isConfirmed) {
 					axios.delete(`/api/notebooks/${notebook.id}`)
 						.then(() => {
-							// Success message
 							swalWithBootstrapButtons.fire(
 								'Deleted!',
 								'Your notebook and all relevant notes have been deleted.',
 								'success'
 							);
 
-							//   Set selected note to null
 							selectedNote.value = null;
 
-							// Remove deleted notebook from the frontend
 							const notebookIndex = notebooks.value.findIndex(nb => nb.id === notebook.id);
 							if (notebookIndex > -1) {
 								notebooks.value.splice(notebookIndex, 1);
 
-								// Check if there are remaining notebooks
 								if (notebooks.value.length > 0) {
-									// Set selectedNotebook to the previous notebook
 									const prevNotebookIndex = notebookIndex > 0 ? notebookIndex - 1 : 0;
 									selectedNotebook.value = notebooks.value[prevNotebookIndex];
 								} else {
-									// No remaining notebooks, set selectedNotebook to null
 									selectedNotebook.value = null;
 								}
 							}
@@ -272,13 +266,11 @@ const deleteNote = (note) => {
 				if (result.isConfirmed) {
 					axios.delete(`/api/notes/${note.id}`)
 						.then(() => {
-							// Success message
 							swalWithBootstrapButtons.fire(
 								'Deleted!',
 								'Your note has been deleted.',
 								'success'
 							);
-							// Remove deleted note from the frontend
 							const notebookIndex = notebooks.value.findIndex(nb => nb.id === selectedNotebook.value.id);
 							if (notebookIndex > -1) {
 								const noteIndex = notebooks.value[notebookIndex].notes.findIndex(n => n.id === note.id);
@@ -309,7 +301,7 @@ onMounted(async () => {
 });
 </script>
 
-<style>
+<style scoped>
 .note-title {
 	width: 100%;
 	height: 2rem;
