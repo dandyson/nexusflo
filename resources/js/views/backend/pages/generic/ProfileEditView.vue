@@ -91,37 +91,33 @@ const detailSubmit = () => {
             "Content-Type": "multipart/form-data", // Use multipart/form-data for file upload
           },
         })
-        .then((response) => {
-          console.log(response);
-
-          // Now that the avatar is uploaded, you can proceed with your main update request
-          axios.post(`/api/users/${route.params?.user.id}/update`, detailState, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-          .then((response) => {
-            if (response.data?.type === 'success') {
-              Swal.fire({
-                icon: 'success',
-                title: 'Information Updated Successfully!',
-                showConfirmButton: false,
-                timer: 1500,
-              }).then(() => {
-                location.reload();
-              });
-            }
-          })
-          .catch((error) => {
-            credentialDetailError.value = true;
-            credentialDetailErrorMessage.value = 'There has been an error, please try again';
-          });
-        })
         .catch((error) => {
           console.log({ error });
           return;
         });
       }
+
+      axios.post(`/api/users/${route.params?.user.id}/update`, detailState, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          if (response.data?.type === 'success') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Information Updated Successfully!',
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              location.reload();
+            });
+          }
+        })
+        .catch((error) => {
+          credentialDetailError.value = true;
+          credentialDetailErrorMessage.value = 'There has been an error, please try again';
+        });
     });
 };
 
