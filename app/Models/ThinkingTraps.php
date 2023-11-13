@@ -9,7 +9,7 @@ class ThinkingTraps extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -18,7 +18,7 @@ class ThinkingTraps extends Model
         'name',
         'email',
         'password',
-        'dob', 
+        'dob',
         'avatar',
     ];
 

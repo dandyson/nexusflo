@@ -20,7 +20,6 @@ class Notebook extends Model
         'title',
     ];
 
-
     /**
      * Get the user associated with the notebook.
      */
@@ -29,12 +28,11 @@ class Notebook extends Model
         return $this->belongsTo(User::class);
     }
 
-     /**
+    /**
      * Get the notes associated with the notebook.
      */
     public function notes(): HasMany
     {
         return $this->hasMany(Note::class);
     }
-
 }

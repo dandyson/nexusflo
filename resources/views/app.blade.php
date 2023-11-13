@@ -36,7 +36,7 @@
             window.location.href = `/auth/password-reset/${token}`;
         }
     </script>
-    
+
     @vite('resources/js/main.js')
 </body>
 
