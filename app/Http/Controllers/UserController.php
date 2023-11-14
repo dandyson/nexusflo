@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -35,14 +34,7 @@ class UserController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        if ($request['email'] !== $user->email && $user instanceof MustVerifyEmail) {
-            $this->updateVerifiedUser($user, $request);
-        } else {
-            $user->forceFill([
-                'name' => $request['name'],
-                'email' => $request['email'],
-            ])->save();
-        }
+        $user->update($request->only(['name', 'email']));
 
         return response()->json(['type' => 'success', 'message' => 'Details Updated Successfully!']);
     }
@@ -54,10 +46,7 @@ class UserController extends Controller
      */
     public function updateVerifiedUser(User $user, Request $request): JsonResponse
     {
-        $user->forceFill([
-            'name' => $request['name'],
-            'email' => $request['email'],
-        ])->save();
+        $user->update($request->only(['name', 'email']));
 
         return response()->json(['type' => 'success', 'message' => 'Details Updated Successfully!']);
     }
@@ -93,7 +82,10 @@ class UserController extends Controller
         // Soft delete the user's account
         $user->delete();
 
-        return response()->json(['type' => 'success', 'message' => 'Account Deleted Successfully!']);
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Account Deleted Successfully!',
+        ]);
     }
 
     public function uploadAvatar(Request $request): JsonResponse
