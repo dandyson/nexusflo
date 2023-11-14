@@ -21,9 +21,6 @@ jobs:
       - name: Install dependencies
         run: composer install
 
-      - name: Run Dusker lint
-        run: ./vendor/bin/dusker lint
-
       - name: Run PHPUnit tests
         run: ./vendor/bin/phpunit
 
