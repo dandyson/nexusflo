@@ -17,8 +17,10 @@ class ThinkingTrapSeederTest extends TestCase
 
     /**
      * Test creating a new order.
+     *
+     * @test
      */
-    public function test_thinking_traps_successful_seed(): void
+    public function thinking_traps_successful_seed(): void
     {
         $this->seed(ThinkingTrapSeeder::class);
 

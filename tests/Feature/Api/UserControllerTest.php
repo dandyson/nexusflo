@@ -37,7 +37,10 @@ class UserControllerTest extends TestCase
         $this->assertSame('updated@email.com', $user->email);
     }
 
-    public function test_delete_account(): void
+    /**
+     * @test
+     */
+    public function delete_account(): void
     {
         $user = User::factory()->create();
 
