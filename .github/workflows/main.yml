@@ -21,8 +21,8 @@ jobs:
       - name: Install dependencies
         run: composer install
 
-      # - name: Run PHPUnit tests
-      #   run: ./vendor/bin/phpunit
+      - name: Add Heroku remote
+        run: git remote add heroku https://git.heroku.com/obscure-depths-55000.git
 
       - name: Commit and push changes
         run: |
@@ -30,7 +30,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           git add .
           git diff-index --quiet HEAD || git commit -m "Fix linting issues and pass tests"
-          git push
+          git push heroku HEAD:refs/heads/main --force
 
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
