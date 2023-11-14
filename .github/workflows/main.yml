@@ -22,10 +22,10 @@ jobs:
         run: composer install
 
       - name: Run Dusker lint
-        run: vendor/bin/dusker lint
+        run: ./vendor/bin/dusker lint
 
       - name: Run PHPUnit tests
-        run: vendor/bin/phpunit
+        run: ./vendor/bin/phpunit
 
       - name: Commit and push changes
         run: |
