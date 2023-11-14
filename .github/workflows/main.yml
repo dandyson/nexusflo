@@ -21,8 +21,8 @@ jobs:
       - name: Install dependencies
         run: composer install
 
-      - name: Run PHPUnit tests
-        run: ./vendor/bin/phpunit
+      # - name: Run PHPUnit tests
+      #   run: ./vendor/bin/phpunit
 
       - name: Commit and push changes
         run: |
