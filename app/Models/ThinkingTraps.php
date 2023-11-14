@@ -17,7 +17,7 @@ class ThinkingTraps extends Model
     protected $fillable = [
         'title',
         'description',
-        'image',
+        'image'
     ];
 
     public function worryJournalEntries()

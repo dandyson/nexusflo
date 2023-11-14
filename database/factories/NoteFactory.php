@@ -31,3 +31,4 @@ class NoteFactory extends Factory
         ];
     }
 }
+
