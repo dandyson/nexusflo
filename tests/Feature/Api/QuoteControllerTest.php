@@ -8,21 +8,23 @@ use Tests\TestCase;
 
 class QuoteControllerTest extends TestCase
 {
-  use RefreshDatabase;
+    use RefreshDatabase;
 
-  public function testQuotesAreFetchedSuccessfully()
-  {
-    $user = User::factory()->create();
+    /**
+     * @test
+     */
+    public function quotesAreFetchedSuccessfully()
+    {
+        $user = User::factory()->create();
 
-    $response = $this->actingAs($user)->getJson(route('quotes'));
+        $response = $this->actingAs($user)->getJson(route('quotes'));
 
-    $response->assertOk()
-      ->assertJsonStructure([
-        '*' => [
-          'text',
-          'author'
-        ],
-      ]);
-  }
+        $response->assertOk()
+            ->assertJsonStructure([
+                '*' => [
+                    'text',
+                    'author',
+                ],
+            ]);
+    }
 }
-
