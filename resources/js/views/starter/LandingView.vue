@@ -151,7 +151,7 @@
             <div>
               <div class="d-flex push">
                 <div class="item item-rounded bg-body flex-shrink-0">
-                  <i class="fa fa-2x fa-rocket"></i>
+                  <i class="fa fa-2x fa-hourglass-half"></i>
                 </div>
                 <div class="ms-4">
                   <h4 class="mb-2">Pomodoro Timer</h4>
@@ -163,7 +163,7 @@
               </div>
               <div class="d-flex push">
                 <div class="item item-rounded bg-body flex-shrink-0">
-                  <i class="fab fa-2x fa-vuejs"></i>
+                  <i class="fa fa-2x fa-om"></i>
                 </div>
                 <div class="ms-4">
                   <h4 class="mb-2">Meditation Timer </h4>
@@ -175,7 +175,7 @@
               </div>
               <div class="d-flex push">
                 <div class="item item-rounded bg-body flex-shrink-0">
-                  <i class="fa fa-2x fa-database"></i>
+                  <i class="fa fa-2x fa-face-grin-beam"></i>
                 </div>
                 <div class="ms-4">
                   <h4 class="mb-2">Positive News Feed</h4>
@@ -187,7 +187,7 @@
               </div>
               <div class="d-flex push">
                 <div class="item item-rounded bg-body flex-shrink-0">
-                  <i class="fa fa-2x fa-database"></i>
+                  <i class="fa fa-2x fa-book-bookmark"></i>
                 </div>
                 <div class="ms-4">
                   <h4 class="mb-2">Worry Journal</h4>
