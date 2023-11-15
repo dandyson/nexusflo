@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Note;
 use App\Models\Notebook;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -13,10 +12,7 @@ class NoteControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
-    public function userCanGetListOfNotes()
+    public function testUserCanGetListOfNotes()
     {
         $user = $this->createUserWithNotes();
 
@@ -26,10 +22,7 @@ class NoteControllerTest extends TestCase
             ->assertJsonCount($user->notes->count());
     }
 
-    /**
-     * @test
-     */
-    public function userCanCreateNote()
+    public function testUserCanCreateNote()
     {
         $user = $this->createUserWithNotebook();
 
@@ -44,10 +37,7 @@ class NoteControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
-    public function userCanUpdateNote()
+    public function testUserCanUpdateNote()
     {
         $user = $this->createUserWithNotes();
         $note = $user->notes->first();
@@ -68,10 +58,7 @@ class NoteControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
-    public function userCanDeleteNote()
+    public function testUserCanDeleteNote()
     {
         $user = $this->createUserWithNotes();
         $note = $user->notes->first();
@@ -104,6 +91,6 @@ class NoteControllerTest extends TestCase
 
     private function createUser()
     {
-        return User::factory()->create();
+        return \App\Models\User::factory()->create();
     }
 }

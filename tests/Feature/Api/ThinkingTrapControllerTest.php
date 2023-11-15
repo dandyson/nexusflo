@@ -10,10 +10,7 @@ class ThinkingTrapControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
-    public function thinkingTrapsAreFetchedSuccessfully()
+    public function testThinkingTrapsAreFetchedSuccessfully()
     {
         ThinkingTraps::factory()->count(5)->create();
 

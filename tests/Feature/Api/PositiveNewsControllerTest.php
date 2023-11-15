@@ -8,26 +8,23 @@ use Tests\TestCase;
 
 class PositiveNewsControllerTest extends TestCase
 {
-    use RefreshDatabase;
+  use RefreshDatabase;
 
-    /**
-     * @test
-     */
-    public function userCanFetchPositiveNews()
-    {
-        // Simulate a successful response for the positive-news URL
-        Http::fake([
-            'https://www.positive.news/' => Http::response(['fake_data' => 'test_data'], 200),
-        ]);
+  public function testUserCanFetchPositiveNews()
+  {
+    // Simulate a successful response for the positive-news URL
+    Http::fake([
+      'https://www.positive.news/' => Http::response(['fake_data' => 'test_data'], 200),
+    ]);
 
-        $response = $this->getJson(route('news-fetch'));
+    $response = $this->getJson(route('news-fetch'));
 
-        $response->assertOk()
-            ->assertJsonStructure([
-                'data' => [
-                    'positive-news',
-                    'good-news-network',
-                ],
-            ]);
-    }
+    $response->assertOk()
+      ->assertJsonStructure([
+        'data' => [
+          'positive-news',
+          'good-news-network',
+        ],
+      ]);
+  }
 }
