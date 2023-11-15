@@ -96,7 +96,8 @@
                 </div>
                 <div v-else>
                   <!-- Show a loading message or handle when no quotes are available -->
-                  <p>Loading quotes...</p>
+                  <p v-if="quotesLoading">Loading quotes...</p>
+                  <p v-else>No quotes available.</p>
                 </div>
               </div>
             </transition>
@@ -116,7 +117,8 @@ import axios from "axios";
 
 // Initialize Vue 3 Composition API setup
 const store = useTemplateStore();
-const quotes = ref([]); 
+const quotes = ref([]);
+const quotesLoading = ref(true);
 const currentQuoteIndex = ref(0); 
 let timer; 
 
@@ -169,9 +171,15 @@ onMounted(async () => {
   }
 
   // Fetch quotes and set up the quote slider
-  const res = await axios.get('/api/quotes');
-  quotes.value = res.data;
-  setupQuoteSlider();
+  try {
+    const res = await axios.get('/api/quotes');
+    quotes.value = res.data;
+    quotesLoading.value = false; // Set loading state to false after fetching quotes
+    setupQuoteSlider();
+  } catch (error) {
+    quotesLoading.value = false; // Set loading state to false in case of an error
+    console.error(error);
+  }
 });
 
 const setupQuoteSlider = () => {
