@@ -1,3 +1,4 @@
+<!-- TODO: This code is not very clean at all - needs cleaning up -->
 <template>
   <div class="content">
     <SectionIntro 
@@ -10,10 +11,10 @@
     <div class="col-12 col-lg-8">
       <div>
         <div>
-          <a class="main-header-arrow" href="" id="ChatBodyHide">
+          <a class="main-header-arrow">
             <i class="icon ion-md-arrow-back"></i>
           </a>
-          <div class="main-content-body main-content-body-contacts card custom-card">
+          <div class="main-content-body main-content-body-contacts card custom-card mb-4">
             <div class="bg-success" :class="[timer.fillerDisplay]" :style="`width: ${timer.fillerWidth}%`"></div>
             <div id="pomodoro-app">
               <div id="container">

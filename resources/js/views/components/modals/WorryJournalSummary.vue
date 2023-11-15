@@ -15,14 +15,14 @@
                   <button type="button" class="nav-link active" :id="`btabs-alt-static-main-worry-tab-worry-${modalId}`"
                     data-bs-toggle="tab" :data-bs-target="`#btabs-alt-static-main-worry-worry-${modalId}`" role="tab"
                     :aria-controls="`btabs-alt-static-main-worry-worry-${modalId}`" aria-selected="true">
-                    Main Worry
+                    Worry
                   </button>
                 </li>
                 <li class="nav-item">
                   <button type="button" class="nav-link" :id="`btabs-alt-static-thinking-trap-tab-worry-${modalId}`"
                     data-bs-toggle="tab" :data-bs-target="`#btabs-alt-static-thinking-trap-worry-${modalId}`" role="tab"
                     :aria-controls="`btabs-alt-static-thinking-tra-worry-${modalId}`" aria-selected="false">
-                    Thinking Traps
+                    Traps
                   </button>
                 </li>
                 <li class="nav-item">
@@ -30,7 +30,7 @@
                     data-bs-toggle="tab" :data-bs-target="`#btabs-alt-static-balanced-thought-worry-${modalId}`"
                     role="tab" :aria-controls="`btabs-alt-static-balanced-thought-worry-${modalId}`"
                     aria-selected="false">
-                    Balanced Thought
+                    Balance
                   </button>
                 </li>
                 <li class="nav-item ms-auto">

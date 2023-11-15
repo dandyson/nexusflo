@@ -1,3 +1,4 @@
+<!-- TODO: This code is not very clean at all - needs cleaning up -->
 <template>
   <div class="content">
     <SectionIntro 
@@ -8,8 +9,8 @@
   </div>
   <div class="content row d-flex justify-content-center">
     <div class="col-8">
-      <a class="main-header-arrow" href="" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
-      <div class="main-content-body main-content-body-contacts card custom-card">
+      <a class="main-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+      <div class="main-content-body main-content-body-contacts card custom-card mb-4">
         <div class="bg-success" :class="[pomodoro.fillerDisplay]" :style="`width: ${pomodoro.fillerWidth}%`"></div>
         <div id="pomodoro-app">
           <div id="container">
@@ -268,22 +269,11 @@ watch(pomodoro, (val) => {
   position: absolute;
 }
 
-#time {
-  font-size: 4rem;
-  width: 13rem;
-  height: 13rem;
-  border-radius: 50%;
-  margin: 2rem auto;
-  color: #fff;
-  transition: color 1s ease;
-}
-
 #timer {
   position: relative;
 }
 
-#stop,
-.pomodoro-button {
+#stop, .pomodoro-button {
   color: #fff;
   cursor: pointer;
   border: none;

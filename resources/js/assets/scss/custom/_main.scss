@@ -37,3 +37,20 @@
     padding: 2rem;
     margin: 2rem 0rem;
   }
+
+  #time {
+    font-size: 4rem;
+    width: 13rem;
+    height: 13rem;
+    border-radius: 50%;
+    margin: 2rem auto;
+    color: #fff;
+    transition: color 1s ease;
+
+    @media (max-width: 767px) {
+      // Styles for screens smaller than 768px (typical mobile size)
+      width: 8rem;
+      height: 8rem;
+      font-size: 2rem;
+    }
+  }
