@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Note;
 use App\Models\Notebook;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -103,6 +104,6 @@ class NoteControllerTest extends TestCase
 
     private function createUser()
     {
-        return \App\Models\User::factory()->create();
+        return User::factory()->create();
     }
 }
