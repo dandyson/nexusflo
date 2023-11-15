@@ -12,7 +12,10 @@ class WorryJournalEntryControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testUserCanGetListOfWorryJournalEntries()
+    /**
+     * @test
+     */
+    public function userCanGetListOfWorryJournalEntries()
     {
         $user = $this->createUserWithWorryJournalEntries();
 
@@ -24,18 +27,21 @@ class WorryJournalEntryControllerTest extends TestCase
             ->assertJsonCount($user->worryJournalEntries->count());
     }
 
-    public function testUserCanCreateWorryJournalEntry()
+    /**
+     * @test
+     */
+    public function userCanCreateWorryJournalEntry()
     {
         $user = $this->createUser();
 
         $this->actingAs($user);
 
         $response = $this->postJson(route('worry-journal.store'), [
-                'title' => 'Test Title',
-                'main_worry' => 'Test Main Worry',
-                'thinking_traps' => [1, 2],
-                'balanced_thought' => 'Test Balanced Thought',
-            ]);
+            'title' => 'Test Title',
+            'main_worry' => 'Test Main Worry',
+            'thinking_traps' => [1, 2],
+            'balanced_thought' => 'Test Balanced Thought',
+        ]);
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJson([
@@ -43,7 +49,7 @@ class WorryJournalEntryControllerTest extends TestCase
                 'message' => 'Journal Entry Completed',
             ]);
 
-       // Fetch the entry from the database
+        // Fetch the entry from the database
         $entry = WorryJournalEntry::where('title', 'Test Title')->first();
 
         // Convert the expected value to an array
@@ -56,7 +62,10 @@ class WorryJournalEntryControllerTest extends TestCase
         $this->assertEquals('Test Balanced Thought', $entry->balanced_thought);
     }
 
-    public function testUserCanUpdateWorryJournalEntry()
+    /**
+     * @test
+     */
+    public function userCanUpdateWorryJournalEntry()
     {
         $user = $this->createUserWithWorryJournalEntries();
         $entry = $user->worryJournalEntries->first();
@@ -77,7 +86,10 @@ class WorryJournalEntryControllerTest extends TestCase
             ]);
     }
 
-    public function testUserCanDeleteWorryJournalEntry()
+    /**
+     * @test
+     */
+    public function userCanDeleteWorryJournalEntry()
     {
         $user = $this->createUserWithWorryJournalEntries();
         $entry = $user->worryJournalEntries->first();
