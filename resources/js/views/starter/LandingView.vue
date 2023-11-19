@@ -52,7 +52,7 @@
     <!-- Power of Vite -->
     <div id="one-vue-power-of-vite" class="bg-body-extra-light">
       <div class="content content-full">
-        <div class="py-5">
+        <div class="pt-4 pb-2 py-md-5">
           <div class="row mb-5">
             <div class="col-md-6">
               <h2 class="h1 fw-bold mb-2">
@@ -70,28 +70,28 @@
           </div>
         </div>
         <div class="row">
-  <div class="d-flex align-items-center col-md-6 offset-lg-1 order-md-1">
-    <div class="w-100 mb-5 mb-md-0 px-lg-6 position-relative">
-      <div class="row">
-        <div class="col-6 col-md-12">
-          <BaseBlock transparent class="bg-body-light">
-            <div class="pb-3 text-center">
-              <img src="/assets/media/photos/nexusflo1.png" alt="Image 1" class="img-fluid">
+          <div class="d-flex align-items-center col-md-6 offset-lg-1 order-md-1">
+            <div class="w-100 mb-5 mb-md-0 px-lg-6 position-relative">
+              <div class="row d-flex flex-column">
+                <div class="col-12">
+                  <BaseBlock transparent class="bg-body-light">
+                    <div class="pb-3 text-center">
+                      <img src="/assets/media/photos/nexusflo1.png" alt="Image 1" class="img-fluid">
+                    </div>
+                  </BaseBlock>
+                </div>
+                <div class="col-12">
+                  <BaseBlock transparent class="bg-body-light">
+                    <div class="pb-3 text-center">
+                      <img src="/assets/media/photos/nexusflo2.png" alt="Image 2" class="img-fluid">
+                    </div>
+                  </BaseBlock>
+                </div>
+              </div>
             </div>
-          </BaseBlock>
-        </div>
-        <div class="col-6 col-md-12">
-          <BaseBlock transparent class="bg-body-light">
-            <div class="pb-3 text-center">
-              <img src="/assets/media/photos/nexusflo2.png" alt="Image 2" class="img-fluid">
-            </div>
-          </BaseBlock>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="d-md-flex align-items-md-center col-md-6 col-lg-5 order-md-0">
-    <div>
+          </div>
+          <div class="d-md-flex align-items-md-center col-md-6 col-lg-5 order-md-0">
+            <div>
               <div class="d-flex push">
                 <div class="item item-rounded bg-body flex-shrink-0">
                   <i class="fa fa-2x fa-hourglass-half"></i>
