@@ -415,7 +415,7 @@ async function onSubmit() {
               type="button"
               class="btn btn-sm btn-primary"
               data-bs-dismiss="modal"
-              @click="this.state.terms = true"
+              @click="state.terms = true"
             >
               I Agree
             </button>
