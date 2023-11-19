@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-center">
     <img
         class="img-fluid me-2 app-logo"
-        src="{{ url('assets/media/logos/logo.svg') }}"
+        src="{{ url('assets/media/logos/logo.png') }}"
         alt="{{config('app.name')}}"
         width="80"
     />
