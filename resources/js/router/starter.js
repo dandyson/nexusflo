@@ -618,12 +618,12 @@ const routes = [
         component: AuthSignUp3,
       },
       {
-        path: "lock3",
+        path: "lock",
         name: "auth-lock3",
         component: AuthLock3,
       },
       {
-        path: "reminder3",
+        path: "password-reminder",
         name: "auth-reminder3",
         component: AuthReminder3,
       },

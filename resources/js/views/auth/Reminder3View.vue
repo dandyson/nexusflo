@@ -76,7 +76,7 @@ async function onSubmit() {
 
 <template>
   <!-- Page Content -->
-  <div class="bg-primary">
+  <BaseBackground image="/assets/media/photos/photo28@2x.jpg">
     <div class="row g-0 bg-primary-dark-op">
       <!-- Meta Info Section -->
       <div
@@ -211,6 +211,6 @@ async function onSubmit() {
       </div>
       <!-- END Main Section -->
     </div>
-  </div>
+  </BaseBackground>
   <!-- END Page Content -->
 </template>
