@@ -14,7 +14,7 @@ export const useTemplateStore = defineStore({
     // App vital details
     app: {
       name: "Nexus Flo",
-      version: "1",
+      version: "0.1",
       copyright: new Date().getFullYear(),
     },
 

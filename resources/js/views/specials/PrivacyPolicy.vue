@@ -1,18 +1,8 @@
 <script setup>
-import axios from "axios";
-import Swal from "sweetalert2";
-import { reactive, computed, ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
-
-// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
-import useVuelidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
 
 // Main store and Router
 const store = useTemplateStore();
-const router = useRouter();
-
 </script>
 
 <template>
@@ -77,15 +67,68 @@ const router = useRouter();
                   width="70"
                 />
               </p>
-              <h1 class="fw-bold mb-2">Please Verify your Email</h1>
-              <p class="fw-medium text-muted">
-                Welcome, please check your email for the verification link sent to you when you registered.
-              </p>
-              <p>Already have an account? <RouterLink :to="{ name: 'auth-signin3' }">Login</RouterLink>
-              Or <RouterLink :to="{ name: 'auth-signup3' }">Sign up</RouterLink>
-                for a new account today!</p>
+              <h1 class="fw-bold mb-2">Privacy Policy</h1>
             </div>
             <!-- END Header -->
+
+            <!-- Privacy Policy Text -->
+            <div class="row g-0 justify-content-center">
+              <div class="col-sm-8">
+                <h1>Privacy Policy for NexusFlo</h1>
+
+                <p>Last updated: 19th November 2023</p>
+
+                <h2>Introduction</h2>
+
+                <p>Welcome to NexusFlo! This privacy policy outlines how we collect, use, and protect your personal information. By using our web app, you agree to the terms described in this policy.</p>
+                
+                <h2>Information We Collect</h2>
+
+                <h3>1. Account Information</h3>
+                <p>When you register for an account on NexusFlo, we collect and store the following information:</p>
+                <ul>
+                    <li>Name</li>
+                    <li>Email address</li>
+                    <li>Password (stored securely using Laravel Fortify)</li>
+                </ul>
+
+                <h3>2. Profile Information</h3>
+                <p>You have the option to enhance your user experience by providing additional information:</p>
+                <ul>
+                    <li>Avatar (stored in our production database)</li>
+                    <li>Profile image (stored in our production database and on AWS S3 bucket)</li>
+                </ul>
+
+                <h3>3. Positive News Preferences</h3>
+                <p>We store local data related to your positive news preferences to improve your experience on NexusFlo.</p>
+                <h2>How We Use Your Information</h2>
+                <p>Your information is used for the following purposes:</p>
+                <ul>
+                    <li>User Authentication: Laravel Fortify utilizes your email and password for secure authentication.</li>
+                    <li>Profile Enhancement: Your name, avatar, and profile image are used to personalize your experience on the platform.</li>
+                    <li>Positive News Preferences: Local data is stored to tailor positive news content based on your preferences.</li>
+                </ul>
+
+                <h2>Data Storage and Security</h2>
+                <p>Your data is stored securely in our production database hosted on Heroku. Passwords are hashed and encrypted using industry-standard practices. Profile images are stored on both our production database and an AWS S3 bucket.</p>
+
+                <h2>Cookies</h2>
+                <p>NexusFlo may use cookies to enhance user experience. These cookies are set by Laravel and Laravel Fortify for authentication and session management.</p>
+
+                <h2>Third-Party Services</h2>
+                <p>We utilize AWS S3 for storing profile images. Please refer to AWS's privacy policy for more information.</p>
+
+                <h2>Your Choices</h2>
+                <p>You have the right to access, correct, or delete your personal information. You can update your account settings to manage your preferences.</p>
+
+                <h2>Changes to this Privacy Policy</h2>
+                <p>We may update this privacy policy to reflect changes in our practices. Please check this page periodically for updates.</p>
+
+                <h2>Contact Us</h2>
+                <p>If you have any questions or concerns about our privacy policy, please contact us at nexusfloinfo@gmail.com.</p>
+              </div>
+            </div>
+            <!-- END Privacy Policy Text -->
           </div>
         </div>
         <div

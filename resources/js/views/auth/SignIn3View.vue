@@ -117,23 +117,6 @@ async function onSubmit() {
             <strong>{{ store.app.name + " " + store.app.version }}</strong>
             &copy; {{ store.app.copyright }}
           </p>
-          <ul class="list list-inline mb-0 py-2">
-            <li class="list-inline-item">
-              <a class="text-white-75 fw-medium" href="javascript:void(0)"
-                >Legal</a
-              >
-            </li>
-            <li class="list-inline-item">
-              <a class="text-white-75 fw-medium" href="javascript:void(0)"
-                >Contact</a
-              >
-            </li>
-            <li class="list-inline-item">
-              <a class="text-white-75 fw-medium" href="javascript:void(0)"
-                >Terms</a>
-              >
-            </li>
-          </ul>
         </div>
       </div>
       <!-- END Meta Info Section -->

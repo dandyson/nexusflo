@@ -19,6 +19,9 @@ axios.defaults.withCredentials = true;
 // Frontend: Landing
 const Landing = () => import("@/views/starter/LandingView.vue");
 
+// Frontend: Privacy Policy
+const PrivacyPolicy = () => import("@/views/specials/PrivacyPolicy.vue");
+
 // Backend: Dashboard
 const AdminDashboard = () => import("@/views/starter/DashboardView.vue");
 
@@ -228,8 +231,19 @@ const routes = [
     component: VerifyEmail,
   },
 
+  /*
+  |
+  |--------------------------------------------------------------------------
+  | Privacy Policy
+  |--------------------------------------------------------------------------
+  |
+  */
+  {
+    path: '/privacy-policy',
+    name: 'privacy-policy',
+    component: PrivacyPolicy,
+  },
   
-
   /*
   |
   |--------------------------------------------------------------------------

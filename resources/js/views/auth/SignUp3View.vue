@@ -127,23 +127,6 @@ async function onSubmit() {
             <strong>{{ store.app.name + " " + store.app.version }}</strong>
             &copy; {{ store.app.copyright }}
           </p>
-          <ul class="list list-inline mb-0 py-2">
-            <li class="list-inline-item">
-              <a class="text-white-75 fw-medium" href="javascript:void(0)"
-                >Legal</a
-              >
-            </li>
-            <li class="list-inline-item">
-              <a class="text-white-75 fw-medium" href="javascript:void(0)"
-                >Contact</a
-              >
-            </li>
-            <li class="list-inline-item">
-              <a class="text-white-75 fw-medium" href="javascript:void(0)"
-                >Terms</a
-              >
-            </li>
-          </ul>
         </div>
       </div>
       <!-- END Meta Info Section -->
@@ -345,101 +328,105 @@ async function onSubmit() {
     </div>
 
     <!-- Terms Modal -->
-    <div
-      class="modal fade"
-      id="one-signup-terms"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="one-signup-terms"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg modal-dialog-popout" role="document">
-        <div class="modal-content">
-          <BaseBlock title="Terms &amp; Conditions" transparent class="mb-0">
-            <template #options>
-              <button
-                type="button"
-                class="btn-block-option"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <i class="fa fa-fw fa-times"></i>
-              </button>
-            </template>
+<div
+  class="modal fade"
+  id="one-signup-terms"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="one-signup-terms"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-popout" role="document">
+    <div class="modal-content">
+      <BaseBlock title="Terms &amp; Conditions" transparent class="mb-0">
+        <template #options>
+          <button
+            type="button"
+            class="btn-block-option"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i class="fa fa-fw fa-times"></i>
+          </button>
+        </template>
 
-            <template #content>
-              <div class="block-content">
-                <p>
-                  Dolor posuere proin blandit accumsan senectus netus nullam
-                  curae, ornare laoreet adipiscing luctus mauris adipiscing
-                  pretium eget fermentum, tristique lobortis est ut metus
-                  lobortis tortor tincidunt himenaeos habitant quis dictumst
-                  proin odio sagittis purus mi, nec taciti vestibulum quis in
-                  sit varius lorem sit metus mi.
-                </p>
-                <p>
-                  Dolor posuere proin blandit accumsan senectus netus nullam
-                  curae, ornare laoreet adipiscing luctus mauris adipiscing
-                  pretium eget fermentum, tristique lobortis est ut metus
-                  lobortis tortor tincidunt himenaeos habitant quis dictumst
-                  proin odio sagittis purus mi, nec taciti vestibulum quis in
-                  sit varius lorem sit metus mi.
-                </p>
-                <p>
-                  Dolor posuere proin blandit accumsan senectus netus nullam
-                  curae, ornare laoreet adipiscing luctus mauris adipiscing
-                  pretium eget fermentum, tristique lobortis est ut metus
-                  lobortis tortor tincidunt himenaeos habitant quis dictumst
-                  proin odio sagittis purus mi, nec taciti vestibulum quis in
-                  sit varius lorem sit metus mi.
-                </p>
-                <p>
-                  Dolor posuere proin blandit accumsan senectus netus nullam
-                  curae, ornare laoreet adipiscing luctus mauris adipiscing
-                  pretium eget fermentum, tristique lobortis est ut metus
-                  lobortis tortor tincidunt himenaeos habitant quis dictumst
-                  proin odio sagittis purus mi, nec taciti vestibulum quis in
-                  sit varius lorem sit metus mi.
-                </p>
-                <p>
-                  Dolor posuere proin blandit accumsan senectus netus nullam
-                  curae, ornare laoreet adipiscing luctus mauris adipiscing
-                  pretium eget fermentum, tristique lobortis est ut metus
-                  lobortis tortor tincidunt himenaeos habitant quis dictumst
-                  proin odio sagittis purus mi, nec taciti vestibulum quis in
-                  sit varius lorem sit metus mi.
-                </p>
-                <p>
-                  Dolor posuere proin blandit accumsan senectus netus nullam
-                  curae, ornare laoreet adipiscing luctus mauris adipiscing
-                  pretium eget fermentum, tristique lobortis est ut metus
-                  lobortis tortor tincidunt himenaeos habitant quis dictumst
-                  proin odio sagittis purus mi, nec taciti vestibulum quis in
-                  sit varius lorem sit metus mi.
-                </p>
-              </div>
-              <div class="block-content block-content-full text-end bg-body">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-alt-secondary me-1"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-primary"
-                  data-bs-dismiss="modal"
-                >
-                  I Agree
-                </button>
-              </div>
-            </template>
-          </BaseBlock>
-        </div>
-      </div>
+        <template #content>
+          <div class="block-content">
+            <p>
+              <strong>Terms & Conditions: NexusFlo Wellbeing App</strong>
+            </p>
+            <p>
+              <strong>Introduction:</strong><br>
+              Welcome to NexusFlo Wellbeing App. By using this app, you agree to comply with and be bound by the following terms and conditions.
+            </p>
+            <p>
+              <strong>Ownership:</strong><br>
+              NexusFlo is the property of Daniel Dyson. All rights, title, and interest in and to the app are owned and retained by Daniel Dyson.
+            </p>
+            <p>
+              <strong>Not a Substitute for Professional Help:</strong><br>
+              NexusFlo is designed to support your wellbeing, but it is not a substitute for professional advice, diagnosis, or treatment. It is essential to recognize that the app does not replace the expertise and guidance provided by qualified mental health professionals.
+            </p>
+            <p>
+              <strong>Seeking Professional Help:</strong><br>
+              If you are experiencing severe mental health issues or believe you require professional assistance, it is imperative to seek help from a qualified mental health professional or healthcare provider. NexusFlo is not a replacement for such services.
+            </p>
+            <p>
+              <strong>User Responsibility:</strong><br>
+              Users are responsible for their mental health decisions and should use the app as a complementary tool to support their overall wellbeing. If in doubt about the appropriateness of the app for your specific situation, consult with a mental health professional.
+            </p>
+            <p>
+              <strong>Emergency Situations:</strong><br>
+              In case of emergency, please contact your local emergency services immediately. NexusFlo is not equipped to handle crisis situations, and users should not rely on the app for urgent assistance.
+            </p>
+            <p>
+              <strong>Data Security and Privacy:</strong><br>
+              Your privacy is important to us. Please review our 
+                <RouterLink
+                  target="_blank"
+                  :to="{ name: 'privacy-policy' }"
+                >Privacy Policy</RouterLink> to understand how your data is collected, used, and protected within NexusFlo.
+            </p>
+            <p>
+              <strong>Termination of Use:</strong><br>
+              We reserve the right to terminate or suspend your access to NexusFlo if you violate these terms and conditions or misuse the app in any way.
+            </p>
+            <p>
+              <strong>Updates and Changes:</strong><br>
+              NexusFlo may update or change these terms and conditions at any time. It is your responsibility to review them periodically for any modifications.
+            </p>
+            <p>
+              <strong>Contact Information:</strong><br>
+              If you have any questions or concerns about these terms and conditions, please contact us at nexusfloinfo@gmail.com.
+            </p>
+            <p>
+              By using NexusFlo Wellbeing App, you acknowledge that you have read, understood, and agreed to these terms and conditions.
+            </p>
+          </div>
+          <div class="block-content block-content-full text-end bg-body">
+            <button
+              type="button"
+              class="btn btn-sm btn-alt-secondary me-1"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              data-bs-dismiss="modal"
+              @click="this.state.terms = true"
+            >
+              I Agree
+            </button>
+          </div>
+        </template>
+      </BaseBlock>
     </div>
-    <!-- END Terms Modal -->
+  </div>
+</div>
+<!-- END Terms Modal -->
+
   </div>
   <!-- END Page Content -->
 </template>
