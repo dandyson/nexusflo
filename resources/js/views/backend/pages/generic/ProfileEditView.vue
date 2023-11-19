@@ -258,7 +258,7 @@ const detailSubmit = () => {
               showConfirmButton: false,
               timer: 1500,
             }).then(() => {
-              // location.reload();
+              location.reload();
             });
           }
         })
