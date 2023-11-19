@@ -88,11 +88,16 @@ async function onSubmit() {
               :to="{ name: 'landing' }"
               class="link-fx fw-semibold fs-2 text-white"
             >
-              Nexus<span class="fw-normal">Flo</span>
+            <img
+              class="img-fluid me-2"
+              src="/assets/media/logos/logo.svg"
+              alt="Logo"
+              width="40"
+            />
+          Nexus<span class="fw-normal">Flo</span>
             </RouterLink>
             <p class="text-white-75 me-xl-8 mt-2">
-              Don’t worry, we’ve got your back. You’ll be soon back to your
-              favorite dashboard!
+              “Be happy in the moment, that's enough. Each moment is all we need, not more.”
             </p>
           </div>
         </div>

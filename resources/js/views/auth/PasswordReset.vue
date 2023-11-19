@@ -113,7 +113,7 @@ async function onSubmit() {
           Nexus<span class="fw-normal">Flo</span>
             </RouterLink>
             <p class="text-white-75 me-xl-8 mt-2">
-              Creating a new account is completely free. Get started today!
+              “Be happy in the moment, that's enough. Each moment is all we need, not more.”
             </p>
           </div>
         </div>
