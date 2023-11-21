@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://obscure-depths-55000-3a15d913072b.herokuapp.com'],
+    'allowed_origins' => ['https://nexusflo-136651299275.herokuapp.com/'],
 
     'allowed_origins_patterns' => [],
 
