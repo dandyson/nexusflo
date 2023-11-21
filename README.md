@@ -1,64 +1,49 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<div align="center">
+    <img src="public/assets/media/logos/logo.png" alt="NexusFlo Logo" width="100">
+</div>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# NexusFlo
 
-## About Laravel
+## Overview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Welcome to NexusFlo! It is a Vue 3 and Laravel 10 Single Page Application (SPA) designed to provide support and assistance to users dealing with anxiety and depression. The app combines the power of Vue 3, Laravel 10, and Vue Router to create a seamless and responsive experience.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Positive News Section
 
-## Learning Laravel
+NexusFlo aims to counterbalance the overwhelming negativity present in the news by including a dedicated Positive News section. Users can find uplifting stories and content to brighten their day.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Timers
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Pomodoro Timer:** Manage your work one task at a time to reduce anxiety and enhance productivity with the Pomodoro Timer.
+   
+2. **Meditation Timer:** Take a break and focus on self-care with the Meditation Timer.
 
-## Laravel Sponsors
+### Note-taking Sections
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+1. **General Notes:** Capture your ideas, thoughts, and daily experiences in the General Notes section, functioning as a digital diary.
 
-### Premium Partners
+2. **Worry Journal:** Effectively manage anxiety by utilizing the Worry Journal to identify thinking traps and rebalance worries. Jot down your concerns and thoughts in this dedicated feature, empowering users to gain insights into their mental processes and take proactive steps towards improved mental health.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Future Updates
 
-## Contributing
+The next release of NexusFlo is planned to include:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Customizable Dashboard:** Users will be able to personalize their dashboard with color themes and background images to create a more tailored experience.
 
-## Code of Conduct
+- **Relax Section:** Introduce guided relaxations and visualizations to aid in stress relief and relaxation.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- **AI 'Worry Balancer':** Implement an artificial intelligence feature to assist users in the worry journal process, providing insights and strategies to balance worries.
 
-## Security Vulnerabilities
+- **Action Plan in Worry Journal:** Enhance the Worry Journal with an additional 'Action Plan' step, allowing users to outline actionable steps to address and alleviate worries.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Timer UI and Code Improvements:** Refine the user interface and codebase of the timers for an improved user experience.
 
-## License
+- **CI/CD Implementation:** Integrate Continuous Integration and Continuous Deployment processes with frontend testing to ensure a robust and reliable application.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+---
+
+Thank you for using NexusFlo! If you have any questions or suggestions, please don't hesitate to reach out.
