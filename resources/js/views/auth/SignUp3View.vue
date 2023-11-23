@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, ref } from "vue";
+import { reactive, computed, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
 
@@ -9,6 +9,9 @@ import { required, minLength, email, sameAs } from "@vuelidate/validators";
 
 // Axios
 import axios from "axios";
+
+// Sweetalert
+import Swal from "sweetalert2";
 
 // Main store and Router
 const store = useTemplateStore();
@@ -54,6 +57,19 @@ const v$ = useVuelidate(rules, state);
 // Custom Error
 let credentialError = ref(false);
 let credentialErrorMessage = ref('');
+
+// Demo notification SWAL
+onMounted(() => {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Demo Notice',
+    html: 'This is a <strong>demo</strong> version of our app, so trying to sign up here will throw an error.<br><br>' +
+          'To sign up and access the service, please contact us at <a href="mailto:dannydyson297@gmail.com">dannydyson297@gmail.com</a> with your email address.<br><br>' +
+          'Once we have added you to our email service, you will be able to register for an account<br><br>' +
+          'Thank you for your interest!',
+    showConfirmButton: true,
+  });
+});
 
 // On form submission
 async function onSubmit() {
@@ -156,7 +172,7 @@ async function onSubmit() {
               </p>
             </div>
             <!-- END Header -->
-            
+          
             <!-- Sign Up Form -->
             <div class="row g-0 justify-content-center">
               <div class="col-sm-8 col-xl-4">
