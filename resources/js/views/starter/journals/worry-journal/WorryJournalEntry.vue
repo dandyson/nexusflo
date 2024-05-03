@@ -122,8 +122,19 @@
               improve my skills. It doesn't mean my entire career is at risk, and I can work on regaining confidence in my
               abilities."</p>
           </div>
-          <textarea rows="4" v-model="balancedThought" class="form-control"
-            placeholder="Rewrite your thoughts.."></textarea>
+          <button @click="fetchAIResponse" :disabled="aiBalancerLoading" type="button" class="btn btn-info my-2">
+            <div  v-if="aiBalancerLoading" class="flex justify-center items-center" role="status">
+              <i class="fa fa-sun fa-spin"></i>
+            </div>
+            
+            <div v-else>
+              <i class="far fa-comments me-2"></i>
+              Try the AI Worry Balancer!
+            </div>
+          </button>
+          <textarea rows="8" v-model="balancedThought" class="form-control"
+            placeholder="Rewrite your thoughts..">
+          </textarea>
         </div>
       </div>
     </div>
@@ -146,6 +157,7 @@ const title = ref('');
 const mainWorry = ref('');
 const thinkingTraps = ref([]);
 const balancedThought = ref('');
+const aiBalancerLoading = ref(false);
 
 const currentStep = ref(1);
 const totalSteps = 3;
@@ -236,6 +248,18 @@ const submitForm = () => {
         });
     }
   });
+};
+
+const fetchAIResponse = () => {
+  aiBalancerLoading.value = true;
+  balancedThought.value = '';
+
+  axios.post('/api/worry-balancer', { text: mainWorry.value })
+    .then(response => {
+      balancedThought.value = response.data.reply;
+      aiBalancerLoading.value = false;
+    })
+    .catch(error => console.error(error));
 };
 
 onMounted(async () => {

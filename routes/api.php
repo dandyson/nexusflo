@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AiController;
 use App\Http\Controllers\Api\PositiveNewsController;
 use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\ThinkingTrapController;
@@ -76,3 +77,7 @@ Route::get('thinking-traps', [ThinkingTrapController::class, 'index'])->name('in
 Route::prefix('worry-journal')->group(function () {
     Route::get('all-entries', [WorryJournalEntryController::class, 'getWorryJournalEntries'])->name('get-worry-journal-entries');
 });
+
+// AI: Worry Balancer
+Route::post('/worry-balancer', [AiController::class, 'fetchWorryBalanceResponse']);
+
