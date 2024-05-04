@@ -122,13 +122,13 @@
               improve my skills. It doesn't mean my entire career is at risk, and I can work on regaining confidence in my
               abilities."</p>
           </div>
-          <button @click="fetchAIResponse" :disabled="aiBalancerLoading" type="button" class="btn btn-info my-2">
+          <button @click="fetchAIResponse" :disabled="aiBalancerLoading || mainWorry.length === 0" type="button" class="btn btn-lg btn-warning me-1 mb-3 my-2">
             <div  v-if="aiBalancerLoading" class="flex justify-center items-center" role="status">
               <i class="fa fa-sun fa-spin"></i>
             </div>
             
             <div v-else>
-              <i class="far fa-comments me-2"></i>
+              <i class="far fa-star me-1"></i>
               Try the AI Worry Balancer!
             </div>
           </button>
