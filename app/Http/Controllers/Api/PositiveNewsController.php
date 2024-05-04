@@ -8,6 +8,7 @@ use Goutte\Client;
 class PositiveNewsController extends Controller
 {
     protected $positiveNewsResults = [];
+
     protected $goodNewsNetworkResults = [];
 
     public function index()

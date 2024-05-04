@@ -11,6 +11,7 @@ class VerifyMail extends Mailable
     use Queueable, SerializesModels;
 
     public $user;
+
     public $url;
 
     public function __construct($user, $url)

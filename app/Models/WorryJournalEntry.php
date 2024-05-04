@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class WorryJournalEntry extends Model
 {
     use HasFactory;
+
     /**
      * @var array
      */
