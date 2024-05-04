@@ -58,7 +58,7 @@ Route::delete('worry-journal/{worryJournalEntry}', [WorryJournalEntryController:
 Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function ($token) {
     return view('app');
 })
-    ->middleware(['guest:'.config('fortify.guard')])
+    ->middleware(['guest:' . config('fortify.guard')])
     ->name('password.reset');
 
 // User
@@ -79,4 +79,4 @@ Route::prefix('worry-journal')->group(function () {
 });
 
 // AI: Worry Balancer
-Route::post('/worry-balancer', [AiController::class, 'fetchWorryBalanceResponse']);
+Route::post('worry-balancer', [AiController::class, 'fetchWorryBalanceResponse'])->name('worry-balancer');
