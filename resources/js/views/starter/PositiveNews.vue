@@ -118,6 +118,8 @@ onMounted(async () => {
     } catch (error) {
       positiveNewsLoading.value = false;
       positiveNewsError.value = true;
+      goodNewsNetworkLoading.value = false;
+      goodNewsNetworkError.value = true;
       console.error(error);
     }
   }

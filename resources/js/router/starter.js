@@ -41,6 +41,9 @@ const GeneralNotes = () => import("@/views/starter/journals/GeneralNotes.vue");
 const WorryJournal = () => import("@/views/starter/journals/worry-journal/WorryJournal.vue");
 const WorryJournalEntry = () => import("@/views/starter/journals/worry-journal/WorryJournalEntry.vue");
 
+// Backend: Worry Balancer
+const WorryBalancer = () => import("@/views/starter/ai/WorryBalancer.vue");
+
 // Backend: Plugins
 const BackendPluginsImageCropper = () =>
   import("@/views/backend/plugins/ImageCropperView.vue");
@@ -304,7 +307,12 @@ const routes = [
         name: 'backend-edit-worry-journal-entry',
         component: WorryJournalEntry,
         props: true,
-      },      
+      },
+      {
+        path: "worry-balancer",
+        name: "backend-worry-balancer",
+        component: WorryBalancer,
+      },    
 
       /*
       |--------------------------------------------------------------------------
