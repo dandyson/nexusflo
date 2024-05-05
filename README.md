@@ -26,15 +26,23 @@ NexusFlo aims to counterbalance the overwhelming negativity present in the news 
 
 2. **Worry Journal:** Effectively manage anxiety by utilizing the Worry Journal to identify thinking traps and rebalance worries. Jot down your concerns and thoughts in this dedicated feature, empowering users to gain insights into their mental processes and take proactive steps towards improved mental health.
 
+## **UPDATES
+
+**May 2024:**
+- Implemented a 'Worry Balancer' AI feature that incorporates the OpenAI API to assist users in the worry journal process, providing a balanced outlook on their worries. This is also a standalone tool, located through the nav's new 'Tools' section:
+
+
+![](https://raw.githubusercontent.com/dandyson/nexusflo/main/nexusflo-worry-balancer-gif.gif)
+
 ## Future Updates
 
 The next release of NexusFlo is planned to include:
 
+- ~~**AI 'Worry Balancer':** Implement an artificial intelligence feature to assist users in the worry journal process, providing insights and strategies to balance worries.~~ - **Implemented May 2024**
+
 - **Customizable Dashboard:** Users will be able to personalize their dashboard with color themes and background images to create a more tailored experience.
 
 - **Relax Section:** Introduce guided relaxations and visualizations to aid in stress relief and relaxation.
-
-- **AI 'Worry Balancer':** Implement an artificial intelligence feature to assist users in the worry journal process, providing insights and strategies to balance worries.
 
 - **Action Plan in Worry Journal:** Enhance the Worry Journal with an additional 'Action Plan' step, allowing users to outline actionable steps to address and alleviate worries.
 
