@@ -19,7 +19,7 @@
             <div class="col-12 col-lg-6">
               <h2 class="my-3">Positive.News</h2>
               <div class="row row-sm">
-                <div v-if="positiveNewsError" class="alert alert-danger alert-dismissible" role="alert">
+                <div v-if="positiveNewsError" class="alert alert-danger alert-dismissible" style="width: 90%" role="alert">
                   <h3 class="alert-heading h4 my-2">Error</h3>
                   <p class="mb-0">There was an error loading the data. Please check your internet connection, refresh and
                     try again!</p>
@@ -50,7 +50,7 @@
             <div class="col-12 col-lg-6">
               <h2 class="my-3">Good News Network</h2>
               <div class="row row-sm">
-                <div v-if="goodNewsNetworkError" class="alert alert-danger alert-dismissible" role="alert">
+                <div v-if="goodNewsNetworkError" class="alert alert-danger alert-dismissible" style="width: 90%" role="alert">
                   <h3 class="alert-heading h4 my-2">Error</h3>
                   <p class="mb-0">There was an error loading the data. Please check your internet connection, refresh and
                     try again!</p>
@@ -166,6 +166,8 @@ onMounted(async () => {
     } catch (error) {
       positiveNewsLoading.value = false;
       positiveNewsError.value = true;
+      goodNewsNetworkLoading.value = false;
+      goodNewsNetworkError.value = true;
       console.error(error);
     }
   }
