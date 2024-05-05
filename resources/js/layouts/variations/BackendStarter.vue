@@ -73,20 +73,6 @@ const logOut = () => {
             icon: 'fa fa-newspaper',
           },
           {
-            name: 'Timers',
-            heading: true,
-          },
-          {
-            name: 'Pomodoro Timer',
-            to: 'backend-pomodoro',
-            icon: 'si si-clock',
-          },
-          {
-            name: 'Meditation Timer',
-            to: 'backend-meditation',
-            icon: 'fa fa-fw fa-clock',
-          },
-          {
             name: 'Journals',
             heading: true,
           },
@@ -108,6 +94,20 @@ const logOut = () => {
             name: 'Worry Balancer',
             to: 'backend-worry-balancer',
             icon: 'fa fa-comments',
+          },
+          {
+            name: 'Timers',
+            heading: true,
+          },
+          {
+            name: 'Pomodoro Timer',
+            to: 'backend-pomodoro',
+            icon: 'si si-clock',
+          },
+          {
+            name: 'Meditation Timer',
+            to: 'backend-meditation',
+            icon: 'fa fa-fw fa-clock',
           },
         ]" />
       </div>
