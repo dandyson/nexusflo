@@ -158,6 +158,8 @@ const mainWorry = ref('');
 const thinkingTraps = ref([]);
 const balancedThought = ref('');
 const aiBalancerLoading = ref(false);
+const aiFetchError = ref(false);
+let aiFetchErrorMessage = ref('');
 
 const currentStep = ref(1);
 const totalSteps = 3;
@@ -253,13 +255,19 @@ const submitForm = () => {
 const fetchAIResponse = () => {
   aiBalancerLoading.value = true;
   balancedThought.value = '';
+  aiFetchError.value = false;
+  aiFetchErrorMessage.value = '';
 
   axios.post('/api/worry-balancer', { text: mainWorry.value })
     .then(response => {
       balancedThought.value = response.data.reply;
       aiBalancerLoading.value = false;
     })
-    .catch(error => console.error(error));
+    .catch(error => {
+      aiFetchError.value = true;
+      aiFetchErrorMessage.value = "ERROR: There was an issue. Please try again";
+      aiBalancerLoading.value = false;
+    })
 };
 
 onMounted(async () => {

@@ -2,7 +2,7 @@
   <div class="block-rounded block">
     <div class="block-header block-header-default">
       <h3 class="block-title"> {{ title }}</h3><!---->
-      <div class="block-options">
+      <div v-if="tutorial.length > 1" class="block-options">
         <TutorialModal :title="title" :steps="tutorial"></TutorialModal>
       </div>
     </div>
@@ -18,7 +18,10 @@ import TutorialModal from './modals/TutorialModal.vue';
 const props = defineProps({
   title: String,
   description: String,
-  tutorial: Array,
+  tutorial: {
+    type: Array,
+    default: [],
+  },
 });
 
 </script>

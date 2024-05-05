@@ -100,6 +100,15 @@ const logOut = () => {
             to: 'backend-worry-journal',
             icon: 'fa fa-book',
           },
+          {
+            name: 'Tools',
+            heading: true,
+          },
+          {
+            name: 'Worry Balancer',
+            to: 'backend-worry-balancer',
+            icon: 'fa fa-comments',
+          },
         ]" />
       </div>
     </template>
