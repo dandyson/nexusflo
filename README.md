@@ -32,7 +32,7 @@ NexusFlo aims to counterbalance the overwhelming negativity present in the news 
 - Implemented a 'Worry Balancer' AI feature that incorporates the OpenAI API to assist users in the worry journal process, providing a balanced outlook on their worries. This is also a standalone tool, located through the nav's new 'Tools' section:
 
 
-![](https://raw.githubusercontent.com/dandyson/nexusflo/main/nexusflo-worry-balancer-gif.gif)
+![](https://raw.githubusercontent.com/dandyson/nexusflo/main/worry-balancer.gif)
 
 ## Future Updates
 
