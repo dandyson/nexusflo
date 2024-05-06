@@ -15,7 +15,7 @@ class AiController extends Controller
         $prompt = 'respond with the following context: Please respond in a way that ‘balances’ a worry. Provide a balanced perspective on the concerns.';
         $result = OpenAI::chat()->create([
             'model' => 'gpt-3.5-turbo',
-            'max_tokens' => 150,
+            'max_tokens' => 200,
             'temperature' => 0.7,
             'messages' => [
                 ['role' => 'user', 'content' => $userWorry . ' - ' . $prompt],
