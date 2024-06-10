@@ -13,8 +13,11 @@ class AiController extends Controller
     {
         $userWorry = $request->input('text');
         $prompt = 'respond with the following context: Please respond in a way that ‘balances’ a worry. Provide a balanced perspective on the concerns.';
+        if ($request->standaloneWorryBalancer) {
+            $prompt .= ' Please also only respond in a HTML format.';
+        }
         $result = OpenAI::chat()->create([
-            'model' => 'gpt-3.5-turbo',
+            'model' => 'gpt-4o',
             'max_tokens' => 1000,
             'temperature' => 0.7,
             'messages' => [
@@ -23,6 +26,7 @@ class AiController extends Controller
         ]);
 
         return response()->json([
+            'choices' => $result,
             'reply' => $result->choices[0]->message->content,
         ]);
     }

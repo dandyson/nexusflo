@@ -30,7 +30,7 @@ class AiControllerTest extends TestCase
         ]);
 
         $completion = $client->completions()->create([
-            'model' => 'gpt-3.5-turbo-instruct',
+            'model' => 'gpt-4o',
             'prompt' => 'PHP is ',
         ]);
 

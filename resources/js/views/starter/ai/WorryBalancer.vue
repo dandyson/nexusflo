@@ -36,7 +36,7 @@
             <div class="card-header">
               <h3 class="block-title">Balanced Thought</h3>
             </div>
-            <div class="card-body">{{ balancedThought }}</div>
+            <div class="card-body" v-html="balancedThought"></div>
             <div class="card-footer fs-sm border-top-0">
               <button @click="regenerate" type="button" class="btn btn-warning me-1">
                 <i class="far fa-circle-left  me-1"></i>
@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue';
+import { ref } from 'vue';
 import SectionIntro from '../../components/SectionIntro.vue';
 import axios from 'axios';
 
@@ -68,7 +68,10 @@ const fetchAIResponse = () => {
   aiFetchError.value = false;
   aiFetchErrorMessage.value = '';
 
-  axios.post('/api/worry-balancer', { text: worryEntry.value })
+  axios.post('/api/worry-balancer', { 
+    text: worryEntry.value, 
+    standaloneWorryBalancer: true 
+  })
     .then(response => {
       balancedThought.value = response.data.reply;
       aiBalancerLoading.value = false;
