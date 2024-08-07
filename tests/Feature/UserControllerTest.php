@@ -184,5 +184,4 @@ class UserControllerTest extends TestCase
 
         Storage::disk('s3')->assertMissing("users/{$user->id}/avatar/{$file->getClientOriginalName()}");
     }
-
 }

@@ -98,7 +98,7 @@ class UserController extends Controller
 
         /** UPLOAD LIMIT - implemented for safety against going over the AWS free tier.
          * In this code: Check if the user has reached the upload limit.
-        */
+         */
         if ($user->avatar_upload_count >= 10) {
             return response()->json(['error' => 'Error: Upload limit reached. Please contact the admin team to resolve.'], 403);
         }
