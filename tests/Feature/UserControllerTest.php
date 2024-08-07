@@ -176,7 +176,7 @@ class UserControllerTest extends TestCase
 
         $response->assertStatus(403)
             ->assertJson([
-                'error' => 'Upload limit reached',
+                'error' => 'Error: Upload limit reached. Please contact the admin team to resolve.',
             ]);
 
         $user->refresh();
