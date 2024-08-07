@@ -127,6 +127,7 @@ class UserControllerTest extends TestCase
 
         $user->refresh();
         $this->assertNotNull($user->avatar);
+        $this->assertEquals(1, $user->avatar_upload_count);
 
         Storage::disk('s3')->assertExists("users/{$user->id}/avatar/{$file->getClientOriginalName()}");
     }
@@ -156,7 +157,32 @@ class UserControllerTest extends TestCase
 
         $user->refresh();
         $this->assertNull($user->avatar);
+        $this->assertEquals(0, $user->avatar_upload_count);
 
         Storage::disk('s3')->assertMissing("users/{$user->id}/avatar/{$file->getClientOriginalName()}");
     }
+
+    /** @test */
+    public function test_user_cannot_upload_more_than_limit()
+    {
+        $user = User::factory()->create(['avatar_upload_count' => 10]);
+
+        Storage::fake('s3');
+        $file = UploadedFile::fake()->image('avatar.jpg');
+
+        $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
+            'avatar' => $file,
+        ]);
+
+        $response->assertStatus(403)
+            ->assertJson([
+                'error' => 'Error: Upload limit reached. Please contact the admin team to resolve.',
+            ]);
+
+        $user->refresh();
+        $this->assertEquals(10, $user->avatar_upload_count);
+
+        Storage::disk('s3')->assertMissing("users/{$user->id}/avatar/{$file->getClientOriginalName()}");
+    }
+
 }

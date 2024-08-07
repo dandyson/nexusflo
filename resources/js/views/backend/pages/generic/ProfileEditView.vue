@@ -225,48 +225,52 @@ let credentialPasswordErrorMessage = ref('');
 const vDetailRules$ = useVuelidate(detailRules, detailState);
 const vPasswordRules$ = useVuelidate(passwordRules, passwordState);
 
-const detailSubmit = () => {
+const detailSubmit = async () => {
+
   // Send the avatar file first
-  axios.get('sanctum/csrf-cookie')
-    .then(() => {
-      if (detailState.avatar) {
-        // Create FormData and append the avatar file
-        const formData = new FormData();
-        formData.append('avatar', detailState.avatar);
+  await axios.get('sanctum/csrf-cookie');
 
-        axios.post(`/api/users/${route.params?.user.id}/upload-avatar`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data", // Use multipart/form-data for file upload
-          },
-        })
-          .catch((error) => {
-            console.log({ error });
-            return;
-          });
-      }
+  if (detailState.avatar) {
+    const formData = new FormData();
+    formData.append('avatar', detailState.avatar);
 
-      axios.post(`/api/users/${route.params?.user.id}/update`, detailState, {
+    try {
+      await axios.post(`/api/users/${route.params?.user.id}/upload-avatar`, formData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
-      })
-        .then((response) => {
-          if (response.data?.type === 'success') {
-            Swal.fire({
-              icon: 'success',
-              title: 'Information Updated Successfully!',
-              showConfirmButton: false,
-              timer: 1500,
-            }).then(() => {
-              location.reload();
-            });
-          }
-        })
-        .catch((error) => {
-          credentialDetailError.value = true;
-          credentialDetailErrorMessage.value = 'There has been an error, please try again';
-        });
+      });
+    } catch (error) {
+      console.log(error.response.data.error);
+      credentialDetailError.value = true;
+      credentialDetailErrorMessage.value = error.response?.data?.error !== undefined ? 
+      error.response.data.error : 
+      'There has been an error, please try again';;
+      throw new Error('Avatar upload failed');
+    }
+  }
+
+  try {
+    const response = await axios.post(`/api/users/${route.params?.user.id}/update`, detailState, {
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+
+    if (response.data?.type === 'success') {
+      Swal.fire({
+        icon: 'success',
+        title: 'Information Updated Successfully!',
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        location.reload();
+      });
+    }
+  } catch (error) {
+    credentialDetailError.value = true;
+    credentialDetailErrorMessage.value = 'There has been an error, please try again';
+  }
 };
 
 const passwordSubmit = () => {

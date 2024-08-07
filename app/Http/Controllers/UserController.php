@@ -94,8 +94,16 @@ class UserController extends Controller
             'avatar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        $user = auth()->user();
+
+        /** UPLOAD LIMIT - implemented for safety against going over the AWS free tier.
+         * In this code: Check if the user has reached the upload limit.
+        */
+        if ($user->avatar_upload_count >= 10) {
+            return response()->json(['error' => 'Error: Upload limit reached. Please contact the admin team to resolve.'], 403);
+        }
+
         if ($request->hasFile('avatar')) {
-            $user = auth()->user();
             $image = $request->file('avatar');
             $avatarPath = "users/{$user->id}/avatar";
             $avatarName = $image->getClientOriginalName();
@@ -108,6 +116,7 @@ class UserController extends Controller
             );
 
             $user->avatar = Storage::disk('s3')->url("{$avatarPath}/{$avatarName}");
+            $user->avatar_upload_count += 1;
             $user->save();
 
             return response()->json([
