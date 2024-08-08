@@ -138,22 +138,22 @@ class UserControllerTest extends TestCase
         $user = User::factory()->create();
 
         Storage::fake('s3');
-        $file = UploadedFile::fake()->create('document.pdf', 100);
+        $file = UploadedFile::fake()->create('document.pdf', 100); // Create a non-image file
 
         $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
             'avatar' => $file,
         ]);
 
         $response->assertStatus(422)
-            ->assertJson([
-                'message' => 'The avatar must be an image. (and 1 more error)',
-                'errors' => [
-                    'avatar' => [
-                        'The avatar must be an image.',
-                        'The avatar must be a file of type: jpeg, png, jpg.',
-                    ],
+        ->assertJson([
+            'message' => 'The avatar must be an image. (and 1 more error)',
+            'errors' => [
+                'avatar' => [
+                    'The avatar must be an image.',
+                    'The avatar must be a file of type: jpeg, png, jpg.',
                 ],
-            ]);
+            ],
+        ]);
 
         $user->refresh();
         $this->assertNull($user->avatar);

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -103,27 +105,29 @@ class UserController extends Controller
             return response()->json(['error' => 'Error: Upload limit reached. Please contact the admin team to resolve.'], 403);
         }
 
-        if ($request->hasFile('avatar')) {
-            $image = $request->file('avatar');
-            $avatarPath = "users/{$user->id}/avatar";
-            $avatarName = $image->getClientOriginalName();
+        try {
+            DB::transaction(function () use ($request, $user) {
+                $image = $request->file('avatar');
+                $avatarPath = "users/{$user->id}/avatar";
+                $avatarName = $image->getClientOriginalName();
 
-            // Store in S3 Bucket
-            $request->file('avatar')->storeAs(
-                $avatarPath,
-                $avatarName,
-                's3'
-            );
+                // Perform the actual upload to S3
+                $image->storeAs($avatarPath, $avatarName, 's3');
 
-            $user->avatar = Storage::disk('s3')->url("{$avatarPath}/{$avatarName}");
-            $user->avatar_upload_count += 1;
-            $user->save();
-
+                // Update user with the new avatar URL and increment upload count
+                $user->avatar = Storage::disk('s3')->url("{$avatarPath}/{$avatarName}");
+                $user->avatar_upload_count += 1;
+                $user->save();
+            });
+    
             return response()->json([
                 'message' => 'Image uploaded successfully',
             ]);
-        } else {
-            return response()->json(['error' => 'Invalid file'], 400);
+    
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }
