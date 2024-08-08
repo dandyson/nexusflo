@@ -64,7 +64,7 @@ Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function
 // User
 Route::post('users/{user}/update', [UserController::class, 'updateDetails'])->name('user.update');
 Route::post('users/{user}/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
-Route::post('users/{user}/upload-avatar', [UserController::class, 'uploadAvatar'])->name('user.upload-avatar');
+Route::middleware('throttle:10,1')->post('users/{user}/upload-avatar', [UserController::class, 'uploadAvatar'])->name('user.upload-avatar');
 
 // Delete profile
 Route::delete('users/{user}/delete', [UserController::class, 'deleteAccount'])->name('user.account.delete');
