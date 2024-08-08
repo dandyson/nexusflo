@@ -138,7 +138,7 @@ class UserControllerTest extends TestCase
         $user = User::factory()->create();
 
         Storage::fake('s3');
-        $file = UploadedFile::fake()->create('document.pdf', 100);
+        $file = UploadedFile::fake()->create('document.pdf', 100); // Create a non-image file
 
         $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
             'avatar' => $file,
