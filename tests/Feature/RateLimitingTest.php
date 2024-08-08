@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class RateLimitingTest extends TestCase
@@ -22,7 +21,7 @@ class RateLimitingTest extends TestCase
         $file = UploadedFile::fake()->image('avatar.jpg');
 
         // Perform requests within the rate limit
-        for ($i = 0; $i < 10; $i++) {  
+        for ($i = 0; $i < 10; $i++) {
             $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
                 'avatar' => $file,
             ]);
@@ -40,7 +39,7 @@ class RateLimitingTest extends TestCase
         $file = UploadedFile::fake()->image('avatar.jpg');
 
         // Perform requests within the rate limit
-        for ($i = 0; $i < 10; $i++) {  
+        for ($i = 0; $i < 10; $i++) {
             $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
                 'avatar' => $file,
             ]);

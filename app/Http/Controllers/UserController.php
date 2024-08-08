@@ -6,9 +6,9 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -119,14 +119,14 @@ class UserController extends Controller
                 $user->avatar_upload_count += 1;
                 $user->save();
             });
-    
+
             return response()->json([
                 'message' => 'Image uploaded successfully',
             ]);
-    
+
         } catch (Exception $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }

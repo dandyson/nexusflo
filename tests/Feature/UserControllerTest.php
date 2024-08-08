@@ -145,15 +145,15 @@ class UserControllerTest extends TestCase
         ]);
 
         $response->assertStatus(422)
-        ->assertJson([
-            'message' => 'The avatar must be an image. (and 1 more error)',
-            'errors' => [
-                'avatar' => [
-                    'The avatar must be an image.',
-                    'The avatar must be a file of type: jpeg, png, jpg.',
+            ->assertJson([
+                'message' => 'The avatar must be an image. (and 1 more error)',
+                'errors' => [
+                    'avatar' => [
+                        'The avatar must be an image.',
+                        'The avatar must be a file of type: jpeg, png, jpg.',
+                    ],
                 ],
-            ],
-        ]);
+            ]);
 
         $user->refresh();
         $this->assertNull($user->avatar);
