@@ -1,9 +1,9 @@
 <!-- TODO: This code is not very clean at all - needs cleaning up -->
 <template>
   <div class="content">
-    <SectionIntro 
-        title="Pomodoro Timer" 
-        description="Use this timer to maximise your activity and keep your goals on track." 
+    <SectionIntro
+        title="Pomodoro Timer"
+        description="Use this timer to maximise your activity and keep your goals on track."
         :tutorial="tutorialData"
       ></SectionIntro>
   </div>
@@ -11,20 +11,20 @@
     <div class="col-8">
       <a class="main-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
       <div class="main-content-body main-content-body-contacts card custom-card mb-4">
-        <div class="bg-success" :class="[pomodoro.fillerDisplay]" :style="`width: ${pomodoro.fillerWidth}%`"></div>
+        <div class="bg-success" :class="[pomodoroTimer.fillerDisplay]" :style="`width: ${pomodoroTimer.fillerWidth}%`"></div>
         <div id="pomodoro-app">
           <div id="container">
             <div id="timer">
-              <div id="time" class="d-flex justify-content-center align-items-center mb-4" :class="pomodoro.background"
-                :style="pomodoro.shadow">
-                <span id="minutes">{{ pomodoro.minutes }}</span>:
-                <span id="seconds">{{ pomodoro.seconds }}</span>
+              <div id="time" class="d-flex justify-content-center align-items-center mb-4" :class="pomodoroTimer.background"
+                :style="pomodoroTimer.shadow">
+                <span id="minutes">{{ pomodoroTimer.minutes }}</span>:
+                <span id="seconds">{{ pomodoroTimer.seconds }}</span>
               </div>
 
               <div class="d-flex justify-content-center my-3">
                 <div class="">
                   <button class="btn btn-danger btn-block pomodoro-button" id="stop" @click="timerButtonSound(); start()">
-                    <i class="typcn typcn-media-play"></i>{{ pomodoro.startText }}<i class="typcn typcn-media-pause"></i>
+                    <i class="typcn typcn-media-play"></i>{{ pomodoroTimer.startText }}<i class="typcn typcn-media-pause"></i>
                   </button>
                 </div>
               </div>
@@ -84,7 +84,7 @@ const tutorialData = ref([
     },
 ]);
 
-const pomodoro = reactive({
+const pomodoroTimer = reactive({
   // Timer variables
   state: 'work',
   started: false,
@@ -102,7 +102,62 @@ const pomodoro = reactive({
   background: 'bg-danger',
   shadow: 'box-shadow: 0 0 0 12px #e7829a',
   singleDigit: false,
+  switchConfirmed: false,
 });
+
+
+const start = () => {
+  pomodoroTimer.started = !pomodoroTimer.started;
+
+  if (pomodoroTimer.started) {
+    loop();
+  } else {
+    clearInterval(pomodoroTimer.countdown);
+  }
+};
+
+const work = () => {
+    pomodoroTimer.state = 'work';
+    resetTimer(25);
+};
+
+const shortBreak = () => {
+    pomodoroTimer.state = 'shortBreak';
+    resetTimer(5);
+};
+
+const longBreak = () => {
+  pomodoroTimer.state = 'longBreak';
+  resetTimer(15);
+};
+
+const loop = () => {
+  pomodoroTimer.countdown = setInterval(() => {
+    pomodoroTimer.seconds--;
+
+    // When complete, set all to 0 and clear interval
+    if (pomodoroTimer.seconds < 0 && pomodoroTimer.minutes === '00') {
+      clearInterval(pomodoroTimer.countdown);
+      timerComplete();
+    }
+  }, 1000);
+};
+
+const resetTimer = (mins) => {
+    if (pomodoroTimer.started) {
+        pomodoroTimer.switchConfirmed = confirm('Are you sure you want to reset the timer?');
+    if (pomodoroTimer.switchConfirmed) {
+        pomodoroTimer.started = false;
+        resetVariables(mins, 0, false);
+    } else {
+        return;
+    }
+    } else {
+        pomodoroTimer.started = false;
+        resetVariables(mins, 0, false);
+    }
+};
+
 
 const timerButtonSound = () => {
   var audio = new Audio('http://orteil.dashnet.org/cookieclicker/snd/press.mp3');
@@ -115,125 +170,42 @@ const doneSound = () => {
 };
 
 const resetVariables = (mins, secs, started) => {
-  pomodoro.minutes = mins;
-  pomodoro.seconds = secs;
-  pomodoro.started = started;
-  pomodoro.fillerIncrement = 100 / (pomodoro.minutes * 60);
-  pomodoro.fillerWidth = 0;
-};
-
-const start = () => {
-  pomodoro.started = !pomodoro.started;
-
-  if (pomodoro.started === true) {
-    loop();
-  } else if (pomodoro.started === false) {
-    clearInterval(pomodoro.countdown);
-  }
-};
-
-const work = () => {
-  pomodoro.state = 'work';
-
-  if (pomodoro.started) {
-    let check = confirmSwitch();
-    if (check === true) {
-      pomodoro.started = false;
-      resetVariables(25, 0, false);
-    } else if (check === false) {
-      return;
-    }
-  } else {
-    pomodoro.started = false;
-    resetVariables(25, 0, false);
-  }
-};
-
-const shortBreak = () => {
-  pomodoro.state = 'shortBreak';
-
-  if (pomodoro.started) {
-    let check = confirmSwitch();
-    if (check === true) {
-      pomodoro.started = false;
-      resetVariables(5, 0, false);
-    } else if (check === false) {
-      return;
-    }
-  } else {
-    pomodoro.started = false;
-    resetVariables(5, 0, false);
-  }
-};
-
-const longBreak = () => {
-  pomodoro.state = 'longBreak';
-
-  if (pomodoro.started) {
-    let check = confirmSwitch();
-    if (check === true) {
-      pomodoro.started = false;
-      resetVariables(15, 0, false);
-    } else if (check === false) {
-      return;
-    }
-  } else {
-    pomodoro.started = false;
-    resetVariables(15, 0, false);
-  }
-};
-
-const loop = () => {
-  pomodoro.countdown = setInterval(() => {
-    pomodoro.seconds--;
-
-    // When complete, set all to 0 and clear interval
-    if (pomodoro.seconds < 0 && pomodoro.minutes === '00') {
-      clearInterval(pomodoro.countdown);
-      timerComplete();
-    }
-  }, 1000);
+  pomodoroTimer.minutes = mins;
+  pomodoroTimer.seconds = secs;
+  pomodoroTimer.started = started;
+  pomodoroTimer.fillerIncrement = 100 / (pomodoroTimer.minutes * 60);
+  pomodoroTimer.fillerWidth = 0;
 };
 
 const pauseTimer = () => {
-  pomodoro.started = !pomodoro.started;
+  pomodoroTimer.started = !pomodoroTimer.started;
 };
 
 const timerComplete = () => {
-  pomodoro.started = false;
-  pomodoro.fillerWidth = 0;
-  pomodoro.pomodoroCount++;
+  pomodoroTimer.started = false;
+  pomodoroTimer.fillerWidth = 0;
+  pomodoroTimer.pomodoroCount++;
   doneSound();
-  if (pomodoro.state === 'work') {
-    if (pomodoro.pomodoroCount === 4) {
+  if (pomodoroTimer.state === 'work') {
+    if (pomodoroTimer.pomodoroCount === 4) {
       longBreak();
-      pomodoro.pomodoroCount = 0;
+      pomodoroTimer.pomodoroCount = 0;
     } else {
       shortBreak();
     }
-  } else if (pomodoro.state === 'shortBreak' || pomodoro.state === 'longBreak') {
+  } else if (pomodoroTimer.state === 'shortBreak' || pomodoroTimer.state === 'longBreak') {
     work();
   }
 };
 
-const confirmSwitch = () => {
-  let check = confirm('Are you sure you want to reset the timer?');
-
-  if (check === true) {
-    return true;
-  } else if (check === false) {
-    return false;
-  }
-};
-
-watch(pomodoro, (val) => {
+watch(pomodoroTimer, (val) => {
   // PAUSE TIMER
   if (val.started === false) {
     // Pause/Stop the timer
-    clearInterval(pomodoro.countdown);
+    clearInterval(pomodoroTimer.countdown);
     // Change the start button text
     val.startText = 'Start';
-  } else if (val.started === true) {
+  } else if (val.started) {
     val.startText = 'Pause';
   }
 
@@ -261,7 +233,7 @@ watch(pomodoro, (val) => {
 });
 </script>
 
-  
+
 <style scoped>
 #filler {
   height: 100%;
@@ -291,4 +263,3 @@ watch(pomodoro, (val) => {
   box-shadow: rgb(235 235 235) 0px 6px 0px;
 }
 </style>
-  
