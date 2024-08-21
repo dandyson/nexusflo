@@ -1,8 +1,9 @@
 <template>
   <div class="block-rounded block">
     <div class="block-header block-header-default">
-      <h3 class="block-title"> {{ title }}</h3><!---->
-      <div v-if="tutorial.length > 1" class="block-options">
+      <h3 class="block-title"> {{ title }}</h3>
+
+      <div v-if="tutorial.length >= 1" class="block-options">
         <TutorialModal :title="title" :steps="tutorial"></TutorialModal>
       </div>
     </div>
