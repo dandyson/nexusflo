@@ -612,7 +612,7 @@ export default {
         },
         {
           name: "Sign In 3",
-          to: "auth-signin3",
+          to: "login",
         },
         {
           name: "Sign Up",

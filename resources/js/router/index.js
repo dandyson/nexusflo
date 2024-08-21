@@ -970,7 +970,7 @@ const routes = [
       },
       {
         path: "signin3",
-        name: "auth-signin3",
+        name: "login",
         component: AuthSignIn3,
       },
       {

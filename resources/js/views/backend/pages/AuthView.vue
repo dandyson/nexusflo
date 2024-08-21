@@ -180,7 +180,7 @@
       <div class="col-md-6 col-xxl-3">
         <!-- Sign In -->
         <RouterLink
-          :to="{ name: 'auth-signin3' }"
+          :to="{ name: 'login' }"
           custom
           v-slot="{ href, navigate }"
         >

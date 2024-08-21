@@ -75,17 +75,17 @@ async function onSubmit() {
         showConfirmButton: true,
       }).then(() => {
         // Go to login
-        router.push({ name: "auth-signin3" });
+        router.push({ name: "login" });
       })
     } catch (error) {
       store.setLoading(false);
       error.value = true;
-      errorMessage.value = 
-      error.response?.data?.message !== undefined ? 
-      error.response.data.message : 
+      errorMessage.value =
+      error.response?.data?.message !== undefined ?
+      error.response.data.message :
       'There has been an error, please try again';
     }
-  
+
 
 }
 </script>

@@ -52,7 +52,7 @@ store.mainContent({ mode: "boxed" });
     <template #header-content-right>
       <!-- Login Link -->
       <RouterLink
-          :to="{ name: 'auth-signin3' }"
+          :to="{ name: 'login' }"
           class="d-flex align-items-center fw-bold fs-lg tracking-wider text-dual me-2"
         >
         <a

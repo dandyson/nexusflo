@@ -76,14 +76,14 @@
                 <div class="col-12">
                   <BaseBlock transparent class="bg-body-light">
                     <div class="pb-3 text-center">
-                      <img src="/assets/media/photos/nexusflo1.png" alt="Image 1" class="img-fluid">
+                      <img src="/assets/media/photos/nexusflo1.webp" alt="Image 1" class="img-fluid">
                     </div>
                   </BaseBlock>
                 </div>
                 <div class="col-12">
                   <BaseBlock transparent class="bg-body-light">
                     <div class="pb-3 text-center">
-                      <img src="/assets/media/photos/nexusflo2.png" alt="Image 2" class="img-fluid">
+                      <img src="/assets/media/photos/nexusflo2.webp" alt="Image 2" class="img-fluid">
                     </div>
                   </BaseBlock>
                 </div>

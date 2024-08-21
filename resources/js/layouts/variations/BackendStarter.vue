@@ -36,7 +36,7 @@ const logOut = () => {
   axios.post('/api/logout')
     .then((res) => {
       // Go to sign in
-      router.push({ name: "auth-signin3" });
+      router.push({ name: "login" });
     }).catch(() => {});
 }
 
