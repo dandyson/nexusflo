@@ -40,7 +40,7 @@
           >
             <img
               class="img-fluid"
-              src="/assets/media/photos/nexusflohero.png"
+              src="/assets/media/photos/nexusflohero.webp"
               alt="Hero Promo Light Dashboard"
             />
           </BaseBlock>
