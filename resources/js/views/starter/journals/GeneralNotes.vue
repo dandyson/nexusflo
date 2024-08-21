@@ -41,7 +41,7 @@
                                 <div v-for="note in selectedNotebook?.notes || []" :key="note.id" class="border">
                                     <button type="button" class="btn btn-link" @click="selectNote(note)"
                                         :class="{ active: selectedNote === note }">
-                                        {{ note.title.replace(/<\ / ? h2 > /g, '') }}
+                                        {{ note.title.replace(/<\/ ? h2 > /g, '') }}
                                     </button>
                                 </div>
                             </div>
