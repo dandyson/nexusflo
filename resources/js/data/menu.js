@@ -624,7 +624,7 @@ export default {
         },
         {
           name: "Sign Up 3",
-          to: "auth-signup3",
+          to: "register",
         },
         {
           name: "Lock Screen",

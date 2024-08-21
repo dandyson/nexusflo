@@ -985,7 +985,7 @@ const routes = [
       },
       {
         path: "signup3",
-        name: "auth-signup3",
+        name: "register",
         component: AuthSignUp3,
       },
       {

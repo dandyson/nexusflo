@@ -172,7 +172,7 @@ async function onSubmit() {
               </p>
             </div>
             <!-- END Header -->
-          
+
             <!-- Sign Up Form -->
             <div class="row g-0 justify-content-center">
               <div class="col-sm-8 col-xl-4">
@@ -188,6 +188,7 @@ async function onSubmit() {
                       id="signup-name"
                       name="signup-name"
                       placeholder="Full Name"
+                      autocomplete="name"
                       :class="{
                         'is-invalid': v$.name.$errors.length,
                       }"
@@ -208,6 +209,7 @@ async function onSubmit() {
                       id="signup-email"
                       name="signup-email"
                       placeholder="Email"
+                      autocomplete="email"
                       :class="{
                         'is-invalid': v$.email.$errors.length,
                       }"
@@ -228,6 +230,7 @@ async function onSubmit() {
                       id="signup-password"
                       name="signup-password"
                       placeholder="Password"
+                      autocomplete="new-password"
                       :class="{
                         'is-invalid': v$.password.$errors.length,
                       }"
@@ -248,6 +251,7 @@ async function onSubmit() {
                       id="password-confirmation"
                       name="password_confirmation"
                       placeholder="Confirm Password"
+                      autocomplete="new-password"
                       :class="{
                         'is-invalid': v$.password_confirmation.$errors.length,
                       }"
@@ -392,7 +396,7 @@ async function onSubmit() {
             </p>
             <p>
               <strong>Data Security and Privacy:</strong><br>
-              Your privacy is important to us. Please review our 
+              Your privacy is important to us. Please review our
                 <RouterLink
                   target="_blank"
                   :to="{ name: 'privacy-policy' }"

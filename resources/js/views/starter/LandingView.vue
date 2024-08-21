@@ -18,7 +18,7 @@
             <p class="fs-lg fw-medium text-muted mb-4">
               Manage your mind with an app that allows you to manage not just your busy day, but your inner peace as well.
             </p>
-            <RouterLink :to="{ name: 'auth-signup3' }" class="btn btn-primary px-4 py-3" v-click-ripple>
+            <RouterLink :to="{ name: 'register' }" class="btn btn-primary px-4 py-3" v-click-ripple>
               Sign Up Today
               <i class="fa fa-fw fa-arrow-right ms-1 opacity-50"></i>
             </RouterLink>
@@ -159,7 +159,7 @@
           <p class="fs-lg fw-medium text-muted mb-4">
             Our quick and easy registration will have you up and running in minutes.
           </p>
-          <RouterLink :to="{ name: 'auth-signup3' }" v-click-ripple>
+          <RouterLink :to="{ name: 'register' }" v-click-ripple>
             <a class="btn btn-success py-2 px-3 m-1" href="https://1.envato.market/5Noyb" v-click-ripple>
               <i class="fa fa-fw fa-user-plus opacity-50"></i>
               <span class="ms-2">Create an Account</span>

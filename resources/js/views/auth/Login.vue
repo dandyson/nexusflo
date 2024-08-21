@@ -67,17 +67,17 @@ async function onSubmit() {
       }).catch((error) => {
         store.setLoading(false);
         credentialError.value = true;
-        credentialErrorMessage.value = 
-        error.response?.data?.message !== undefined ? 
-        error.response.data.message : 
+        credentialErrorMessage.value =
+        error.response?.data?.message !== undefined ?
+        error.response.data.message :
         'There has been an error, please try again';
       });
     }).catch((error) => {
       store.setLoading(false);
       credentialError.value = true;
-      credentialErrorMessage.value = 
-      error.response?.data?.message !== undefined ? 
-      error.response.data.message : 
+      credentialErrorMessage.value =
+      error.response?.data?.message !== undefined ?
+      error.response.data.message :
       'There has been an error, please try again';
     });
 }
@@ -148,7 +148,7 @@ async function onSubmit() {
               <h1 class="fw-bold mb-2">Sign In</h1>
               <p class="fw-medium text-muted">
                 Welcome, please login or
-                <RouterLink :to="{ name: 'auth-signup3' }">sign up</RouterLink>
+                <RouterLink :to="{ name: 'register' }">sign up</RouterLink>
                 for a new account.
               </p>
             </div>
@@ -170,6 +170,7 @@ async function onSubmit() {
                       id="login-email"
                       name="login-email"
                       placeholder="Email"
+                      autocomplete="email"
                       :class="{
                         'is-invalid': v$.email.$errors.length,
                       }"
@@ -190,6 +191,7 @@ async function onSubmit() {
                       id="login-password"
                       name="login-password"
                       placeholder="Password"
+                      autocomplete="current-password"
                       :class="{
                         'is-invalid': v$.password.$errors.length,
                       }"

@@ -68,7 +68,7 @@ store.mainContent({ mode: "boxed" });
 
       <!-- Sign Up Link -->
       <RouterLink
-          :to="{ name: 'auth-signup3' }"
+          :to="{ name: 'register' }"
           class="d-flex align-items-center fw-bold fs-lg tracking-wider text-dual me-2"
         >
         <a

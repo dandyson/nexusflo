@@ -142,8 +142,8 @@ const SpecialsStatus = () => import("@/views/specials/StatusView.vue");
 const SpecialsComingSoon = () => import("@/views/specials/ComingSoonView.vue");
 
 // Auth
-const AuthSignIn3 = () => import("@/views/auth/SignIn3View.vue");
-const AuthSignUp3 = () => import("@/views/auth/SignUp3View.vue");
+const Login = () => import("@/views/auth/Login.vue");
+const Register = () => import("@/views/auth/Register.vue");
 const AuthLock3 = () => import("@/views/auth/Lock3View.vue");
 const AuthReminder3 = () => import("@/views/auth/Reminder3View.vue");
 const PasswordReset = () => import("@/views/auth/PasswordReset.vue");
@@ -212,7 +212,7 @@ const routes = [
       const store = useTemplateStore();
       store.setVerificationNotificationShown(false);
 
-      axios.post('/api/logout') 
+      axios.post('/api/logout')
         .then((res) => {
           console.log({res});
             store.createVerifiedToast();
@@ -246,7 +246,7 @@ const routes = [
     name: 'privacy-policy',
     component: PrivacyPolicy,
   },
-  
+
   /*
   |
   |--------------------------------------------------------------------------
@@ -312,7 +312,7 @@ const routes = [
         path: "worry-balancer",
         name: "backend-worry-balancer",
         component: WorryBalancer,
-      },    
+      },
 
       /*
       |--------------------------------------------------------------------------
@@ -617,13 +617,13 @@ const routes = [
     children: [
       {
         path: "login",
-        name: "auth-signin3",
-        component: AuthSignIn3,
+        name: "login",
+        component: Login,
       },
       {
         path: "register",
-        name: "auth-signup3",
-        component: AuthSignUp3,
+        name: "register",
+        component: Register,
       },
       {
         path: "lock",
@@ -704,7 +704,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const store = useTemplateStore();
   store.setLoading(true); // Set loading to true when navigating to a new route
-  
+
   // Check if the route requires email verification
   if (to.meta.requiresEmailVerification) {
     try {
@@ -738,7 +738,7 @@ router.onError((error) => {
     router.push('/errors/404');
     return;
   }
-  
+
   // Set loading to false on error
   const store = useTemplateStore();
   store.setLoading(false);

@@ -198,7 +198,7 @@
       <div class="col-md-6 col-xxl-3">
         <!-- Sign Up -->
         <RouterLink
-          :to="{ name: 'auth-signup3' }"
+          :to="{ name: 'register' }"
           custom
           v-slot="{ href, navigate }"
         >
