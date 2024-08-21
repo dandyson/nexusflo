@@ -1,8 +1,12 @@
 <template>
   <div class="content">
-    <SectionIntro title="Positive News" description="Discover a world of positivity with this curated collection of 
-        uplifting news articles from positive.news and the Good News Network. 
-        Get inspired by stories that celebrate the brighter side of life." :tutorial="tutorialData"></SectionIntro>
+    <SectionIntro
+        title="Positive News"
+        description="Discover a world of positivity with this curated collection of
+        uplifting news articles from positive.news and the Good News Network.
+        Get inspired by stories that celebrate the brighter side of life."
+        :tutorial="tutorialData">
+    </SectionIntro>
   </div>
   <!-- Positive News -->
   <div class="row mx-5 my-5">
