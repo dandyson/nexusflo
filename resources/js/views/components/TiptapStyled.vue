@@ -84,7 +84,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'blur'])
 
 const editor = ref(null)
 
@@ -94,6 +94,9 @@ onMounted(() => {
     content: props.modelValue,
     onUpdate: () => {
       emit('update:modelValue', editor.value.getHTML())
+    },
+    onBlur: () => {
+      emit('blur');
     },
   })
 })
