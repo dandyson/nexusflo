@@ -71,7 +71,7 @@
     <EditorContent :editor="editor" />
   </div>
 </template>
-  
+
 <script setup>
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
