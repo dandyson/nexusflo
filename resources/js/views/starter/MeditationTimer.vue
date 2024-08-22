@@ -1,9 +1,9 @@
 <!-- TODO: This code is not very clean at all - needs cleaning up -->
 <template>
   <div class="content">
-    <SectionIntro 
-        title="Meditation Timer" 
-        description="Use this timer to track your meditation sessions." 
+    <SectionIntro
+        title="Meditation Timer"
+        description="Use this timer to track your meditation sessions."
         :tutorial="tutorialData"
       ></SectionIntro>
   </div>
@@ -15,14 +15,14 @@
             <i class="icon ion-md-arrow-back"></i>
           </a>
           <div class="main-content-body main-content-body-contacts card custom-card mb-4">
-            <div class="bg-success" :class="[timer.fillerDisplay]" :style="`width: ${timer.fillerWidth}%`"></div>
+            <div class="bg-success" :class="[meditationTimer.fillerDisplay]" :style="`width: ${meditationTimer.fillerWidth}%`"></div>
             <div id="pomodoro-app">
               <div id="container">
                 <div id="timer">
-                  <div id="time" class="d-flex justify-content-center align-items-center mb-4" :class="timer.background"
-                    :style="timer.shadow">
-                    <span id="minutes">{{ timer.minutes }}</span>:
-                    <span id="seconds">{{ timer.seconds }}</span>
+                  <div id="time" class="d-flex justify-content-center align-items-center mb-4" :class="meditationTimer.background"
+                    :style="meditationTimer.shadow">
+                    <span id="minutes">{{ meditationTimer.minutes }}</span>:
+                    <span id="seconds">{{ meditationTimer.seconds }}</span>
                   </div>
 
                   <!-- Minutes increment/decrement -->
@@ -38,8 +38,8 @@
                     <div class="">
                       <button class="btn btn-warning btn-block pomodoro-button" id="stop"
                         @click="timerButtonSound(); start()">
-                        <i class="typcn typcn-media-play"></i>{{ timer.startText }}
-                        <i class="typcn typcn-media-pause"></i>
+                        <i class="typcn typcn-media-play"></i>{{ meditationTimer.startText }}
+                          <i class="typcn typcn-media-pause"></i>
                       </button>
                     </div>
                   </div>
@@ -60,7 +60,7 @@
     </div>
   </div>
 </template>
-  
+
 <script setup>
 import { ref, reactive, watch } from 'vue';
 import SectionIntro from '../components/SectionIntro.vue';
@@ -84,7 +84,7 @@ const tutorialData = ref([
     },
 ]);
 
-const timer = reactive({
+const meditationTimer = reactive({
   started: false,
   countdown: '',
   startText: 'Start',
@@ -98,11 +98,11 @@ const timer = reactive({
   singleDigit: false,
 });
 
-watch(timer, (val) => {
-  if (val.started === false) {
+watch(meditationTimer, (val) => {
+  if (!val.started) {
     clearInterval(val.countdown);
     val.startText = 'Start';
-  } else if (val.started === true) {
+  } else {
     val.startText = 'Pause';
   }
 
@@ -120,69 +120,65 @@ watch(timer, (val) => {
   }
 });
 
-function timerButtonSound() {
+const timerButtonSound = () => {
   var audio = new Audio("http://clipart.usscouts.org/ScoutDoc/SeaExplr/WavFiles/SHIPBELL/SBELL1.WAV");
   audio.play();
 }
 
-function doneSound() {
+const doneSound = () => {
   var audio = new Audio("http://clipart.usscouts.org/ScoutDoc/SeaExplr/WavFiles/SHIPBELL/SBELL1.WAV");
   audio.play();
 }
 
-function resetVariables(mins, secs, started) {
-  timer.minutes = mins;
-  timer.seconds = secs;
-  timer.started = started;
-  timer.fillerIncrement = 100 / (timer.minutes * 60);
-  timer.fillerWidth = 0;
+const resetVariables = (mins, secs, started) => {
+  meditationTimer.minutes = mins;
+  meditationTimer.seconds = secs;
+  meditationTimer.started = started;
+  meditationTimer.fillerIncrement = 100 / (meditationTimer.minutes * 60);
+  meditationTimer.fillerWidth = 0;
 }
 
-function start() {
-  timer.started = !timer.started;
+const start = () => {
+  meditationTimer.started = !meditationTimer.started;
 
-  if (timer.started === true) {
+  if (meditationTimer.started) {
     loop();
-  } else if (timer.started === false) {
-    clearInterval(timer.countdown);
+  } else {
+    clearInterval(meditationTimer.countdown);
   }
 }
 
-function reset() {
-  timer.started = false;
+const reset = () => {
+  meditationTimer.started = false;
   resetVariables(25, 0, false);
 }
 
-function loop() {
-  timer.countdown = setInterval(() => {
-    timer.seconds--;
+const loop = () => {
+  meditationTimer.countdown = setInterval(() => {
+    meditationTimer.seconds--;
 
-    if (timer.seconds < 0 && timer.minutes == '00') {
-      clearInterval(timer.countdown);
+    if (meditationTimer.seconds < 0 && meditationTimer.minutes == '00') {
+      clearInterval(meditationTimer.countdown);
       timerComplete();
     }
   }, 1000);
 }
 
-function pauseTimer() {
-  timer.started = !timer.started;
-}
-
-function timerComplete() {
-  timer.started = false;
-  timer.fillerWidth = 0;
-  timer.minutes = '00';
-  timer.seconds = '00';
+const timerComplete = () => {
+  meditationTimer.started = false;
+  meditationTimer.fillerWidth = 0;
+  meditationTimer.minutes = '00';
+  meditationTimer.seconds = '00';
   doneSound();
 }
 
-function increase() {
-  timer.minutes++;
+const increase = () => {
+  meditationTimer.minutes++;
 }
 
-function decrease() {
-  if (timer.minutes > 0) {
-    timer.minutes--;
+const decrease = () => {
+  if (meditationTimer.minutes > 0) {
+    meditationTimer.minutes--;
   }
 }
 </script>
