@@ -71,7 +71,7 @@
     <EditorContent :editor="editor" />
   </div>
 </template>
-  
+
 <script setup>
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
@@ -84,7 +84,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'blur'])
 
 const editor = ref(null)
 
@@ -94,6 +94,9 @@ onMounted(() => {
     content: props.modelValue,
     onUpdate: () => {
       emit('update:modelValue', editor.value.getHTML())
+    },
+    onBlur: () => {
+      emit('blur');
     },
   })
 })
