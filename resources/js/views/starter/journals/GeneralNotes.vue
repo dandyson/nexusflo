@@ -6,13 +6,17 @@
     </div>
     <div class="content container pt-1">
         <button type="button" class="btn btn-success mb-5" @click="addNotebook">+ Add Notebook</button>
-        <div class="d-flex flex-column flex-md-row justify-content-between">
-            <div class="col-12 col-md-2 mb-4 mb-md-0">
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+            <div class="col-12 col-md-3 mb-4 mb-md-0">
                 <div class="list-group">
                     <button v-for="notebook in notebooks" :key="notebook.id" type="button"
 						class="list-group-item list-group-item-action" @click="selectNotebook(notebook)"
 						:class="{ active: selectedNotebook === notebook }">
 						{{ notebook.title.replace(/<\/ ? h2 > /g, '') }}
+                        <i class="far fa-trash-can delete-notebook-icon position-absolute top-0 bottom-0 right-1 align-self-center rounded-circle"
+                            :class="{ 'text-white': selectedNotebook === notebook }"
+                            @click="deleteNotebook(notebook)">
+                        </i>
 					</button>
                 </div>
             </div>
@@ -24,12 +28,8 @@
                             <input v-model="selectedNotebook.title" class="form-control"
                                 @blur="saveNotebook(selectedNotebook)" />
                             <button type="button" class="btn btn-sm btn-success"
-                                @click="saveNotebook(selectedNotebook)">
+                                @click="saveNotebook(selectedNotebook, true)">
                                 <i class="far fa-2x fa-circle-check"></i>
-                            </button>
-                            <button type="button" class="btn btn-sm btn-danger"
-                                @click="deleteNotebook(selectedNotebook)">
-                                <i class="far fa-2x fa-circle-xmark"></i>
                             </button>
                         </div>
                     </div>
@@ -48,13 +48,13 @@
                             <div v-if="selectedNote" class="mt-3">
                                 <div class="mb-2">
                                     <input type="text" v-model="selectedNote.title" class="form-control note-title"
-                                        @blur="checkEmpty">
+                                        @blur="checkEmptyAndSaveNote(selectedNote)">
                                 </div>
                                 <button v-if="selectedNotebook" type="button" class="btn btn-success mb-3 me-2"
-                                    @click="saveNote(selectedNote)">Save Note</button>
+                                    @click="saveNote(selectedNote, true)">Save Note</button>
                                 <button v-if="selectedNotebook" type="button" class="btn btn-danger mb-3"
                                     @click="deleteNote(selectedNote)">Delete Note</button>
-                                <TiptapStyled v-model="selectedNote.content" />
+                                <TiptapStyled v-model="selectedNote.content"  @blur="checkEmptyAndSaveNote(selectedNote)" />
                             </div>
                             <div v-else class="mt-3">
                                 <p class="text-muted">Select a note to display its content.</p>
@@ -166,14 +166,14 @@ const addNote = (notebook) => {
         });
 };
 
-const saveNotebook = (notebook) => {
+const saveNotebook = (notebook, showConfirmation) => {
     axios.get('sanctum/csrf-cookie')
         .then((res) => {
             axios.put(`/api/notebooks/${notebook.id}`, {
                 title: notebook.title,
             })
                 .then((res) => {
-                    toastMessage('success', 'Saved Notebook Title Successfully');
+					if (showConfirmation) toastMessage('success', 'Saved Notebook Title Successfully');
                 }).catch((error) => {
                     toastMessage('error', 'There has been an error, please try again.');
                 });
@@ -182,6 +182,7 @@ const saveNotebook = (notebook) => {
 
 
 const deleteNotebook = (notebook) => {
+    selectedNotebook.value = notebook
     axios.get('sanctum/csrf-cookie')
         .then(() => {
             const swalWithBootstrapButtons = Swal.mixin({
@@ -204,12 +205,6 @@ const deleteNotebook = (notebook) => {
                 if (result.isConfirmed) {
                     axios.delete(`/api/notebooks/${notebook.id}`)
                         .then(() => {
-                            swalWithBootstrapButtons.fire(
-                                'Deleted!',
-                                'Your notebook and all relevant notes have been deleted.',
-                                'success'
-                            );
-
                             selectedNote.value = null;
 
                             const notebookIndex = notebooks.value.findIndex(nb => nb.id === notebook.id);
@@ -232,14 +227,14 @@ const deleteNotebook = (notebook) => {
         });
 };
 
-const saveNote = (note) => {
+const saveNote = (note, showConfirmation) => {
     axios.get('sanctum/csrf-cookie')
         .then((res) => {
             axios.put(`/api/notes/${note.id}`, {
                 note: note,
             })
                 .then((res) => {
-                    toastMessage('success', 'Saved Note Successfully');
+                    if (showConfirmation) toastMessage('success', 'Saved Note Successfully');
                 }).catch((error) => {
                     toastMessage('error', 'There has been an error, please try again.');
                 });
@@ -293,10 +288,12 @@ const deleteNote = (note) => {
         });
 };
 
-const checkEmpty = () => {
-    if (selectedNote.value.title === "") {
-        selectedNote.value.title = "New Note";
+const checkEmptyAndSaveNote = (note) => {
+    if (note.title === "") {
+        note.title = "New Note";
     }
+
+    saveNote(note);
 }
 
 onMounted(async () => {
@@ -312,4 +309,19 @@ onMounted(async () => {
     padding: 1.1rem 0.5rem;
     margin: 1rem 0;
 }
+
+.delete-notebook-icon {
+    color: #DC2626;
+    right: 1rem;
+    padding: 0.5rem 0.6rem; /* Adjust padding to control the circle size */
+    font-size: 1.2rem; /* Adjust the font size as needed */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+}
+
+/* Hover effect */
+.delete-notebook-icon:hover {
+    background-color: #DC2626;
+    color: white;
+}
+
 </style>
