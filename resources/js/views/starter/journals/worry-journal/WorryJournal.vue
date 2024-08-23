@@ -1,7 +1,7 @@
 <template>
   <div class="content">
-    <SectionIntro title="Worry Journal" description="Fill out the below form to record your worries, 
-          spot any thinking traps and to try to re-balance your thought 
+    <SectionIntro title="Worry Journal" description="Fill out the below form to record your worries,
+          spot any thinking traps and to try to re-balance your thought
           by challenging your beliefs about the situation." :tutorial="tutorialData"></SectionIntro>
     <div class="block-rounded block">
       <div class="block-header block-header-default">
@@ -63,7 +63,7 @@
     </div>
   </div>
 </template>
-  
+
 
 <script setup>
 import axios from 'axios';
@@ -79,7 +79,7 @@ const tutorialData = ref([
   {
     id: 0,
     image: imagePaths.worryJournalStep1,
-    description: "Create a new Image by clicking the 'Create New Entry' button",
+    description: "Create a new Journal Entry by clicking the 'Create New Entry' button",
   },
   {
     id: 1,
