@@ -10,7 +10,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorryJournalEntryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\RoutePath;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,12 +47,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ]);
 });
 
-
 // PASSWORD RESET - To handle link from reset password email
 Route::middleware('guest')->group(function () {
-    Route::get('/reset-password/{token}', function ($token) {
+    Route::get('reset-password/{token}', function ($token) {
         $email = request()->query('email');
-        return redirect("/auth/password-reset/$token?email=$email");
+
+        return redirect("/auth/password-reset/{$token}?email={$email}");
     })->name('password.reset');
 });
 

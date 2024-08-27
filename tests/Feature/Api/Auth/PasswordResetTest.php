@@ -2,10 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
-use Illuminate\Support\Facades\Notification;
+use Hash;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
@@ -49,10 +50,9 @@ class PasswordResetTest extends TestCase
 
             $response->assertSessionHasNoErrors();
 
-            $this->assertTrue(\Hash::check('new-password', $user->fresh()->password));
+            $this->assertTrue(Hash::check('new-password', $user->fresh()->password));
 
             return true;
         });
     }
 }
-
