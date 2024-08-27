@@ -6,7 +6,7 @@ echo "Starting Sail environment..."
 
 # Run tests inside Sail
 echo "Running tests inside Sail..."
-./vendor/bin/sail exec -T laravel.test php artisan test --parallel
+./vendor/bin/sail exec -T laravel.test php artisan test
 
 # Check the result and exit if tests fail
 if [ $? -ne 0 ]; then
