@@ -6,50 +6,35 @@ on:
     pull_request:
 
 jobs:
-  duster:
+  lint_and_test:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: "Duster Lint"
-        uses: tighten/duster-action@v2
-        with:
-          args: lint
 
-  tests:
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
-          coverage: none
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache Composer Dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
 
       - name: Install Composer Dependencies
-        run: composer install -n --prefer-dist
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Run Duster Lint
+        uses: tighten/duster-action@v2
+        with:
+          args: lint
 
       - name: Prepare Laravel Application
         run: |
-          cp .env.ci .env
+          # Ensure .env exists
+          if [ ! -f .env ]; then
+            cp .env.example .env
+          fi
           php artisan key:generate
           php artisan config:cache
 
-      - name: Run Database Migrations (if applicable)
-        run: php artisan migrate --env=testing --force
-
-      - name: Run tests
-        run: php artisan test --parallel
+      - name: Run Tests
+        run: php artisan test
