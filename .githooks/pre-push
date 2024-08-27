@@ -1,0 +1,17 @@
+# .githooks/pre-push
+
+#!/bin/sh
+
+echo "Running Duster lint..."
+./vendor/bin/duster lint
+
+echo "Running PHP tests..."
+php artisan test --parallel
+
+# Abort the push if any checks fail
+if [ $? -ne 0 ]; then
+  echo "Pre-push checks failed. Aborting push."
+  exit 1
+fi
+
+echo "Pre-push checks passed. Proceeding with push."
