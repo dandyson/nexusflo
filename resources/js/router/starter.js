@@ -639,9 +639,11 @@ const routes = [
         path: 'password-reset/:token',
         name: 'password-reset',
         component: PasswordReset,
-        // TODO: Not sure about the token, seems a bit hacky but not sure how else to do this for now - needs improvement
-        props: (route) => ({ email: route.query.email, token: route.path.split('/password-reset/')[1].split('?')[0] }),
-      },
+        props: route => ({
+            token: route.params.token,
+            email: route.query.email
+        }),
+      }
     ],
   },
 
