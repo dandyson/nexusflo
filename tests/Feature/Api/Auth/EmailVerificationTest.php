@@ -44,6 +44,15 @@ class EmailVerificationTest extends TestCase
 
         Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
+
+        // Simulate the frontend logout after email verification -
+        // I cannot find a way to test that the frontend does this here,
+        // So this test follows Fortify's default behavior - it will log the user in
+        // automatically after email verification.
+        $response = $this->actingAs($user)->post('/api/logout');
+
+        // Assert that the user is logged out
+        $this->assertGuest();
     }
 
     /** @test */
