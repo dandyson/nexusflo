@@ -1,14 +1,14 @@
-# .githooks/pre-push
-
 #!/bin/sh
 
-echo "Running Duster lint..."
-./vendor/bin/duster lint
+# Ensure Sail is up and running
+echo "Starting Sail environment..."
+./vendor/bin/sail up -d
 
-echo "Running PHP tests..."
-php artisan test
+# Run tests inside Sail
+echo "Running tests inside Sail..."
+./vendor/bin/sail exec -T laravel.test php artisan test --parallel
 
-# Abort the push if any checks fail
+# Check the result and exit if tests fail
 if [ $? -ne 0 ]; then
   echo "Pre-push checks failed. Aborting push."
   exit 1
