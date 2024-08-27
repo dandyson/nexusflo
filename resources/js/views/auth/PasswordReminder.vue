@@ -61,6 +61,12 @@ async function onSubmit() {
             // Go to Login
             router.push({ name: "login" });
           })
+        }).catch((routeError) => {
+          credentialError.value = true;
+          credentialErrorMessage.value =
+          routeError.response?.data?.message !== undefined ?
+          routeError.response.data.message :
+          'There has been an error, please try again';
         })
       });
   } catch (error) {

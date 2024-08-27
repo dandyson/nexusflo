@@ -10,7 +10,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorryJournalEntryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\RoutePath;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,18 +47,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ]);
 });
 
+// PASSWORD RESET - To handle link from reset password email
+Route::middleware('guest')->group(function () {
+    Route::get('reset-password/{token}', function ($token) {
+        $email = request()->query('email');
+
+        return redirect("/auth/password-reset/{$token}?email={$email}");
+    })->name('password.reset');
+});
+
 // Worry Journal
 Route::resource('worry-journal', WorryJournalEntryController::class)->except(['show', 'update', 'destroy']);
 // Separate routes instead of resource one for correct param name, as cannot use default 'worry-journal' in param in WorryJournal Vue component
 Route::put('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'update'])->name('worry-journal.update');
 Route::get('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'show'])->name('worry-journal.show');
 Route::delete('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'destroy'])->name('worry-journal.destroy');
-
-Route::get(RoutePath::for('password.reset', '/reset-password/{token}'), function ($token) {
-    return view('app');
-})
-    ->middleware(['guest:' . config('fortify.guard')])
-    ->name('password.reset');
 
 // User
 Route::post('users/{user}/update', [UserController::class, 'updateDetails'])->name('user.update');

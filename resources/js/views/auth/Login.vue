@@ -210,7 +210,7 @@ async function onSubmit() {
                   >
                     <div>
                       <RouterLink
-                        :to="{ name: 'auth-reminder3' }"
+                        :to="{ name: 'password-reminder' }"
                         class="text-muted fs-sm fw-medium d-block d-lg-inline-block mb-1"
                       >
                         Forgot Password?

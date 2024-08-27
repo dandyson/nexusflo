@@ -26,17 +26,6 @@
 
     <div id="app"></div>
 
-    <script>
-        // Check if the URL contains 'reset-password' in it
-        if (window.location.href.includes('/reset-password/')) {
-            // Extract the token from the URL
-            const token = window.location.href.split('/reset-password/')[1];
-
-            // Redirect the user to the desired Vue Router route
-            window.location.href = `/auth/password-reset/${token}`;
-        }
-    </script>
-
     @vite('resources/js/main.js')
 </body>
 

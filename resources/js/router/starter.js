@@ -145,7 +145,7 @@ const SpecialsComingSoon = () => import("@/views/specials/ComingSoonView.vue");
 const Login = () => import("@/views/auth/Login.vue");
 const Register = () => import("@/views/auth/Register.vue");
 const AuthLock3 = () => import("@/views/auth/Lock3View.vue");
-const AuthReminder3 = () => import("@/views/auth/Reminder3View.vue");
+const PasswordReminder = () => import("@/views/auth/PasswordReminder.vue");
 const PasswordReset = () => import("@/views/auth/PasswordReset.vue");
 const VerifyEmail = () => import("@/views/auth/VerifyEmail.vue");
 
@@ -632,16 +632,18 @@ const routes = [
       },
       {
         path: "password-reminder",
-        name: "auth-reminder3",
-        component: AuthReminder3,
+        name: "password-reminder",
+        component: PasswordReminder,
       },
       {
         path: 'password-reset/:token',
         name: 'password-reset',
         component: PasswordReset,
-        // TODO: Not sure about the token, seems a bit hacky but not sure how else to do this for now - needs improvement
-        props: (route) => ({ email: route.query.email, token: route.path.split('/password-reset/')[1].split('?')[0] }),
-      },
+        props: route => ({
+            token: route.params.token,
+            email: route.query.email
+        }),
+      }
     ],
   },
 
