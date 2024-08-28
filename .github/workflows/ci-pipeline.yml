@@ -10,6 +10,20 @@ jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
       - uses: actions/checkout@v1
         with:
@@ -18,7 +32,28 @@ jobs:
       - name: Install Composer Dependencies
         run: composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist --optimize-autoloader
 
-      - name: Testsuite
+      - name: Wait for MySQL
+        run: |
+          sudo apt-get install -y netcat
+          until nc -z -v -w30 127.0.0.1 3306; do
+            echo "Waiting for database connection..."
+            sleep 5
+          done
+        shell: bash
+
+      - name: Setup .env file
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=127.0.0.1/' .env
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=test_db/' .env
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=root/' .env
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=root/' .env
+
+      - name: Run Migrations
+        run: php artisan migrate --no-interaction --force
+
+      - name: Run Tests
         run: php ./vendor/bin/phpunit
 
   lint:
