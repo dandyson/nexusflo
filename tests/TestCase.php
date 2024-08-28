@@ -14,19 +14,5 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->withoutVite();
-
-        // Create and set the fake OpenAI client
-        $fakeClient = new ClientFake([
-            CreateResponse::fake([
-                'choices' => [
-                    [
-                        'text' => 'Mocked response',
-                    ],
-                ],
-            ]),
-        ]);
-
-        // Ensure the mock client is applied for all tests
-        $this->app->instance(Client::class, $fakeClient);
     }
 }
