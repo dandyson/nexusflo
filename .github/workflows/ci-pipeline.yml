@@ -20,15 +20,19 @@ jobs:
         with:
           php-version: '8.1'
 
-      - name: Copy .env file
-        run: |
-          cp .env.ci .env
-
       - name: Install Composer Dependencies
         run: |
           composer install --no-interaction
 
-      - name: Run PHPUnit tests
+      - name: Copy .env file
+        run: |
+          cp .env.ci .env
+
+      - name: Generate application key
+        run: |
+          php artisan key:generate
+
+      - name: Run tests
         run: |
           php artisan test
 
