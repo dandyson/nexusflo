@@ -10,31 +10,16 @@ jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - uses: actions/checkout@v1
         with:
-          php-version: '8.1'
+          fetch-depth: 1
 
       - name: Install Composer Dependencies
-        run: |
-          composer install --no-interaction
+        run: composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist --optimize-autoloader
 
-      - name: Copy .env file
-        run: |
-          cp .env.ci .env
-
-      - name: Generate application key
-        run: |
-          php artisan key:generate
-
-      - name: Run tests
-        run: |
-          php artisan test
+      - name: Testsuite
+        run: php ./vendor/bin/phpunit
 
   lint:
     runs-on: ubuntu-latest
