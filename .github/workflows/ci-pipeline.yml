@@ -32,16 +32,10 @@ jobs:
           php-version: '8.1'
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
 
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Generate key
-        run: php artisan key:generate
-
-      - name: Setup Database
+      - name: Setup Environment
         run: |
           cp .env.example .env
           sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=mysql/' .env
@@ -49,6 +43,9 @@ jobs:
           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=test_db/' .env
           sed -i 's/DB_USERNAME=root/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=root/' .env
+        # Generate the application key after setting up .env
+      - name: Generate Key
+        run: php artisan key:generate
 
       - name: Wait for MySQL
         run: |
