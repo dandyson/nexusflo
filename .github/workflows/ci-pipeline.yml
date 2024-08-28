@@ -59,6 +59,13 @@ jobs:
       - name: Run Migrations
         run: php artisan migrate --no-interaction --force
 
+      - name: Clear Laravel caches
+        run: |
+          php artisan cache:clear
+          php artisan config:clear
+          php artisan route:clear
+          php artisan view:clear
+
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
           DB_CONNECTION: mysql

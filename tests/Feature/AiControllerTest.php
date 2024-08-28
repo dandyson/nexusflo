@@ -27,8 +27,6 @@ class AiControllerTest extends TestCase
 
         // Replace the real client with the fake client only for this test
         $this->app->instance(Client::class, $fakeClient);
-
-        dd($fakeClient);
     }
 
     /**
