@@ -29,37 +29,37 @@ class AiControllerTest extends TestCase
         $this->app->instance(Client::class, $fakeClient);
     }
 
-    // /**
-    //  * @test
-    //  */
-    // public function fetch_worry_balance_response()
-    // {
-    //     $client = app(Client::class);
+    /**
+     * @test
+     */
+    public function fetch_worry_balance_response()
+    {
+        $client = app(Client::class);
 
-    //     $completion = $client->completions()->create([
-    //         'model' => 'gpt-4o',
-    //         'prompt' => 'PHP is ',
-    //     ]);
+        $completion = $client->completions()->create([
+            'model' => 'gpt-4o',
+            'prompt' => 'PHP is ',
+        ]);
 
-    //     $this->assertSame($completion['choices'][0]['text'], 'Responding with text');
-    // }
+        $this->assertSame($completion['choices'][0]['text'], 'Responding with text');
+    }
 
-    // /**
-    //  * @test
-    //  */
-    // public function fetch_worry_balance_route_response()
-    // {
-    //     $user = User::factory()->create();
+    /**
+     * @test
+     */
+    public function fetch_worry_balance_route_response()
+    {
+        $user = User::factory()->create();
 
-    //     $response = $this->actingAs($user)
-    //         ->postJson(route('worry-balancer', $user), [
-    //             'text' => 'Hello!',
-    //         ]);
+        $response = $this->actingAs($user)
+            ->postJson(route('worry-balancer', $user), [
+                'text' => 'Hello!',
+            ]);
 
-    //     $responseData = $response->json();
+        $responseData = $response->json();
 
-    //     $this->assertArrayHasKey('reply', $responseData);
-    //     $this->assertIsString($responseData['reply']);
-    //     $this->assertNotEmpty($responseData['reply']);
-    // }
+        $this->assertArrayHasKey('reply', $responseData);
+        $this->assertIsString($responseData['reply']);
+        $this->assertNotEmpty($responseData['reply']);
+    }
 }
