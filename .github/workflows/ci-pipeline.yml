@@ -43,7 +43,7 @@ jobs:
           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=test_db/' .env
           sed -i 's/DB_USERNAME=root/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=root/' .env
-        # Generate the application key after setting up .env
+
       - name: Generate Key
         run: php artisan key:generate
 
@@ -65,7 +65,7 @@ jobs:
           DB_DATABASE: test_db
           DB_USERNAME: root
           DB_PASSWORD: root
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --verbose
 
   lint:
     runs-on: ubuntu-latest

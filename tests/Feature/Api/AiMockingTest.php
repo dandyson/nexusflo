@@ -28,18 +28,19 @@ class AiMockingTest extends TestCase
         $this->app->instance(Client::class, $fakeClient);
     }
 
-    // /**
-    //  * @test
-    //  */
-    // public function client_fake_is_working()
-    // {
-    //     $client = app(Client::class);
+    /**
+     * @test
+     */
+    public function client_fake_is_working()
+    {
+        // Fetch the client to test
+        $client = app(Client::class);
 
-    //     $completion = $client->completions()->create([
-    //         'model' => 'gpt-4o',
-    //         'prompt' => 'PHP is ',
-    //     ]);
+        $completion = $client->completions()->create([
+            'model' => 'gpt-4o',
+            'prompt' => 'PHP is ',
+        ]);
 
-    //     $this->assertSame($completion['choices'][0]['text'], 'Mocked response');
-    // }
+        $this->assertSame('Mocked response', $completion['choices'][0]['text']);
+    }
 }
