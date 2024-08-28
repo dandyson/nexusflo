@@ -11,15 +11,16 @@ use Tests\TestCase;
 class AiControllerTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * Set up the test environment.
      *
      * @return void
-     *
-     * @test
      */
-    public function fetch_worry_balance_response()
+    protected function setUp(): void
     {
-        $client = new ClientFake([
+        parent::setUp();
+
+        // Create and set the fake OpenAI client
+        $fakeClient = new ClientFake([
             CreateResponse::fake([
                 'choices' => [
                     [
@@ -28,6 +29,20 @@ class AiControllerTest extends TestCase
                 ],
             ]),
         ]);
+
+        $this->app->instance(Client::class, $fakeClient);
+    }
+
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function fetch_worry_balance_response()
+    {
+        $client = app(Client::class); // Should be the fake client
 
         $completion = $client->completions()->create([
             'model' => 'gpt-4o',
@@ -43,20 +58,6 @@ class AiControllerTest extends TestCase
     public function fetch_worry_balance_route_response()
     {
         $user = User::factory()->create();
-
-        // Create a fake OpenAI client
-        $fakeClient = new ClientFake([
-            CreateResponse::fake([
-                'choices' => [
-                    [
-                        'text' => 'Responding with text',
-                    ],
-                ],
-            ]),
-        ]);
-
-        // Replace the real OpenAI client with the fake client
-        $this->app->instance(Client::class, $fakeClient);
 
         $response = $this->actingAs($user)
             ->postJson(route('worry-balancer', $user), [
