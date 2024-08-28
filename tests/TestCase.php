@@ -11,7 +11,7 @@ abstract class TestCase extends BaseTestCase
     // Run tests without Vite
     protected function setUp(): void
     {
-         parent::setUp();
+        parent::setUp();
 
         $this->withoutVite();
     }
