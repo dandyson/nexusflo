@@ -58,10 +58,6 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
-    'vite' => [
-        'enabled' => env('VITE_ENABLED', true),
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
