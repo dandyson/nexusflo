@@ -10,13 +10,26 @@ use Tests\TestCase;
 
 class AiControllerTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
 
+        // Create and set the fake OpenAI client specifically for this test
+        $fakeClient = new ClientFake([
+            CreateResponse::fake([
+                'choices' => [
+                    [
+                        'text' => 'Responding with text',
+                    ],
+                ],
+            ]),
+        ]);
+
+        // Replace the real client with the fake client only for this test
+        $this->app->instance(Client::class, $fakeClient);
+    }
 
     /**
-     * A basic feature test example.
-     *
-     * @return void
-     *
      * @test
      */
     public function fetch_worry_balance_response()
@@ -45,11 +58,8 @@ class AiControllerTest extends TestCase
 
         $responseData = $response->json();
 
-        // Check if the 'reply' field exists and is a string
         $this->assertArrayHasKey('reply', $responseData);
         $this->assertIsString($responseData['reply']);
-
-        // Additional check: see if the 'reply' field is not empty
         $this->assertNotEmpty($responseData['reply']);
     }
 }
