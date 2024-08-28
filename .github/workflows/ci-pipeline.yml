@@ -50,11 +50,6 @@ jobs:
           sed -i 's/DB_USERNAME=root/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=root/' .env
 
-      - name: Create mock Vite manifest
-        run: |
-          mkdir -p public/build
-          echo '{}' > public/build/manifest.json
-
       - name: Run Migrations
         run: php artisan migrate --no-interaction --force
 
