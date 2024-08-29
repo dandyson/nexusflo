@@ -146,7 +146,7 @@ CONNECTION TYPE: TCP/IP
 ## Step 7: Build and Serve the Frontend
 To build and serve the frontend assets using Vite, run:
 ```bash
-npm run dev
+./vendor/bin/sail npm run dev
 ``` 
 This command starts a development server that serves your frontend assets and automatically refreshes the browser on changes.
 <br>
