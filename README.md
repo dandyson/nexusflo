@@ -55,6 +55,7 @@ Before you can run this project on your local machine, make sure you have the fo
 2. **Node.js (LTS version) and npm**: Required for managing frontend dependencies and building the frontend.
 3. **Composer**: The dependency manager for PHP, used to install Laravel and other PHP packages.
 <br>
+
 ## Step 1: Clone the Repository
 
 First, clone the NexusFlo repository to your local machine using the following command:
@@ -68,6 +69,7 @@ Then, navigate into the project directory:
 cd nexusflo
 ``` 
 <br>
+
 ## Step 2: Configure Environment Variables
 Create a new .env file by copying the example file:
 ```bash
@@ -85,6 +87,7 @@ DB_PASSWORD=
 
 ***IMPORTANT*** Do not skip this step - ensure your env file has these, especially the db_connection and db_host before you start the container later on.
 <br>
+
 ## Step 3: Set Up Laravel Sail
 Laravel Sail provides a Docker environment for running Laravel projects. 
 
@@ -127,18 +130,21 @@ npm install
 
 I will use the sail artisan command for these instructions.
 <br>
+
 ## Step 4: Generate Application key
 This key is essential for maintaining the security of your application. Run the following the generate a new key:
 ```bash
 ./vendor/bin/sail artisan key:generate
 ```
 <br>
+
 ## Step 5: Install Frontend Dependencies
 Next, install the Node.js dependencies using npm:
 ```bash
 ./vendor/bin/sail npm install
 ```
 <br>
+
 ## Step 6: Run Database Migrations
 
 Next, we will need to run the database migrations to set up the necessary tables with the --seed flag as there is some seed data:
@@ -156,6 +162,7 @@ CONNECTION TYPE: TCP/IP
 - **Port:** 3305
 
 <br>
+
 ## Step 7: Build and Serve the Frontend
 To build and serve the frontend assets using Vite, run:
 ```bash
@@ -163,6 +170,7 @@ npm run dev
 ``` 
 This command starts a development server that serves your frontend assets and automatically refreshes the browser on changes.
 <br>
+
 ## Step 8: Access the Application
 Once everything is set up, you can access the application by visiting http://localhost in your web browser.
 
