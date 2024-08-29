@@ -4,10 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use OpenAI\Client;
-use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Laravel\Facades\OpenAI;
-use OpenAI\Responses\Completions\CreateResponse as CompletionsCreateResponse;
 use OpenAI\Responses\Chat\CreateResponse as ChatCreateResponse;
+use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Testing\ClientFake;
 use Tests\TestCase;
 
@@ -58,7 +57,7 @@ class AiControllerTest extends TestCase
                 'choices' => [
                     [
                         'message' => [
-                            'content' => 'This is a balanced response.'
+                            'content' => 'This is a balanced response.',
                         ],
                     ],
                 ],
@@ -70,12 +69,12 @@ class AiControllerTest extends TestCase
         $response = $this->actingAs($user)
             ->postJson(route('worry-balancer', $user), [
                 'text' => 'Hello!',
-                'standaloneWorryBalancer' => true
+                'standaloneWorryBalancer' => true,
             ]);
 
         $response->assertStatus(200);
         $response->assertJson([
-            'reply' => 'This is a balanced response.'
+            'reply' => 'This is a balanced response.',
         ]);
 
         // Assert: Ensure the OpenAI API was called with the correct parameters
@@ -88,7 +87,6 @@ class AiControllerTest extends TestCase
         });
     }
 
-
     /**
      * @test
      */
@@ -100,7 +98,7 @@ class AiControllerTest extends TestCase
                 'choices' => [
                     [
                         'message' => [
-                            'content' => 'This is a balanced response.'
+                            'content' => 'This is a balanced response.',
                         ],
                     ],
                 ],
@@ -111,17 +109,17 @@ class AiControllerTest extends TestCase
 
         $response = $this->actingAs($user)
             ->postJson(route('worry-balancer', $user), [
-                'standaloneWorryBalancer' => true
+                'standaloneWorryBalancer' => true,
             ]);
 
         $response->assertStatus(422);
         $response->assertJson([
-            "message" => "The text field is required.",
-            "errors" => [
-                "text" => [
-                    "The text field is required."
-                ]
-            ]
+            'message' => 'The text field is required.',
+            'errors' => [
+                'text' => [
+                    'The text field is required.',
+                ],
+            ],
         ]);
     }
 }
