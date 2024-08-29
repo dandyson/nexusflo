@@ -1,4 +1,13 @@
 {
+    "name": "nexusflo",
+    "version": "0.0.2",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dandyson/nexusflo.git"
+    },
+    "author": {
+        "name": "Dan Dyson",
+    },
     "private": true,
     "scripts": {
         "dev": "vite",
