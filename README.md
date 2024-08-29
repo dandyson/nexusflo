@@ -77,11 +77,12 @@ Then, open the .env file and ensure the database connection settings match the D
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
-DB_DATABASE=laravel
+DB_DATABASE=nexusflo_clone
 DB_USERNAME=root
 DB_PASSWORD=
-DB_DEFAULT=mysql
 ```
+
+***IMPORTANT*** Do not skip this step - ensure your env file has these, especially the db_connection and db_host before you start the container later on.
 ## Step 3: Set Up Laravel Sail
 Laravel Sail provides a Docker environment for running Laravel projects. 
 
@@ -106,7 +107,8 @@ This will start the Docker containers in the background (I recommend using the '
 Once the containers are up, you can now use sail to run commands inside the container. You can do this by using 'sail artisan' like so:
 
 ```bash
-sail artisan <command>
+./vendor/bin/sail sail artisan <command>
+./vendor/bin/sail sail npm install
 ```
 
 *(OPTIONAL): You can also run the following to access the shell inside the container:*
@@ -114,9 +116,10 @@ sail artisan <command>
 ./vendor/bin/sail shell
 ```
 
-*And then run the artisan commands as you would for any other Laravel project:*
+*And then run commands as you would for any other Laravel project, for example*
 ```bash
 php artisan <command>
+npm install
 ```
 
 
@@ -125,42 +128,40 @@ I will use the sail artisan command for these instructions.
 ## Step 4: Generate Application key
 This key is essential for maintaining the security of your application. Run the following the generate a new key:
 ```bash
-sail artisan key:generate
+./vendor/bin/sail artisan key:generate
 ```
-## Step 5: Install Backend Dependencies
-Install the PHP dependencies using Composer:
-```bash
-composer install
-``` 
-## Step 6: Install Frontend Dependencies
+## Step 5: Install Frontend Dependencies
 Next, install the Node.js dependencies using npm:
 ```bash
-npm install
+./vendor/bin/sail npm install
 ```
 
 
-## Step 7: Run Database Migrations
+## Step 6: Run Database Migrations
 
-With your environment configured, and whilst still inside the shell, run the database migrations to set up the necessary tables:
+Next, we will need to run the database migrations to set up the necessary tables with the --seed flag as there is some seed data:
 
 ```bash
-php artisan migrate
-```
-The project contains seed data, so run the seeder also:
-
-```bash
-php artisan db:seed
+./vendor/bin/sail artisan migrate --seed
 ```
 
+At this point, you can access the DB using a program like Sequel Pro or Sequel Ace etc. and use the following details to connect:
 
-## Step 8: Build and Serve the Frontend
+CONNECTION TYPE: TCP/IP
+- **Host:** 0.0.0.0
+- **Username:** root
+- **Password:** (leave blank)
+- **Port:** 3305
+
+
+## Step 7: Build and Serve the Frontend
 To build and serve the frontend assets using Vite, run:
 ```bash
 npm run dev
 ``` 
 This command starts a development server that serves your frontend assets and automatically refreshes the browser on changes.
 
-## Step 9: Access the Application
+## Step 8: Access the Application
 Once everything is set up, you can access the application by visiting http://localhost in your web browser.
 
 ## Troubleshooting
@@ -175,6 +176,11 @@ If you encounter any issues during the setup, consider the following:
 
 - **Environment Variables:** Ensure the .env file exists in your project root. If it doesn’t, you can create one by copying .env.example.
 
+- **'Connection Refused' when running migrations** - This is likely due to your DB_HOST being incorrect. In Laravel sail, DB_CONNECTION and DB_HOST need to BOTH be 'mysql' as this is what it uses. Run the migration command again after making this change and it should work.
+
 - **DB Access Denied Issue** - Can be caused by not updating the .env before you first sail up. Make sure you set up the DB details in your .env file BEFORE running the `./vendor/bin/sail up` command. If this does not work, then you need to run `./vendor/bin/sail down`, remove the docker volumes & images for the project and run `./vendor/bin/sail build`.
+
+
+## 
 
 Thank you for using NexusFlo! If you have any questions or suggestions, please don't hesitate to reach out.
