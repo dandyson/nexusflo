@@ -11,11 +11,18 @@ class AiController extends Controller
 {
     public function fetchWorryBalanceResponse(Request $request): JsonResponse
     {
-        $userWorry = $request->input('text');
+        // Validate the request input
+        $validated = $request->validate([
+            'text' => 'required|string',
+            'standaloneWorryBalancer' => 'nullable|boolean',
+        ]);
+
+        $userWorry = $validated['text'];
         $prompt = 'respond with the following context: Please respond in a way that ‘balances’ a worry. Provide a balanced perspective on the concerns.';
         if ($request->standaloneWorryBalancer) {
             $prompt .= ' Please also only respond in a HTML format.';
         }
+
         $result = OpenAI::chat()->create([
             'model' => 'gpt-4o',
             'max_tokens' => 1000,

@@ -4,22 +4,20 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use OpenAI\Client;
+use OpenAI\Laravel\Facades\OpenAI;
+use OpenAI\Responses\Chat\CreateResponse as ChatCreateResponse;
 use OpenAI\Responses\Completions\CreateResponse;
 use OpenAI\Testing\ClientFake;
 use Tests\TestCase;
 
 class AiControllerTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function fetch_worry_balance_response()
+    protected function setUp(): void
     {
-        $client = new ClientFake([
+        parent::setUp();
+
+        // Create and set the fake OpenAI client specifically for these tests
+        $fakeClient = new ClientFake([
             CreateResponse::fake([
                 'choices' => [
                     [
@@ -28,6 +26,17 @@ class AiControllerTest extends TestCase
                 ],
             ]),
         ]);
+
+        // Replace the real client with the fake client only for these tests
+        $this->app->instance(Client::class, $fakeClient);
+    }
+
+    /**
+     * @test
+     */
+    public function test_fetch_completions_response()
+    {
+        $client = app(Client::class);
 
         $completion = $client->completions()->create([
             'model' => 'gpt-4o',
@@ -40,36 +49,77 @@ class AiControllerTest extends TestCase
     /**
      * @test
      */
-    public function fetch_worry_balance_route_response()
+    public function test_fetch_chat_response()
     {
-        $user = User::factory()->create();
-
-        // Create a fake OpenAI client
-        $fakeClient = new ClientFake([
-            CreateResponse::fake([
+        // Arrange: Set up the fake OpenAI response for chat
+        OpenAI::fake([
+            ChatCreateResponse::fake([
                 'choices' => [
                     [
-                        'text' => 'Responding with text',
+                        'message' => [
+                            'content' => 'This is a balanced response.',
+                        ],
                     ],
                 ],
             ]),
         ]);
 
-        // Replace the real OpenAI client with the fake client
-        $this->app->instance(Client::class, $fakeClient);
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)
             ->postJson(route('worry-balancer', $user), [
                 'text' => 'Hello!',
+                'standaloneWorryBalancer' => true,
             ]);
 
-        $responseData = $response->json();
+        $response->assertStatus(200);
+        $response->assertJson([
+            'reply' => 'This is a balanced response.',
+        ]);
 
-        // Check if the 'reply' field exists and is a string
-        $this->assertArrayHasKey('reply', $responseData);
-        $this->assertIsString($responseData['reply']);
+        // Assert: Ensure the OpenAI API was called with the correct parameters
+        OpenAI::assertSent(\OpenAI\Resources\Chat::class, function (string $method, array $parameters) {
+            return $method === 'create' &&
+                $parameters['model'] === 'gpt-4o' &&
+                strpos($parameters['messages'][0]['content'], 'Hello!') !== false &&
+                strpos($parameters['messages'][0]['content'], 'Please respond in a way that ‘balances’ a worry.') !== false &&
+                strpos($parameters['messages'][0]['content'], 'Please also only respond in a HTML format.') !== false;
+        });
+    }
 
-        // Additional check: see if the 'reply' field is not empty
-        $this->assertNotEmpty($responseData['reply']);
+    /**
+     * @test
+     */
+    public function test_fetch_worry_balance_response_missing_text()
+    {
+        // Arrange: Set up the fake OpenAI response for chat
+        OpenAI::fake([
+            ChatCreateResponse::fake([
+                'choices' => [
+                    [
+                        'message' => [
+                            'content' => 'This is a balanced response.',
+                        ],
+                    ],
+                ],
+            ]),
+        ]);
+
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->postJson(route('worry-balancer', $user), [
+                'standaloneWorryBalancer' => true,
+            ]);
+
+        $response->assertStatus(422);
+        $response->assertJson([
+            'message' => 'The text field is required.',
+            'errors' => [
+                'text' => [
+                    'The text field is required.',
+                ],
+            ],
+        ]);
     }
 }

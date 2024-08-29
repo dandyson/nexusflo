@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Ensure Sail is up and running
+echo "Starting Sail environment..."
+./vendor/bin/sail up -d
+
+# Run tests inside Sail
+echo "Running tests inside Sail..."
+./vendor/bin/sail exec -T laravel.test php artisan test
+
+# Run Duster lint
+echo "Running Duster lint..."
+./vendor/bin/sail exec -T laravel.test ./vendor/bin/duster lint
+
+# Check the result and exit if tests or lint fail
+if [ $? -ne 0 ]; then
+  echo "Pre-push checks failed. Aborting push."
+  exit 1
+fi
+
+echo "Pre-push checks passed. Proceeding with push."
