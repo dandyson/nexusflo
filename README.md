@@ -109,30 +109,10 @@ Next, make sure your docker engine is running (if using Docker Desktop, ensure y
 ``` 
 This will start the Docker containers in the background (I recommend using the '-d' flag as above to start a detached container, so you will know when the container is up).
 
-Once the containers are up, you can now use sail to run commands inside the container. You can do this by using 'sail artisan' like so:
-
-```bash
-./vendor/bin/sail sail artisan <command>
-./vendor/bin/sail sail npm install
-```
-
-*(OPTIONAL): You can also run the following to access the shell inside the container:*
-```bash
-./vendor/bin/sail shell
-```
-
-*And then run commands as you would for any other Laravel project, for example*
-```bash
-php artisan <command>
-npm install
-```
-
-
-I will use the sail artisan command for these instructions.
 <br>
 
 ## Step 4: Generate Application key
-This key is essential for maintaining the security of your application. Run the following the generate a new key:
+This key is essential for maintaining the security of your application. Run the following the generate a new key (now Laravel Sail is installed, you can use it to run commands inside the docker container):
 ```bash
 ./vendor/bin/sail artisan key:generate
 ```
