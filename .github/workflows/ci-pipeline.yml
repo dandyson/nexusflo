@@ -13,7 +13,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD:  ${{ secrets.DB_PASSWORD }}
           MYSQL_DATABASE: test_db
         ports:
           - 3306:3306
@@ -25,6 +25,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -41,8 +49,8 @@ jobs:
           sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=mysql/' .env
           sed -i 's/DB_HOST=127.0.0.1/DB_HOST=127.0.0.1/' .env
           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=test_db/' .env
-          sed -i 's/DB_USERNAME=root/DB_USERNAME=root/' .env
-          sed -i 's/DB_PASSWORD=/DB_PASSWORD=root/' .env
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }}/' .env
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/' .env
 
       - name: Generate Key
         run: php artisan key:generate
@@ -70,8 +78,8 @@ jobs:
         env:
           DB_CONNECTION: mysql
           DB_DATABASE: test_db
-          DB_USERNAME: root
-          DB_PASSWORD: root
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: vendor/bin/phpunit --verbose
 
   lint:
