@@ -214,7 +214,6 @@ const routes = [
 
       axios.post('/api/logout')
         .then((res) => {
-          console.log({res});
             store.createVerifiedToast();
             next('/auth/login');
         })

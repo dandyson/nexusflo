@@ -100,7 +100,10 @@ class UserControllerTest extends TestCase
         $this->assertTrue(Hash::check('oldpassword', $user->password));
     }
 
-    public function test_user_can_upload_avatar_to_local_storage_and_not_s3()
+    /**
+     * @test
+     */
+    public function user_can_upload_avatar_to_local_storage_and_not_s3()
     {
         Storage::fake('public');
 
@@ -132,7 +135,10 @@ class UserControllerTest extends TestCase
         Storage::disk('s3')->assertMissing($avatarPath);
     }
 
-    public function test_user_can_upload_avatar_to_s3_and_not_local_storage()
+    /**
+     * @test
+     */
+    public function user_can_upload_avatar_to_s3_and_not_local_storage()
     {
         Storage::fake('s3');
 
