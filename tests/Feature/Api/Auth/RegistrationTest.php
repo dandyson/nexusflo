@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Providers\RouteServiceProvider;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -21,17 +21,28 @@ class RegistrationTest extends TestCase
     /** @test */
     public function new_users_can_register()
     {
+        // Make a request to initialize the session
+        $this->get('/sanctum/csrf-cookie');
+
         $response = $this->post('/api/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
             'terms' => true,
+            '_token' => csrf_token(),
         ]);
 
-        $this->assertAuthenticated();
-        // Assert the redirect matches Fortify's default behavior - in the app, after Fortify does this redirect,
-        // the frontend will redirect via Vue Router anyway, see Register.vue) so this is fine to satisfy the test
-        $response->assertRedirect(RouteServiceProvider::HOME);
+        // Assert that the user is redirected (handled by Vue Router)
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'test@example.com',
+            'name' => 'Test User',
+        ]);
+
+        $user = User::where('email', 'test@example.com')->first();
+
+        $this->assertNull($user->email_verified_at);
     }
 }

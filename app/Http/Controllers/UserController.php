@@ -110,12 +110,15 @@ class UserController extends Controller
                 $image = $request->file('avatar');
                 $avatarPath = "users/{$user->id}/avatar";
                 $avatarName = $image->getClientOriginalName();
+                $disk = config('filesystems.default'); // Get the default disk
 
-                // Perform the actual upload to S3
-                $image->storeAs($avatarPath, $avatarName, 's3');
+                // For local environments, use 'public' disk to store files in a publicly accessible location
+                $storageDisk = $disk === 'local' ? 'public' : $disk;
+
+                $image->storeAs($avatarPath, $avatarName, $storageDisk);
 
                 // Update user with the new avatar URL and increment upload count
-                $user->avatar = Storage::disk('s3')->url("{$avatarPath}/{$avatarName}");
+                $user->avatar = Storage::disk($storageDisk)->url("{$avatarPath}/{$avatarName}");
                 $user->avatar_upload_count += 1;
                 $user->save();
             });

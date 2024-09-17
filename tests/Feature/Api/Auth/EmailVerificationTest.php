@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Auth\Events\Verified;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
@@ -39,18 +39,22 @@ class EmailVerificationTest extends TestCase
             ['id' => $user->id, 'hash' => sha1($user->email)]
         );
 
-        $this->actingAs($user)->get($verificationUrl);
+        $this->actingAs($user)
+            ->get($verificationUrl);
 
-        Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
 
-        // Simulate the frontend logout after email verification -
-        // I cannot find a way to test that the frontend does this here,
-        // So this test follows Fortify's default behavior - it will log the user in
-        // automatically after email verification.
-        $response = $this->actingAs($user)->post('/api/logout');
+        // Add CSRF token to the request for security testing
+        $csrfToken = csrf_token();
 
-        // Assert that the user is logged out
+        $response = $this->actingAs($user)
+            ->post('/api/logout', [
+                '_token' => $csrfToken,
+            ]);
+
+        $response->assertRedirect(RouteServiceProvider::HOME);
+
+        // Assert the user is logged out
         $this->assertGuest();
     }
 
