@@ -37,10 +37,8 @@ class UserControllerTest extends TestCase
         $this->assertSame('updated@email.com', $user->email);
     }
 
-    /**
-     * @test
-     */
-    public function delete_account(): void
+    /** @test */
+    public function delete_account()
     {
         $user = User::factory()->create();
 
@@ -56,13 +54,7 @@ class UserControllerTest extends TestCase
             'message' => 'Account Deleted Successfully!',
         ]);
 
-        $user->refresh();
-
-        $this->assertsoftDeleted('users', ['id' => $user->id]);
-
-        $this->assertSoftDeleted('users', [
-            'id' => $user->id,
-        ]);
+        $this->assertSoftDeleted('users', ['id' => $user->id]);
     }
 
     /** @test */
@@ -108,12 +100,15 @@ class UserControllerTest extends TestCase
         $this->assertTrue(Hash::check('oldpassword', $user->password));
     }
 
-    /** @test */
-    public function test_user_can_upload_avatar()
+    public function test_user_can_upload_avatar_to_local_storage_and_not_s3()
     {
+        Storage::fake('public');
+
         $user = User::factory()->create();
 
-        Storage::fake('s3');
+        // Set environment to local (simulation)
+        config(['filesystems.default' => 'public']);
+
         $file = UploadedFile::fake()->image('avatar.jpg');
 
         $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
@@ -129,7 +124,44 @@ class UserControllerTest extends TestCase
         $this->assertNotNull($user->avatar);
         $this->assertEquals(1, $user->avatar_upload_count);
 
-        Storage::disk('s3')->assertExists("users/{$user->id}/avatar/{$file->getClientOriginalName()}");
+        $avatarPath = "users/{$user->id}/avatar/{$file->getClientOriginalName()}";
+
+        Storage::disk('public')->assertExists($avatarPath);
+
+        // Assert no requests were made to S3
+        Storage::disk('s3')->assertMissing($avatarPath);
+    }
+
+    public function test_user_can_upload_avatar_to_s3_and_not_local_storage()
+    {
+        Storage::fake('s3');
+
+        $user = User::factory()->create();
+
+        // Set environment to production (simulation)
+        config(['filesystems.default' => 's3']);
+
+        $file = UploadedFile::fake()->image('avatar.jpg');
+
+        $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
+            'avatar' => $file,
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Image uploaded successfully',
+            ]);
+
+        $user->refresh();
+        $this->assertNotNull($user->avatar);
+        $this->assertEquals(1, $user->avatar_upload_count);
+
+        $avatarPath = "users/{$user->id}/avatar/{$file->getClientOriginalName()}";
+
+        Storage::disk('s3')->assertExists($avatarPath);
+
+        // Assert no files exist in the local (public) storage
+        Storage::disk('public')->assertMissing($avatarPath);
     }
 
     /** @test */
