@@ -105,11 +105,13 @@ class UserControllerTest extends TestCase
      */
     public function user_can_upload_avatar_to_local_storage_and_not_s3()
     {
+        // Mock storage
         Storage::fake('public');
+        Storage::fake('s3');
 
         $user = User::factory()->create();
 
-        // Set environment to local (simulation)
+        // Simulate local environment
         config(['filesystems.default' => 'public']);
 
         $file = UploadedFile::fake()->image('avatar.jpg');
