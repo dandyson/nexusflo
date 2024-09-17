@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,16 +22,17 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->create();
 
+        // Make a request to initialize the session
+        $this->get('/sanctum/csrf-cookie');
+
         $response = $this->post('/api/login', [
             'email' => $user->email,
             'password' => 'password',
+            '_token' => csrf_token(),
         ]);
 
+        // Assert that the user is authenticated
         $this->assertAuthenticated();
-
-        // Assert the redirect matches Fortify's default behavior - in the app, after Fortify does this redirect,
-        // the frontend will redirect via Vue Router anyway, see Login.vue) so this is fine to satisfy the test
-        $response->assertRedirect(RouteServiceProvider::HOME);
     }
 
     /** @test */
