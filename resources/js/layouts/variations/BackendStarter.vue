@@ -140,8 +140,8 @@ const logOut = () => {
       <div class="dropdown d-inline-block ms-2">
         <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center"
           id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img v-if="authUser.avatar !== ''" :src="authUser.avatar" class="rounded-circle" alt="User Avatar" style="width: 21px" />
-          <img v-else src="/assets/media/avatars/avatar10.jpg" class="rounded-circle" alt="Default Avatar" style="width: 21px" />
+          <img v-if="authUser.avatar !== ''" :src="authUser.avatar" class="rounded-circle" alt="User Avatar" style="width: 21px; height: 21px; object-fit: cover;" />
+          <img v-else src="/assets/media/avatars/avatar10.jpg" class="rounded-circle" alt="Default Avatar" style="width: 21px; height: 21px; object-fit: cover;"/>
           <span class="d-none d-sm-inline-block ms-2">{{ authUser.name }}</span>
           <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block opacity-50 ms-1 mt-1"></i>
         </button>
