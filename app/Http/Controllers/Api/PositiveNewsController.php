@@ -32,7 +32,7 @@ class PositiveNewsController extends Controller
             $this->positiveNewsResults['link'] = $node->filter('.card__image__link')->getNode(0)->getAttribute('href');
             $this->positiveNewsResults['image'] = $node->filter('.card__image')->getNode(0)->getAttribute('src');
             $this->positiveNewsResults['title'] = $node->filter('.card__title')->text();
-            $this->positiveNewsResults['description'] = strlen($node->filter('.card__text')->text()) > 75 ? substr($node->filter('.card__text')->text(), 0, 75) . '...' : $node->filter('.card__text')->text();
+            $this->positiveNewsResults['description'] = strlen($node->filter('.card__text')->text()) > 75 ? substr($node->filter('.card__text')->text(), 0, 75).'...' : $node->filter('.card__text')->text();
 
             return $this->positiveNewsResults;
         });

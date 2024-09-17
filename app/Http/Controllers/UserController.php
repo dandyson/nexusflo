@@ -115,7 +115,6 @@ class UserController extends Controller
                 // For local environments, use 'public' disk to store files in a publicly accessible location
                 $storageDisk = $disk === 'local' ? 'public' : $disk;
 
-
                 $image->storeAs($avatarPath, $avatarName, $storageDisk);
 
                 // Update user with the new avatar URL and increment upload count
