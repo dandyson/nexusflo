@@ -138,6 +138,9 @@ async function onSubmit() {
             <strong>{{ store.app.name + " " + store.app.version }}</strong>
             &copy; {{ store.app.copyright }}
           </p>
+          <RouterLink :to="{ name: 'privacy-policy' }" class="text-white-50 fw-bold text-decoration-underline">
+            Privacy Policy
+          </RouterLink>
         </div>
       </div>
       <!-- END Meta Info Section -->

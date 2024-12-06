@@ -29,6 +29,9 @@ const store = useTemplateStore();
                   store.app.name + " " + store.app.version
                 }}</a>
                 &copy; {{ store.app.copyright }}
+                <RouterLink :to="{ name: 'privacy-policy' }" class="m-3 fw-bold text-decoration-underline">
+                    Privacy Policy
+                </RouterLink>
               </slot>
             </div>
           </div>
