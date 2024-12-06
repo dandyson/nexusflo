@@ -312,6 +312,15 @@ async function onSubmit() {
                   </div>
                 </form>
               </div>
+              <!-- Cookie notice -->
+              <div class="text-center my-3 px-4 px-md-6">
+                  <small class="text-muted">
+                      We use essential cookies for session management and security. By using NexusFlo, you agree to these cookies.
+                      <RouterLink :to="{ name: 'privacy-policy' }" class="text-primary fw-bold">
+                        See our Privacy Policy for details.
+                      </RouterLink>
+                </small>
+              </div>
             </div>
             <!-- END Sign Up Form -->
           </div>
