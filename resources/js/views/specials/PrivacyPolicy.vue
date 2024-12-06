@@ -76,12 +76,12 @@ const store = useTemplateStore();
               <div class="col-sm-8">
                 <h1>Privacy Policy for NexusFlo</h1>
 
-                <p>Last updated: 19th November 2023</p>
+                <p>Last updated: 6th December 2024</p>
 
                 <h2>Introduction</h2>
 
                 <p>Welcome to NexusFlo! This privacy policy outlines how we collect, use, and protect your personal information. By using our web app, you agree to the terms described in this policy.</p>
-                
+
                 <h2>Information We Collect</h2>
 
                 <h3>1. Account Information</h3>
@@ -99,14 +99,11 @@ const store = useTemplateStore();
                     <li>Profile image (stored in our production database and on AWS S3 bucket)</li>
                 </ul>
 
-                <h3>3. Positive News Preferences</h3>
-                <p>We store local data related to your positive news preferences to improve your experience on NexusFlo.</p>
                 <h2>How We Use Your Information</h2>
                 <p>Your information is used for the following purposes:</p>
                 <ul>
                     <li>User Authentication: Laravel Fortify utilizes your email and password for secure authentication.</li>
                     <li>Profile Enhancement: Your name, avatar, and profile image are used to personalize your experience on the platform.</li>
-                    <li>Positive News Preferences: Local data is stored to tailor positive news content based on your preferences.</li>
                 </ul>
 
                 <h2>Data Storage and Security</h2>
@@ -118,14 +115,25 @@ const store = useTemplateStore();
                 <h2>Third-Party Services</h2>
                 <p>We utilize AWS S3 for storing profile images. Please refer to AWS's privacy policy for more information.</p>
 
-                <h2>Your Choices</h2>
-                <p>You have the right to access, correct, or delete your personal information. You can update your account settings to manage your preferences.</p>
+                <h2>Your Rights</h2>
+                <p>As per GDPR, you have the right to:</p>
+                <ul>
+                    <li><strong>Access Your Data</strong>: Contact us to request details about the data we store.</li>
+                    <li><strong>Delete Your Data</strong>: Request deletion of your account and data by emailing nexusfloinfo@gmail.com.</li>
+                    <li><strong>Withdraw Consent</strong>: Stop using the app at any time.</li>
+                </ul>
+
+                <h2>Data Retention</h2>
+                <p>User data will be stored for the duration of your demo account’s existence or until you request its deletion.</p>
 
                 <h2>Changes to this Privacy Policy</h2>
                 <p>We may update this privacy policy to reflect changes in our practices. Please check this page periodically for updates.</p>
 
                 <h2>Contact Us</h2>
                 <p>If you have any questions or concerns about our privacy policy, please contact us at nexusfloinfo@gmail.com.</p>
+
+                <h2>Key Notice</h2>
+                <p>This app is for demonstration purposes only and is not intended for real-world use. By using this app, you acknowledge and accept these terms.</p>
               </div>
             </div>
             <!-- END Privacy Policy Text -->

@@ -366,75 +366,112 @@ async function onSubmit() {
         </template>
 
         <template #content>
-          <div class="block-content">
-            <p>
-              <strong>Terms & Conditions: NexusFlo Wellbeing App</strong>
-            </p>
-            <p>
-              <strong>Introduction:</strong><br>
-              Welcome to NexusFlo Wellbeing App. By using this app, you agree to comply with and be bound by the following terms and conditions.
-            </p>
-            <p>
-              <strong>Ownership:</strong><br>
-              NexusFlo is the property of Daniel Dyson. All rights, title, and interest in and to the app are owned and retained by Daniel Dyson.
-            </p>
-            <p>
-              <strong>Not a Substitute for Professional Help:</strong><br>
-              NexusFlo is designed to support your wellbeing, but it is not a substitute for professional advice, diagnosis, or treatment. It is essential to recognize that the app does not replace the expertise and guidance provided by qualified mental health professionals.
-            </p>
-            <p>
-              <strong>Seeking Professional Help:</strong><br>
-              If you are experiencing severe mental health issues or believe you require professional assistance, it is imperative to seek help from a qualified mental health professional or healthcare provider. NexusFlo is not a replacement for such services.
-            </p>
-            <p>
-              <strong>User Responsibility:</strong><br>
-              Users are responsible for their mental health decisions and should use the app as a complementary tool to support their overall wellbeing. If in doubt about the appropriateness of the app for your specific situation, consult with a mental health professional.
-            </p>
-            <p>
-              <strong>Emergency Situations:</strong><br>
-              In case of emergency, please contact your local emergency services immediately. NexusFlo is not equipped to handle crisis situations, and users should not rely on the app for urgent assistance.
-            </p>
-            <p>
-              <strong>Data Security and Privacy:</strong><br>
-              Your privacy is important to us. Please review our
-                <RouterLink
-                  target="_blank"
-                  :to="{ name: 'privacy-policy' }"
-                >Privacy Policy</RouterLink> to understand how your data is collected, used, and protected within NexusFlo.
-            </p>
-            <p>
-              <strong>Termination of Use:</strong><br>
-              We reserve the right to terminate or suspend your access to NexusFlo if you violate these terms and conditions or misuse the app in any way.
-            </p>
-            <p>
-              <strong>Updates and Changes:</strong><br>
-              NexusFlo may update or change these terms and conditions at any time. It is your responsibility to review them periodically for any modifications.
-            </p>
-            <p>
-              <strong>Contact Information:</strong><br>
-              If you have any questions or concerns about these terms and conditions, please contact us at nexusfloinfo@gmail.com.
-            </p>
-            <p>
-              By using NexusFlo Wellbeing App, you acknowledge that you have read, understood, and agreed to these terms and conditions.
-            </p>
-          </div>
-          <div class="block-content block-content-full text-end bg-body">
-            <button
-              type="button"
-              class="btn btn-sm btn-alt-secondary me-1"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              class="btn btn-sm btn-primary"
-              data-bs-dismiss="modal"
-              @click="state.terms = true"
-            >
-              I Agree
-            </button>
-          </div>
+            <div class="block-content">
+                <p>
+                    <strong>Terms & Conditions: NexusFlo Wellbeing App</strong>
+                </p>
+                <p>
+                    <strong>Introduction:</strong><br>
+                    Welcome to NexusFlo Wellbeing App. By using this app, you agree to comply with and
+                    be bound by the following terms and conditions. NexusFlo is a demo app designed to
+                    showcase portfolio work and is not intended for commercial use.
+                </p>
+                <p>
+                    <strong>Ownership:</strong><br>
+                    NexusFlo is the intellectual property of Daniel Dyson. All rights, title, and
+                    interest in and to the app are retained by Daniel Dyson.
+                </p>
+                <p>
+                    <strong>Disclaimer:</strong><br>
+                    This app is for demonstration purposes only. It is not a finished product, and data
+                    stored in the app may not be protected to the standards of a production application.
+                    NexusFlo is not a substitute for professional advice, diagnosis, or treatment. For
+                    urgent or professional assistance, please contact a qualified mental health provider
+                    or emergency services.
+                </p>
+                <p>
+                    <strong>User Responsibilities:</strong><br>
+                    Users are solely responsible for the information they choose to enter into the app,
+                    including any personal or sensitive data. Users should not upload highly sensitive
+                    or confidential information to the app, as it is a demo and not built for real-world
+                    use.
+                </p>
+                <p>
+                    <strong>Data Privacy and Security:</strong><br>
+                    Your data is stored securely in accordance with the
+                    <RouterLink target="_blank" :to="{ name: 'privacy-policy' }">Privacy Policy
+                    </RouterLink>. However, as this is a demo, users should avoid storing sensitive
+                    personal information. Users can request to delete their data by contacting
+                    nexusfloinfo@gmail.com.
+                </p>
+                <p>
+                    <strong>Demo Nature of the App:</strong><br>
+                    NexusFlo is a demo application designed for portfolio purposes only. No personal
+                    data is collected from users, and any information entered is not stored or used for
+                    any real-world applications. Users are encouraged to avoid entering sensitive or
+                    confidential information.
+                </p>
+                <p>
+                    <strong>Cookies and Local Storage:</strong><br>
+                    NexusFlo uses cookies to manage user sessions and enhance user experience. The
+                    cookies we use include:
+                <ul>
+                    <li><strong>nexusflo_session</strong>: This cookie is used to maintain user
+                        sessions.</li>
+                    <li><strong>XSRF Token</strong>: This cookie is used for security purposes to
+                        prevent cross-site request forgery.</li>
+                </ul>
+                </p>
+
+                <p>Additionally, we utilize local storage to cache news stories for improved
+                    performance. This allows us to store data temporarily on your device, which can
+                    enhance your experience by reducing load times. Cached data may include:</p>
+                <ul>
+                    <li><strong>Positive News</strong> stories</li>
+                    <li><strong>Good News Network</strong> stories</li>
+                </ul>
+                <p>You can manage your cookie preferences through your browser settings. However,
+                    disabling cookies may affect your ability to use certain features of the app.
+                </p>
+                <p>
+                    <strong>Termination:</strong><br>
+                    We reserve the right to terminate or suspend access to NexusFlo if users misuse the
+                    app or violate these terms.
+                </p>
+                <p>
+                    <strong>Limitation of Liability:</strong><br>
+                    NexusFlo shall not be liable for any direct, indirect, incidental, or consequential
+                    damages resulting from the use or inability to use the app.
+                </p>
+                <p>
+                    <strong>Governing Law:</strong><br>
+                    These terms shall be governed by and construed in accordance with the laws of
+                    England and Wales.
+                </p>
+                <p>
+                    <strong>Updates to Terms:</strong><br>
+                    These terms may be updated periodically. Users are encouraged to review them
+                    regularly.
+                </p>
+                <p>
+                    <strong>Contact Information:</strong><br>
+                    If you have any questions or concerns about these terms and conditions, please
+                    contact us at nexusfloinfo@gmail.com.
+                </p>
+                <p>
+                    By using NexusFlo Wellbeing App, you acknowledge that you have read, understood, and
+                    agreed to these terms and conditions.
+                </p>
+            </div>
+            <div class="block-content block-content-full text-end bg-body">
+                <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal"
+                    @click="state.terms = true">
+                    I Agree
+                </button>
+            </div>
         </template>
       </BaseBlock>
     </div>
