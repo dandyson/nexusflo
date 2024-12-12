@@ -113,7 +113,11 @@ const store = useTemplateStore();
                 <p>NexusFlo may use cookies to enhance user experience. These cookies are set by Laravel and Laravel Fortify for authentication and session management.</p>
 
                 <h2>Third-Party Services</h2>
-                <p>We utilize AWS S3 for storing profile images. Please refer to AWS's privacy policy for more information.</p>
+                <p>We use the following third-party services to operate NexusFlo:</p>
+                <ul>
+                    <li><strong>Amazon Web Services (AWS)</strong>: We use AWS S3 for storing profile images. <a href="https://aws.amazon.com/privacy/" target="_blank" rel="noopener noreferrer">View their privacy policy here</a>.</li>
+                    <li><strong>Heroku</strong>: Our application and database are hosted on Heroku. <a href="https://devcenter.heroku.com/articles/security-privacy-compliance" target="_blank" rel="noopener noreferrer">View their privacy policy here</a>.</li>
+                </ul>
 
                 <h2>Your Rights</h2>
                 <p>As per GDPR, you have the right to:</p>
