@@ -41,7 +41,8 @@ The next release of NexusFlo is planned to include:
 
 - **Timer UI and Code Improvements:** Refine the user interface and codebase of the timers for an improved user experience.
 
-- **CI/CD Implementation:** Integrate Continuous Integration and Continuous Deployment processes with frontend testing to ensure a robust and reliable application.
+
+- **CI/CD Implementation:** ~~Integrate Continuous Integration and Continuous Deployment processes with frontend testing to ensure a robust and reliable application.~~ - **Implemented**
 
 <br>
 
