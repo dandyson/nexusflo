@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Welcome to the forums">
@@ -393,3 +391,4 @@
   </div>
   <!-- END Page Content -->
 </template>
+

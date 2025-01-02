@@ -1,109 +1,3 @@
-<script setup>
-import { reactive, computed, ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
-import useVuelidate from "@vuelidate/core";
-import { required, minLength, email, sameAs } from "@vuelidate/validators";
-
-// Axios
-import axios from "axios";
-
-// Sweetalert
-import Swal from "sweetalert2";
-
-// Main store and Router
-const store = useTemplateStore();
-const router = useRouter();
-
-// Input state variables
-const state = reactive({
-  name: null,
-  email: null,
-  password: null,
-  password_confirmation: null,
-  terms: null,
-});
-
-// Validation rules
-const rules = computed(() => {
-  return {
-    name: {
-      required,
-      minLength: minLength(3),
-    },
-    email: {
-      required,
-      email,
-    },
-    password: {
-      required,
-      minLength: minLength(8),
-    },
-    password_confirmation: {
-      required,
-      sameAs: sameAs(state.password),
-    },
-    terms: {
-      sameAs: sameAs(true),
-    },
-  };
-});
-
-// Use vuelidate
-const v$ = useVuelidate(rules, state);
-
-// Custom Error
-let credentialError = ref(false);
-let credentialErrorMessage = ref('');
-
-// Demo notification SWAL
-onMounted(() => {
-  Swal.fire({
-    icon: 'warning',
-    title: 'Demo Notice',
-    html: 'This is a <strong>demo</strong> version of our app, so trying to sign up here will throw an error.<br><br>' +
-          'To sign up and access the service, please contact us at <a href="mailto:dannydyson297@gmail.com">dannydyson297@gmail.com</a> with your email address.<br><br>' +
-          'Once we have added you to our email service, you will be able to register for an account<br><br>' +
-          'Thank you for your interest!',
-    showConfirmButton: true,
-  });
-});
-
-// On form submission
-async function onSubmit() {
-  const result = await v$.value.$validate();
-
-  if (!result) {
-    // notify user form is invalid
-    return;
-  }
-
-    /** TODO: Manually setting the loading to true here, as the 'setLoading' stuff in the router file
-   * only responds once this request is completed - so this is more for the UX so the user does not
-   * think the app is frozen. Need to find another way of doing this maybe?
-   * **/
-  store.setLoading(true);
-
-  try {
-    // Register the user
-    await axios.post('/api/register', state, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    // Login succeeded, proceed to the email verify page
-    router.push({ name: "verify-email" });
-  } catch (error) {
-    store.setLoading(false);
-    credentialError.value = true;
-    credentialErrorMessage.value = 'There has been an error, please try again';
-  }
-}
-</script>
-
 <template>
   <!-- Page Content -->
   <div class="bg-primary-dark">
@@ -494,3 +388,109 @@ async function onSubmit() {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { reactive, computed, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
+import useVuelidate from "@vuelidate/core";
+import { required, minLength, email, sameAs } from "@vuelidate/validators";
+
+// Axios
+import axios from "axios";
+
+// Sweetalert
+import Swal from "sweetalert2";
+
+// Main store and Router
+const store = useTemplateStore();
+const router = useRouter();
+
+// Input state variables
+const state = reactive({
+  name: null,
+  email: null,
+  password: null,
+  password_confirmation: null,
+  terms: null,
+});
+
+// Validation rules
+const rules = computed(() => {
+  return {
+    name: {
+      required,
+      minLength: minLength(3),
+    },
+    email: {
+      required,
+      email,
+    },
+    password: {
+      required,
+      minLength: minLength(8),
+    },
+    password_confirmation: {
+      required,
+      sameAs: sameAs(state.password),
+    },
+    terms: {
+      sameAs: sameAs(true),
+    },
+  };
+});
+
+// Use vuelidate
+const v$ = useVuelidate(rules, state);
+
+// Custom Error
+let credentialError = ref(false);
+let credentialErrorMessage = ref('');
+
+// Demo notification SWAL
+onMounted(() => {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Demo Notice',
+    html: 'This is a <strong>demo</strong> version of our app, so trying to sign up here will throw an error.<br><br>' +
+          'To sign up and access the service, please contact us at <a href="mailto:dannydyson297@gmail.com">dannydyson297@gmail.com</a> with your email address.<br><br>' +
+          'Once we have added you to our email service, you will be able to register for an account<br><br>' +
+          'Thank you for your interest!',
+    showConfirmButton: true,
+  });
+});
+
+// On form submission
+async function onSubmit() {
+  const result = await v$.value.$validate();
+
+  if (!result) {
+    // notify user form is invalid
+    return;
+  }
+
+    /** TODO: Manually setting the loading to true here, as the 'setLoading' stuff in the router file
+   * only responds once this request is completed - so this is more for the UX so the user does not
+   * think the app is frozen. Need to find another way of doing this maybe?
+   * **/
+  store.setLoading(true);
+
+  try {
+    // Register the user
+    await axios.post('/api/register', state, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Login succeeded, proceed to the email verify page
+    router.push({ name: "verify-email" });
+  } catch (error) {
+    store.setLoading(false);
+    credentialError.value = true;
+    credentialErrorMessage.value = 'There has been an error, please try again';
+  }
+}
+</script>

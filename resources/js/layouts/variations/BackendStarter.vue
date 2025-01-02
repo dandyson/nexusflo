@@ -1,47 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-import axios from "axios";
-import BaseLayout from "@/layouts/BaseLayout.vue";
-import BaseNavigation from "@/components/BaseNavigation.vue";
-import { useRouter } from 'vue-router';
-import { useRoute } from 'vue-router';
-
-// Main store
-const store = useTemplateStore();
-
-// Router & Route
-const router = useRouter();
-const route = useRoute();
-
-const authUser = {
-  name: route.params?.user?.name ?? '',
-  email: route.params?.user?.email ?? '',
-  avatar: route.params?.user?.avatar ?? '',
-}
-
-// Set default elements for this layout
-store.setLayout({
-  header: true,
-  sidebar: true,
-  sideOverlay: true,
-  footer: true,
-});
-
-// Set various template options for this layout variation
-store.headerStyle({ mode: "light" });
-store.mainContent({ mode: "narrow" });
-
-// Methods
-const logOut = () => {
-  axios.post('/api/logout')
-    .then((res) => {
-      // Go to sign in
-      router.push({ name: "login" });
-    }).catch(() => {});
-}
-
-</script>
-
 <template>
   <BaseLayout>
     <!-- Side Overlay Content -->
@@ -181,3 +137,47 @@ const logOut = () => {
     <!-- END Footer Content Left -->
   </BaseLayout>
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+import axios from "axios";
+import BaseLayout from "@/layouts/BaseLayout.vue";
+import BaseNavigation from "@/components/BaseNavigation.vue";
+import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
+
+// Main store
+const store = useTemplateStore();
+
+// Router & Route
+const router = useRouter();
+const route = useRoute();
+
+const authUser = {
+  name: route.params?.user?.name ?? '',
+  email: route.params?.user?.email ?? '',
+  avatar: route.params?.user?.avatar ?? '',
+}
+
+// Set default elements for this layout
+store.setLayout({
+  header: true,
+  sidebar: true,
+  sideOverlay: true,
+  footer: true,
+});
+
+// Set various template options for this layout variation
+store.headerStyle({ mode: "light" });
+store.mainContent({ mode: "narrow" });
+
+// Methods
+const logOut = () => {
+  axios.post('/api/logout')
+    .then((res) => {
+      // Go to sign in
+      router.push({ name: "login" });
+    }).catch(() => {});
+}
+
+</script>

@@ -1,10 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-</script>
-
 <template>
   <!-- Footer -->
   <footer id="page-footer">
@@ -41,3 +34,10 @@ const store = useTemplateStore();
   </footer>
   <!-- END Footer -->
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+</script>

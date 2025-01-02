@@ -1,42 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-// Vue Highlight.js, for more info and examples you can check out https://github.com/metachris/vue-highlightjs
-import hljs from "highlight.js/lib/core";
-import xmlLang from "highlight.js/lib/languages/xml";
-import VueHighlightJS from "@highlightjs/vue-plugin";
-
-// Register Languages
-hljs.registerLanguage("xml", xmlLang);
-
-// Get component
-const HighlightJS = VueHighlightJS.component;
-
-// Example Code
-const codeHtml = ref(`<!doctype html>
-<html>
-
-<head>
-  <meta charset="utf-8">
-
-  <title>Title</title>
-</head>
-
-<body>
-  <!-- Your content -->
-</body>
-
-</html>`);
-
-const codeHtml2 = ref(`<div id="id-name" class="class-name">
-    <!-- This is a comment -->
-</div>`);
-</script>
-
-<style>
-@import "highlight.js/styles/atom-one-dark.css";
-</style>
-
 <template>
   <!-- Hero Content -->
   <BaseBackground
@@ -254,3 +215,42 @@ const codeHtml2 = ref(`<div id="id-name" class="class-name">
   </div>
   <!-- END Get Started -->
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+// Vue Highlight.js, for more info and examples you can check out https://github.com/metachris/vue-highlightjs
+import hljs from "highlight.js/lib/core";
+import xmlLang from "highlight.js/lib/languages/xml";
+import VueHighlightJS from "@highlightjs/vue-plugin";
+
+// Register Languages
+hljs.registerLanguage("xml", xmlLang);
+
+// Get component
+const HighlightJS = VueHighlightJS.component;
+
+// Example Code
+const codeHtml = ref(`<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Title</title>
+</head>
+
+<body>
+  <!-- Your content -->
+</body>
+
+</html>`);
+
+const codeHtml2 = ref(`<div id="id-name" class="class-name">
+    <!-- This is a comment -->
+</div>`);
+</script>
+
+<style>
+@import "highlight.js/styles/atom-one-dark.css";
+</style>

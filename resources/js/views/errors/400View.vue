@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Page Content -->
   <div class="hero">
@@ -49,3 +47,4 @@
   </div>
   <!-- END Page Content -->
 </template>
+

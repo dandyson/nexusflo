@@ -1,3 +1,7 @@
+<template>
+  <BaseLayout />
+</template>
+
 <script setup>
 import { useTemplateStore } from "@/stores/template";
 
@@ -18,7 +22,3 @@ store.setLayout({
 store.headerStyle({ mode: "light" });
 store.mainContent({ mode: "narrow" });
 </script>
-
-<template>
-  <BaseLayout />
-</template>

@@ -1,13 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Set example settings
-store.mainContent({ mode: "narrow" });
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Main Content" subtitle="Narrow">
@@ -38,3 +28,13 @@ store.mainContent({ mode: "narrow" });
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Set example settings
+store.mainContent({ mode: "narrow" });
+</script>

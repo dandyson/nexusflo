@@ -1,34 +1,3 @@
-<script setup>
-import { reactive } from "vue";
-
-// vue-easy-lightbox, for more info and examples you can check out https://onycat.com/vue-easy-lightbox/
-import VueEasyLightbox from "vue-easy-lightbox";
-
-// Reactive gallery state
-const gallery = reactive({
-  visible: false,
-  index: 0,
-  photos: [
-    "/assets/media/photos/photo19@2x.jpg",
-    "/assets/media/photos/photo12@2x.jpg",
-    "/assets/media/photos/photo18@2x.jpg",
-    "/assets/media/photos/photo16@2x.jpg",
-    "/assets/media/photos/photo14@2x.jpg",
-  ],
-});
-
-// Helper function to show a photo
-function showPhoto(index) {
-  gallery.index = index;
-  gallery.visible = true;
-}
-
-// Helper function to hide the lightbox
-function handleHide() {
-  gallery.visible = false;
-}
-</script>
-
 <template>
   <VueEasyLightbox
     :visible="gallery.visible"
@@ -298,3 +267,34 @@ function handleHide() {
   </div>
   <!-- END Get Started -->
 </template>
+
+<script setup>
+import { reactive } from "vue";
+
+// vue-easy-lightbox, for more info and examples you can check out https://onycat.com/vue-easy-lightbox/
+import VueEasyLightbox from "vue-easy-lightbox";
+
+// Reactive gallery state
+const gallery = reactive({
+  visible: false,
+  index: 0,
+  photos: [
+    "/assets/media/photos/photo19@2x.jpg",
+    "/assets/media/photos/photo12@2x.jpg",
+    "/assets/media/photos/photo18@2x.jpg",
+    "/assets/media/photos/photo16@2x.jpg",
+    "/assets/media/photos/photo14@2x.jpg",
+  ],
+});
+
+// Helper function to show a photo
+function showPhoto(index) {
+  gallery.index = index;
+  gallery.visible = true;
+}
+
+// Helper function to hide the lightbox
+function handleHide() {
+  gallery.visible = false;
+}
+</script>

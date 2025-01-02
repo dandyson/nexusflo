@@ -1,10 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store and Router
-const store = useTemplateStore();
-</script>
-
 <template>
   <!-- Page Content -->
   <BaseBackground image="/assets/media/photos/photo28@2x.jpg">
@@ -174,3 +167,10 @@ const store = useTemplateStore();
   </BaseBackground>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store and Router
+const store = useTemplateStore();
+</script>

@@ -1,23 +1,3 @@
-<script setup>
-import { onBeforeRouteLeave } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Set example settings
-store.sidebarPosition({ mode: "right" });
-store.sidebar({ mode: "open" });
-store.sideOverlay({ mode: "close" });
-store.header({ mode: "fixed" });
-
-// Before leaving this page
-onBeforeRouteLeave(() => {
-  // Restore original settings
-  store.sidebarPosition({ mode: "left" });
-});
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Page Layout" subtitle="Flipped">
@@ -45,3 +25,23 @@ onBeforeRouteLeave(() => {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { onBeforeRouteLeave } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Set example settings
+store.sidebarPosition({ mode: "right" });
+store.sidebar({ mode: "open" });
+store.sideOverlay({ mode: "close" });
+store.header({ mode: "fixed" });
+
+// Before leaving this page
+onBeforeRouteLeave(() => {
+  // Restore original settings
+  store.sidebarPosition({ mode: "left" });
+});
+</script>

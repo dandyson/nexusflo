@@ -1,3 +1,77 @@
+<template>
+  <!-- Hero -->
+  <BasePageHeading
+    title="Highlight.js"
+    subtitle="Beautiful syntax highlighting to showcase your code."
+  >
+    <template #extra>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-alt">
+          <li class="breadcrumb-item">
+            <a class="link-fx" href="javascript:void(0)">Plugins</a>
+          </li>
+          <li class="breadcrumb-item" aria-current="page">
+            Syntax Highlighting
+          </li>
+        </ol>
+      </nav>
+    </template>
+  </BasePageHeading>
+  <!-- END Hero -->
+
+  <!-- Page Content -->
+  <div class="content">
+    <!-- HTML -->
+    <BaseBlock title="HTML">
+      <HighlightJS language="xml" :code="codeHtml" />
+    </BaseBlock>
+    <!-- END HTML -->
+
+    <!-- CSS -->
+    <BaseBlock title="CSS">
+      <HighlightJS language="css" :code="codeCss" />
+    </BaseBlock>
+    <!-- END CSS -->
+
+    <!-- SCSS -->
+    <BaseBlock title="SCSS">
+      <HighlightJS language="scss" :code="codeScss" />
+    </BaseBlock>
+    <!-- END SCSS -->
+
+    <!-- JavaScript -->
+    <BaseBlock title="JavaScript">
+      <HighlightJS language="javascript" :code="codeJavascript" />
+    </BaseBlock>
+    <!-- END JavaScript -->
+
+    <!-- PHP -->
+    <BaseBlock title="PHP">
+      <HighlightJS language="php" :code="codePhp" />
+    </BaseBlock>
+    <!-- END PHP -->
+
+    <!-- Ruby -->
+    <BaseBlock title="Ruby">
+      <HighlightJS language="ruby" :code="codeRuby" />
+    </BaseBlock>
+    <!-- END Ruby -->
+
+    <!-- Python -->
+    <BaseBlock title="Python">
+      <HighlightJS language="python" :code="codePython" />
+    </BaseBlock>
+    <!-- END Python -->
+
+    <!-- JSON -->
+    <BaseBlock title="JSON">
+      <HighlightJS language="json" :code="codeJson" />
+    </BaseBlock>
+    <!-- END JSON -->
+  </div>
+  <!-- END Page Content -->
+</template>
+
 <script setup>
 import { ref } from "vue";
 
@@ -155,77 +229,3 @@ const codeJson = ref(`{
 <style>
 @import "highlight.js/styles/atom-one-dark.css";
 </style>
-
-<template>
-  <!-- Hero -->
-  <BasePageHeading
-    title="Highlight.js"
-    subtitle="Beautiful syntax highlighting to showcase your code."
-  >
-    <template #extra>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb breadcrumb-alt">
-          <li class="breadcrumb-item">
-            <a class="link-fx" href="javascript:void(0)">Plugins</a>
-          </li>
-          <li class="breadcrumb-item" aria-current="page">
-            Syntax Highlighting
-          </li>
-        </ol>
-      </nav>
-    </template>
-  </BasePageHeading>
-  <!-- END Hero -->
-
-  <!-- Page Content -->
-  <div class="content">
-    <!-- HTML -->
-    <BaseBlock title="HTML">
-      <HighlightJS language="xml" :code="codeHtml" />
-    </BaseBlock>
-    <!-- END HTML -->
-
-    <!-- CSS -->
-    <BaseBlock title="CSS">
-      <HighlightJS language="css" :code="codeCss" />
-    </BaseBlock>
-    <!-- END CSS -->
-
-    <!-- SCSS -->
-    <BaseBlock title="SCSS">
-      <HighlightJS language="scss" :code="codeScss" />
-    </BaseBlock>
-    <!-- END SCSS -->
-
-    <!-- JavaScript -->
-    <BaseBlock title="JavaScript">
-      <HighlightJS language="javascript" :code="codeJavascript" />
-    </BaseBlock>
-    <!-- END JavaScript -->
-
-    <!-- PHP -->
-    <BaseBlock title="PHP">
-      <HighlightJS language="php" :code="codePhp" />
-    </BaseBlock>
-    <!-- END PHP -->
-
-    <!-- Ruby -->
-    <BaseBlock title="Ruby">
-      <HighlightJS language="ruby" :code="codeRuby" />
-    </BaseBlock>
-    <!-- END Ruby -->
-
-    <!-- Python -->
-    <BaseBlock title="Python">
-      <HighlightJS language="python" :code="codePython" />
-    </BaseBlock>
-    <!-- END Python -->
-
-    <!-- JSON -->
-    <BaseBlock title="JSON">
-      <HighlightJS language="json" :code="codeJson" />
-    </BaseBlock>
-    <!-- END JSON -->
-  </div>
-  <!-- END Page Content -->
-</template>

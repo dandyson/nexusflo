@@ -1,88 +1,3 @@
-<script setup>
-import { reactive } from "vue";
-
-// Example data
-const users = reactive([
-  {
-    id: 1,
-    name: "Adam McCoy",
-    labelVariant: "success",
-    labelText: "VIP",
-    rowVariant: "active",
-  },
-  {
-    id: 2,
-    name: "Betty Kelley",
-    labelVariant: "info",
-    labelText: "Business",
-    rowVariant: "",
-  },
-  {
-    id: 3,
-    name: "Jesse Fisher",
-    labelVariant: "info",
-    labelText: "Business",
-    rowVariant: "primary",
-  },
-  {
-    id: 4,
-    name: "Ryan Flores",
-    labelVariant: "warning",
-    labelText: "Trial",
-    rowVariant: "",
-  },
-  {
-    id: 5,
-    name: "Alice Moore",
-    labelVariant: "danger",
-    labelText: "Disabled",
-    rowVariant: "warning",
-  },
-  {
-    id: 6,
-    name: "Scott Young",
-    labelVariant: "success",
-    labelText: "VIP",
-    rowVariant: "",
-  },
-  {
-    id: 7,
-    name: "Ralph Murray",
-    labelVariant: "danger",
-    labelText: "Disabled",
-    rowVariant: "danger",
-  },
-  {
-    id: 8,
-    name: "Marie Duncan",
-    labelVariant: "warning",
-    labelText: "Trial",
-    rowVariant: "",
-  },
-  {
-    id: 9,
-    name: "Helen Jacobs",
-    labelVariant: "info",
-    labelText: "Business",
-    rowVariant: "info",
-  },
-  {
-    id: 10,
-    name: "Carl Wells",
-    labelVariant: "info",
-    labelText: "Business",
-    rowVariant: "",
-  },
-  {
-    id: 11,
-    name: "Jose Mills",
-    labelVariant: "success",
-    labelText: "VIP",
-    rowVariant: "success",
-  },
-]);
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -454,3 +369,88 @@ const users = reactive([
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { reactive } from "vue";
+
+// Example data
+const users = reactive([
+  {
+    id: 1,
+    name: "Adam McCoy",
+    labelVariant: "success",
+    labelText: "VIP",
+    rowVariant: "active",
+  },
+  {
+    id: 2,
+    name: "Betty Kelley",
+    labelVariant: "info",
+    labelText: "Business",
+    rowVariant: "",
+  },
+  {
+    id: 3,
+    name: "Jesse Fisher",
+    labelVariant: "info",
+    labelText: "Business",
+    rowVariant: "primary",
+  },
+  {
+    id: 4,
+    name: "Ryan Flores",
+    labelVariant: "warning",
+    labelText: "Trial",
+    rowVariant: "",
+  },
+  {
+    id: 5,
+    name: "Alice Moore",
+    labelVariant: "danger",
+    labelText: "Disabled",
+    rowVariant: "warning",
+  },
+  {
+    id: 6,
+    name: "Scott Young",
+    labelVariant: "success",
+    labelText: "VIP",
+    rowVariant: "",
+  },
+  {
+    id: 7,
+    name: "Ralph Murray",
+    labelVariant: "danger",
+    labelText: "Disabled",
+    rowVariant: "danger",
+  },
+  {
+    id: 8,
+    name: "Marie Duncan",
+    labelVariant: "warning",
+    labelText: "Trial",
+    rowVariant: "",
+  },
+  {
+    id: 9,
+    name: "Helen Jacobs",
+    labelVariant: "info",
+    labelText: "Business",
+    rowVariant: "info",
+  },
+  {
+    id: 10,
+    name: "Carl Wells",
+    labelVariant: "info",
+    labelText: "Business",
+    rowVariant: "",
+  },
+  {
+    id: 11,
+    name: "Jose Mills",
+    labelVariant: "success",
+    labelText: "VIP",
+    rowVariant: "success",
+  },
+]);
+</script>

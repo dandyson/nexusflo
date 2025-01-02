@@ -1,55 +1,3 @@
-<script setup>
-import { reactive, onMounted, onUnmounted } from "vue";
-import { useTemplateStore } from "@/stores/template";
-
-// SimpleBar, for more info and examples you can check out https://github.com/Grsmto/simplebar/tree/master/packages/simplebar-vue
-import SimpleBar from "simplebar";
-
-// Grab example data
-import activity from "@/data/activity";
-import sales from "@/data/sales";
-import users from "@/data/users";
-
-const salesToday = sales.today;
-const salesYesterday = sales.yesterday;
-
-// Main store
-const store = useTemplateStore();
-
-// Reactive state
-const state = reactive({
-  settings: {
-    status: true,
-    updated: true,
-    notifications: {
-      email: true,
-      sms: true,
-    },
-    api: true,
-  },
-});
-
-// Close side overlay on ESCAPE key down
-function eventSideOverlay(event) {
-  if (event.which === 27) {
-    event.preventDefault();
-    store.sideOverlay({ mode: "close" });
-  }
-}
-
-// Init SimpleBar (custom scrolling) and attach ESCAPE key event listener
-onMounted(() => {
-  new SimpleBar(document.getElementById("side-overlay"));
-
-  document.addEventListener("keydown", eventSideOverlay);
-});
-
-// Remove keydown event listener
-onUnmounted(() => {
-  document.removeEventListener("keydown", eventSideOverlay);
-});
-</script>
-
 <template>
   <!-- Side Overlay-->
   <aside id="side-overlay">
@@ -406,3 +354,55 @@ onUnmounted(() => {
   </aside>
   <!-- END Side Overlay -->
 </template>
+
+<script setup>
+import { reactive, onMounted, onUnmounted } from "vue";
+import { useTemplateStore } from "@/stores/template";
+
+// SimpleBar, for more info and examples you can check out https://github.com/Grsmto/simplebar/tree/master/packages/simplebar-vue
+import SimpleBar from "simplebar";
+
+// Grab example data
+import activity from "@/data/activity";
+import sales from "@/data/sales";
+import users from "@/data/users";
+
+const salesToday = sales.today;
+const salesYesterday = sales.yesterday;
+
+// Main store
+const store = useTemplateStore();
+
+// Reactive state
+const state = reactive({
+  settings: {
+    status: true,
+    updated: true,
+    notifications: {
+      email: true,
+      sms: true,
+    },
+    api: true,
+  },
+});
+
+// Close side overlay on ESCAPE key down
+function eventSideOverlay(event) {
+  if (event.which === 27) {
+    event.preventDefault();
+    store.sideOverlay({ mode: "close" });
+  }
+}
+
+// Init SimpleBar (custom scrolling) and attach ESCAPE key event listener
+onMounted(() => {
+  new SimpleBar(document.getElementById("side-overlay"));
+
+  document.addEventListener("keydown", eventSideOverlay);
+});
+
+// Remove keydown event listener
+onUnmounted(() => {
+  document.removeEventListener("keydown", eventSideOverlay);
+});
+</script>

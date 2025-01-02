@@ -1,7 +1,3 @@
-<script setup>
-import VueCountdown from "@chenfengyuan/vue-countdown";
-</script>
-
 <template>
   <!-- Page Content -->
   <BaseBackground image="/assets/media/photos/photo8@2x.jpg">
@@ -87,3 +83,7 @@ import VueCountdown from "@chenfengyuan/vue-countdown";
   </BaseBackground>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import VueCountdown from "@chenfengyuan/vue-countdown";
+</script>

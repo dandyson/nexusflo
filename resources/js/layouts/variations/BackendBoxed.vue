@@ -1,38 +1,3 @@
-<script setup>
-import { ref } from "vue";
-import { useTemplateStore } from "@/stores/template";
-
-import BaseLayout from "@/layouts/BaseLayout.vue";
-import BaseNavigation from "@/components/BaseNavigation.vue";
-
-// Grab example data
-import notifications from "@/data/notifications";
-
-// Grab menu navigation arrays
-import menu from "@/data/menu";
-
-const navigation = menu.boxed;
-
-// Main store
-const store = useTemplateStore();
-
-// Reactive variables
-const mobileNav = ref(false);
-const baseSearchTerm = ref("");
-
-// Set default elements for this layout
-store.setLayout({
-  header: true,
-  sidebar: false,
-  sideOverlay: false,
-  footer: true,
-});
-
-// Set various template options for this layout variation
-store.headerStyle({ mode: "dark" });
-store.mainContent({ mode: "boxed" });
-</script>
-
 <template>
   <BaseLayout>
     <!-- Header Content -->
@@ -271,3 +236,38 @@ store.mainContent({ mode: "boxed" });
     <!-- END Page Top Content -->
   </BaseLayout>
 </template>
+
+<script setup>
+import { ref } from "vue";
+import { useTemplateStore } from "@/stores/template";
+
+import BaseLayout from "@/layouts/BaseLayout.vue";
+import BaseNavigation from "@/components/BaseNavigation.vue";
+
+// Grab example data
+import notifications from "@/data/notifications";
+
+// Grab menu navigation arrays
+import menu from "@/data/menu";
+
+const navigation = menu.boxed;
+
+// Main store
+const store = useTemplateStore();
+
+// Reactive variables
+const mobileNav = ref(false);
+const baseSearchTerm = ref("");
+
+// Set default elements for this layout
+store.setLayout({
+  header: true,
+  sidebar: false,
+  sideOverlay: false,
+  footer: true,
+});
+
+// Set various template options for this layout variation
+store.headerStyle({ mode: "dark" });
+store.mainContent({ mode: "boxed" });
+</script>

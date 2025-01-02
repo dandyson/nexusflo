@@ -1,10 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-</script>
-
 <template>
   <!-- Page Content -->
   <div class="hero-static d-flex align-items-center">
@@ -114,3 +107,10 @@ const store = useTemplateStore();
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+</script>

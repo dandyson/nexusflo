@@ -1,20 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-// Vue Star Rating, for more info and examples you can check out https://github.com/craigh411/vue-StarRating
-import StarRating from "vue-star-rating";
-
-// Helper variables
-const starRatingSimple = ref(0);
-const starRatingPredefined = ref(3);
-const starRatingMore = ref(5);
-const starRatingReset = ref(4);
-const starRatingIncrement = ref(2.5);
-const starRatingFluid = ref(0);
-const starRatingColors = ref(3);
-const starRatingSize = ref(3);
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -262,3 +245,20 @@ const starRatingSize = ref(3);
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+// Vue Star Rating, for more info and examples you can check out https://github.com/craigh411/vue-StarRating
+import StarRating from "vue-star-rating";
+
+// Helper variables
+const starRatingSimple = ref(0);
+const starRatingPredefined = ref(3);
+const starRatingMore = ref(5);
+const starRatingReset = ref(4);
+const starRatingIncrement = ref(2.5);
+const starRatingFluid = ref(0);
+const starRatingColors = ref(3);
+const starRatingSize = ref(3);
+</script>

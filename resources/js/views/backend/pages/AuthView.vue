@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Authentication" subtitle="All pages in one spot!">
@@ -254,3 +252,4 @@
   </div>
   <!-- END Page Content -->
 </template>
+

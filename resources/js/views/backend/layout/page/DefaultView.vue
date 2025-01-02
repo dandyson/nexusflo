@@ -1,16 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Set example settings
-store.sidebarPosition({ mode: "left" });
-store.sidebar({ mode: "open" });
-store.sideOverlay({ mode: "close" });
-store.header({ mode: "fixed" });
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Page Layout" subtitle="Default">
@@ -38,3 +25,16 @@ store.header({ mode: "fixed" });
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Set example settings
+store.sidebarPosition({ mode: "left" });
+store.sidebar({ mode: "open" });
+store.sideOverlay({ mode: "close" });
+store.header({ mode: "fixed" });
+</script>

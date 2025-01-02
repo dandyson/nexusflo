@@ -1,37 +1,3 @@
-<script setup>
-import { onMounted, onUnmounted } from "vue";
-
-// Helper variables
-let popoverTriggerList = [];
-let popoverList = [];
-
-// Init popovers on content loaded
-onMounted(() => {
-  // Grab all popover containers..
-  popoverTriggerList = [].slice.call(
-    document.querySelectorAll('[data-bs-toggle="popover"]')
-  );
-
-  // ..and init them
-  popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new window.bootstrap.Popover(popoverTriggerEl, {
-      container: popoverTriggerEl.dataset.bsContainer || "#page-container",
-      animation:
-        popoverTriggerEl.dataset.bsAnimation &&
-        popoverTriggerEl.dataset.bsAnimation.toLowerCase() == "true"
-          ? true
-          : false,
-      trigger: popoverTriggerEl.dataset.bsTrigger || "hover focus",
-    });
-  });
-});
-
-// Dispose popovers on unMounted
-onUnmounted(() => {
-  popoverList.forEach((popover) => popover.dispose());
-});
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -294,3 +260,37 @@ onUnmounted(() => {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { onMounted, onUnmounted } from "vue";
+
+// Helper variables
+let popoverTriggerList = [];
+let popoverList = [];
+
+// Init popovers on content loaded
+onMounted(() => {
+  // Grab all popover containers..
+  popoverTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="popover"]')
+  );
+
+  // ..and init them
+  popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new window.bootstrap.Popover(popoverTriggerEl, {
+      container: popoverTriggerEl.dataset.bsContainer || "#page-container",
+      animation:
+        popoverTriggerEl.dataset.bsAnimation &&
+        popoverTriggerEl.dataset.bsAnimation.toLowerCase() == "true"
+          ? true
+          : false,
+      trigger: popoverTriggerEl.dataset.bsTrigger || "hover focus",
+    });
+  });
+});
+
+// Dispose popovers on unMounted
+onUnmounted(() => {
+  popoverList.forEach((popover) => popover.dispose());
+});
+</script>

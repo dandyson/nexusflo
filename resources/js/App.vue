@@ -1,10 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-const store = useTemplateStore();
-
-</script>
-
 <template>
   <!-- Loading Spinner -->
   <div class="overlay" v-if="store.isLoading">
@@ -14,6 +7,13 @@ const store = useTemplateStore();
   </div>
   <RouterView />
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+const store = useTemplateStore();
+
+</script>
 
 <style lang="scss">
 // Main Stylesheet

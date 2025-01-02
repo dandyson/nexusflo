@@ -1,71 +1,3 @@
-<script setup>
-import { reactive, computed, ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useTemplateStore } from "@/stores/template";
-import useVuelidate from '@vuelidate/core';
-import { required, minLength, sameAs } from '@vuelidate/validators';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-
-const store = useTemplateStore();
-const route = useRoute();
-const router = useRouter();
-
-const token = ref(route.params.token);
-const email = ref(route.query.email);
-
-const state = reactive({
-  password: '',
-  password_confirmation: '',
-});
-
-const rules = computed(() => ({
-  password: { required, minLength: minLength(8) },
-  password_confirmation: { required, sameAs: sameAs(state.password) },
-}));
-
-const v$ = useVuelidate(rules, state);
-
-const error = ref(false);
-const errorMessage = ref('');
-
-onMounted(() => {
-  if (!token.value || !email.value) {
-    error.value = true;
-    errorMessage.value = 'Invalid or missing token/email.';
-  }
-});
-
-async function onSubmit() {
-  if (!token.value || !email.value) {
-    error.value = true;
-    errorMessage.value = 'Invalid or missing token/email.';
-    return;
-  }
-
-  const result = await v$.value.$validate();
-  if (!result) return;
-
-  try {
-    await axios.post('/api/reset-password', {
-      email: email.value,
-      password: state.password,
-      password_confirmation: state.password_confirmation,
-      token: token.value,
-    });
-
-    Swal.fire({
-      icon: 'success',
-      title: 'Password Reset Successfully',
-      text: 'Please login to access your account',
-    }).then(() => router.push({ name: 'login' }));
-  } catch (err) {
-    error.value = true;
-    errorMessage.value = err.response?.data?.message || 'There has been an error, please try again';
-  }
-}
-</script>
-
 <template>
   <div class="bg-primary-dark">
     <div class="row g-0 bg-primary-dark-op">
@@ -170,3 +102,71 @@ async function onSubmit() {
     </div>
   </div>
 </template>
+
+<script setup>
+import { reactive, computed, ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useTemplateStore } from "@/stores/template";
+import useVuelidate from '@vuelidate/core';
+import { required, minLength, sameAs } from '@vuelidate/validators';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
+const store = useTemplateStore();
+const route = useRoute();
+const router = useRouter();
+
+const token = ref(route.params.token);
+const email = ref(route.query.email);
+
+const state = reactive({
+  password: '',
+  password_confirmation: '',
+});
+
+const rules = computed(() => ({
+  password: { required, minLength: minLength(8) },
+  password_confirmation: { required, sameAs: sameAs(state.password) },
+}));
+
+const v$ = useVuelidate(rules, state);
+
+const error = ref(false);
+const errorMessage = ref('');
+
+onMounted(() => {
+  if (!token.value || !email.value) {
+    error.value = true;
+    errorMessage.value = 'Invalid or missing token/email.';
+  }
+});
+
+async function onSubmit() {
+  if (!token.value || !email.value) {
+    error.value = true;
+    errorMessage.value = 'Invalid or missing token/email.';
+    return;
+  }
+
+  const result = await v$.value.$validate();
+  if (!result) return;
+
+  try {
+    await axios.post('/api/reset-password', {
+      email: email.value,
+      password: state.password,
+      password_confirmation: state.password_confirmation,
+      token: token.value,
+    });
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Password Reset Successfully',
+      text: 'Please login to access your account',
+    }).then(() => router.push({ name: 'login' }));
+  } catch (err) {
+    error.value = true;
+    errorMessage.value = err.response?.data?.message || 'There has been an error, please try again';
+  }
+}
+</script>

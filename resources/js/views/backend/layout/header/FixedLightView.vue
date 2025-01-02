@@ -1,23 +1,3 @@
-<script setup>
-import { onBeforeRouteLeave } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Set example settings
-store.header({ mode: "fixed" });
-store.headerStyle({ mode: "light" });
-store.darkModeSystem({ mode: "off" });
-store.darkMode({ mode: "off" });
-
-// Before leaving this page
-onBeforeRouteLeave(() => {
-  // Restore original settings
-  store.darkModeSystem({ mode: "on" });
-});
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Header" subtitle="Fixed - Light">
@@ -61,3 +41,23 @@ onBeforeRouteLeave(() => {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { onBeforeRouteLeave } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Set example settings
+store.header({ mode: "fixed" });
+store.headerStyle({ mode: "light" });
+store.darkModeSystem({ mode: "off" });
+store.darkMode({ mode: "off" });
+
+// Before leaving this page
+onBeforeRouteLeave(() => {
+  // Restore original settings
+  store.darkModeSystem({ mode: "on" });
+});
+</script>

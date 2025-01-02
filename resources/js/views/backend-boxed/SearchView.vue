@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Search -->
   <div class="content">
@@ -1105,3 +1103,4 @@
   </div>
   <!-- END Page Content -->
 </template>
+

@@ -1,48 +1,3 @@
-<script setup>
-import { reactive, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
-import useVuelidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
-
-// Main store and Router
-const store = useTemplateStore();
-const router = useRouter();
-
-// Input state variables
-const state = reactive({
-  password: null,
-});
-
-// Validation rules
-const rules = computed(() => {
-  return {
-    password: {
-      required,
-      minLength: minLength(5),
-    },
-  };
-});
-
-// Use vuelidate
-const v$ = useVuelidate(rules, state);
-
-// On form submission
-async function onSubmit() {
-  const result = await v$.value.$validate();
-
-  if (!result) {
-    // notify user form is invalid
-    return;
-  }
-
-  // Go to dashboard
-  router.push({ name: "backend-pages-auth" });
-}
-</script>
-
 <template>
   <!-- Page Content -->
   <div class="bg-danger">
@@ -175,3 +130,48 @@ async function onSubmit() {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { reactive, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
+import useVuelidate from "@vuelidate/core";
+import { required, minLength } from "@vuelidate/validators";
+
+// Main store and Router
+const store = useTemplateStore();
+const router = useRouter();
+
+// Input state variables
+const state = reactive({
+  password: null,
+});
+
+// Validation rules
+const rules = computed(() => {
+  return {
+    password: {
+      required,
+      minLength: minLength(5),
+    },
+  };
+});
+
+// Use vuelidate
+const v$ = useVuelidate(rules, state);
+
+// On form submission
+async function onSubmit() {
+  const result = await v$.value.$validate();
+
+  if (!result) {
+    // notify user form is invalid
+    return;
+  }
+
+  // Go to dashboard
+  router.push({ name: "backend-pages-auth" });
+}
+</script>

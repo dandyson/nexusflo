@@ -1,39 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-// Used to reference example blocks
-const exampleBlock1 = ref(null);
-const exampleBlock2 = ref(null);
-
-// Demo loading functionality for exampleBlock1
-function loadDataForBlock1() {
-  // Set the block to loading state
-  exampleBlock1.value.statusLoading();
-
-  // .. here you could load your data
-
-  // Set a timeout for demo purposes
-  setTimeout(() => {
-    // Set the block back to normal state
-    exampleBlock1.value.statusNormal();
-  }, 2000);
-}
-
-// Demo loading functionality for exampleBlock2
-function loadDataForBlock2() {
-  // Set the block to loading state
-  exampleBlock2.value.statusLoading();
-
-  // .. here you could load your data
-
-  // Set a timeout for demo purposes
-  setTimeout(() => {
-    // Set the block back to normal state
-    exampleBlock2.value.statusNormal();
-  }, 2000);
-}
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -759,3 +723,39 @@ function loadDataForBlock2() {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+// Used to reference example blocks
+const exampleBlock1 = ref(null);
+const exampleBlock2 = ref(null);
+
+// Demo loading functionality for exampleBlock1
+function loadDataForBlock1() {
+  // Set the block to loading state
+  exampleBlock1.value.statusLoading();
+
+  // .. here you could load your data
+
+  // Set a timeout for demo purposes
+  setTimeout(() => {
+    // Set the block back to normal state
+    exampleBlock1.value.statusNormal();
+  }, 2000);
+}
+
+// Demo loading functionality for exampleBlock2
+function loadDataForBlock2() {
+  // Set the block to loading state
+  exampleBlock2.value.statusLoading();
+
+  // .. here you could load your data
+
+  // Set a timeout for demo purposes
+  setTimeout(() => {
+    // Set the block back to normal state
+    exampleBlock2.value.statusNormal();
+  }, 2000);
+}
+</script>

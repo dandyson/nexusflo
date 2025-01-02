@@ -1,21 +1,3 @@
-<script setup>
-import { onBeforeRouteLeave } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Set example settings
-store.sideOverlay({ mode: "close" });
-store.sideOverlayHover({ mode: "on" });
-
-// Before leaving this page
-onBeforeRouteLeave(() => {
-  // Restore original settings
-  store.sideOverlayHover({ mode: "off" });
-});
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Side Overlay" subtitle="Hover Mode">
@@ -46,3 +28,21 @@ onBeforeRouteLeave(() => {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { onBeforeRouteLeave } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Set example settings
+store.sideOverlay({ mode: "close" });
+store.sideOverlayHover({ mode: "on" });
+
+// Before leaving this page
+onBeforeRouteLeave(() => {
+  // Restore original settings
+  store.sideOverlayHover({ mode: "off" });
+});
+</script>

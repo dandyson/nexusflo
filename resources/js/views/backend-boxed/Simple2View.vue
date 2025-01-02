@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Hero -->
   <div class="bg-body-light">
@@ -58,3 +56,4 @@
   </div>
   <!-- END Page Content -->
 </template>
+

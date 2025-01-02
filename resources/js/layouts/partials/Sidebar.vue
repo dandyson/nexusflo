@@ -1,81 +1,3 @@
-<script setup>
-import { ref, watch, onMounted } from "vue";
-import { useTemplateStore } from "@/stores/template";
-
-import BaseNavigation from "@/components/BaseNavigation.vue";
-
-// SimpleBar, for more info and examples you can check out https://github.com/Grsmto/simplebar/tree/master/packages/simplebar-vue
-import SimpleBar from "simplebar";
-
-// Grab menu navigation arrays
-import menu from "@/data/menu";
-
-const navigation = menu.main;
-
-// Component properties
-defineProps({
-  withMiniNav: {
-    type: Boolean,
-    default: false,
-    description: "If the sidebar is in Mini Nav Mode",
-  },
-});
-
-// Main store
-const store = useTemplateStore();
-
-// Dark Mode preference helper for radios
-const radioDarkMode = ref();
-
-// Sets default dark mode preferences for radios
-function setDarkModeRadioDefault() {
-  if (store.settings.darkModeSystem) {
-    radioDarkMode.value = "system";
-  } else {
-    if (store.settings.darkMode) {
-      radioDarkMode.value = "dark";
-    } else {
-      radioDarkMode.value = "light";
-    }
-  }
-}
-
-// When the user sets dark mode preference through the radios
-function onDarkModeRadioChange() {
-  if (radioDarkMode.value === "system") {
-    store.darkModeSystem({ mode: "on" });
-  } else {
-    store.darkModeSystem({ mode: "off" });
-
-    if (radioDarkMode.value === "dark") {
-      store.darkMode({ mode: "on" });
-    } else {
-      store.darkMode({ mode: "off" });
-    }
-  }
-}
-
-// Set dark mode preference radios default and watch for changes to store
-setDarkModeRadioDefault();
-watch(
-  () => store.settings.darkModeSystem,
-  () => {
-    setDarkModeRadioDefault();
-  }
-);
-watch(
-  () => store.settings.darkMode,
-  () => {
-    setDarkModeRadioDefault();
-  }
-);
-
-// Init SimpleBar (custom scrolling)
-onMounted(() => {
-  new SimpleBar(document.getElementById("simplebar-sidebar"));
-});
-</script>
-
 <template>
   <!-- Sidebar -->
   <!--
@@ -216,6 +138,84 @@ onMounted(() => {
   </nav>
   <!-- END Sidebar -->
 </template>
+
+<script setup>
+import { ref, watch, onMounted } from "vue";
+import { useTemplateStore } from "@/stores/template";
+
+import BaseNavigation from "@/components/BaseNavigation.vue";
+
+// SimpleBar, for more info and examples you can check out https://github.com/Grsmto/simplebar/tree/master/packages/simplebar-vue
+import SimpleBar from "simplebar";
+
+// Grab menu navigation arrays
+import menu from "@/data/menu";
+
+const navigation = menu.main;
+
+// Component properties
+defineProps({
+  withMiniNav: {
+    type: Boolean,
+    default: false,
+    description: "If the sidebar is in Mini Nav Mode",
+  },
+});
+
+// Main store
+const store = useTemplateStore();
+
+// Dark Mode preference helper for radios
+const radioDarkMode = ref();
+
+// Sets default dark mode preferences for radios
+function setDarkModeRadioDefault() {
+  if (store.settings.darkModeSystem) {
+    radioDarkMode.value = "system";
+  } else {
+    if (store.settings.darkMode) {
+      radioDarkMode.value = "dark";
+    } else {
+      radioDarkMode.value = "light";
+    }
+  }
+}
+
+// When the user sets dark mode preference through the radios
+function onDarkModeRadioChange() {
+  if (radioDarkMode.value === "system") {
+    store.darkModeSystem({ mode: "on" });
+  } else {
+    store.darkModeSystem({ mode: "off" });
+
+    if (radioDarkMode.value === "dark") {
+      store.darkMode({ mode: "on" });
+    } else {
+      store.darkMode({ mode: "off" });
+    }
+  }
+}
+
+// Set dark mode preference radios default and watch for changes to store
+setDarkModeRadioDefault();
+watch(
+  () => store.settings.darkModeSystem,
+  () => {
+    setDarkModeRadioDefault();
+  }
+);
+watch(
+  () => store.settings.darkMode,
+  () => {
+    setDarkModeRadioDefault();
+  }
+);
+
+// Init SimpleBar (custom scrolling)
+onMounted(() => {
+  new SimpleBar(document.getElementById("simplebar-sidebar"));
+});
+</script>
 
 <style >
   .app-logo {
