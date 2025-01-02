@@ -1,119 +1,3 @@
-<script setup>
-import { reactive, computed } from "vue";
-
-// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
-import useVuelidate from "@vuelidate/core";
-import {
-  required,
-  minLength,
-  between,
-  email,
-  decimal,
-  integer,
-  url,
-  sameAs,
-} from "@vuelidate/validators";
-
-// Example options for select
-const options = reactive([
-  { value: null, text: "Please select" },
-  { value: "html", text: "HTML" },
-  { value: "css", text: "CSS" },
-  { value: "javascript", text: "JavaScript" },
-  { value: "angular", text: "Angular" },
-  { value: "react", text: "React" },
-  { value: "vuejs", text: "Vue.js" },
-  { value: "ruby", text: "Ruby" },
-  { value: "php", text: "PHP" },
-  { value: "asp", text: "ASP.NET" },
-  { value: "python", text: "Python" },
-  { value: "mysql", text: "MySQL" },
-]);
-
-// Input state variables
-const state = reactive({
-  username: null,
-  email: null,
-  password: null,
-  confirmPassword: null,
-  suggestions: null,
-  skill: null,
-  currency: null,
-  website: null,
-  digits: null,
-  number: null,
-  range: null,
-  terms: null,
-});
-
-// Validation rules
-const rules = computed(() => {
-  return {
-    username: {
-      required,
-      minLength: minLength(3),
-    },
-    email: {
-      required,
-      email,
-    },
-    password: {
-      required,
-      minLength: minLength(5),
-    },
-    confirmPassword: {
-      required,
-      sameAs: sameAs(state.password),
-    },
-    suggestions: {
-      required,
-      minLength: minLength(3),
-    },
-    skill: {
-      required,
-    },
-    currency: {
-      required,
-      decimal,
-    },
-    website: {
-      required,
-      url,
-    },
-    digits: {
-      required,
-      integer,
-    },
-    number: {
-      required,
-      decimal,
-    },
-    range: {
-      required,
-      between: between(1, 5),
-    },
-    terms: {
-      sameAs: sameAs(true),
-    },
-  };
-});
-
-// Use vuelidate
-const v$ = useVuelidate(rules, state);
-
-// On form submission
-async function onSubmit() {
-  const result = await v$.value.$validate();
-
-  if (!result) {
-    // notify user form is invalid
-    return;
-  }
-
-  // perform async actions
-}
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -453,3 +337,119 @@ async function onSubmit() {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { reactive, computed } from "vue";
+
+// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
+import useVuelidate from "@vuelidate/core";
+import {
+  required,
+  minLength,
+  between,
+  email,
+  decimal,
+  integer,
+  url,
+  sameAs,
+} from "@vuelidate/validators";
+
+// Example options for select
+const options = reactive([
+  { value: null, text: "Please select" },
+  { value: "html", text: "HTML" },
+  { value: "css", text: "CSS" },
+  { value: "javascript", text: "JavaScript" },
+  { value: "angular", text: "Angular" },
+  { value: "react", text: "React" },
+  { value: "vuejs", text: "Vue.js" },
+  { value: "ruby", text: "Ruby" },
+  { value: "php", text: "PHP" },
+  { value: "asp", text: "ASP.NET" },
+  { value: "python", text: "Python" },
+  { value: "mysql", text: "MySQL" },
+]);
+
+// Input state variables
+const state = reactive({
+  username: null,
+  email: null,
+  password: null,
+  confirmPassword: null,
+  suggestions: null,
+  skill: null,
+  currency: null,
+  website: null,
+  digits: null,
+  number: null,
+  range: null,
+  terms: null,
+});
+
+// Validation rules
+const rules = computed(() => {
+  return {
+    username: {
+      required,
+      minLength: minLength(3),
+    },
+    email: {
+      required,
+      email,
+    },
+    password: {
+      required,
+      minLength: minLength(5),
+    },
+    confirmPassword: {
+      required,
+      sameAs: sameAs(state.password),
+    },
+    suggestions: {
+      required,
+      minLength: minLength(3),
+    },
+    skill: {
+      required,
+    },
+    currency: {
+      required,
+      decimal,
+    },
+    website: {
+      required,
+      url,
+    },
+    digits: {
+      required,
+      integer,
+    },
+    number: {
+      required,
+      decimal,
+    },
+    range: {
+      required,
+      between: between(1, 5),
+    },
+    terms: {
+      sameAs: sameAs(true),
+    },
+  };
+});
+
+// Use vuelidate
+const v$ = useVuelidate(rules, state);
+
+// On form submission
+async function onSubmit() {
+  const result = await v$.value.$validate();
+
+  if (!result) {
+    // notify user form is invalid
+    return;
+  }
+
+  // perform async actions
+}
+</script>

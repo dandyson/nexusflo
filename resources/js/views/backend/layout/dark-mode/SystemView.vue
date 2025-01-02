@@ -1,13 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Set example settings
-store.darkModeSystem({ mode: "on" });
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Dark Mode" subtitle="System">
@@ -35,3 +25,13 @@ store.darkModeSystem({ mode: "on" });
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Set example settings
+store.darkModeSystem({ mode: "on" });
+</script>

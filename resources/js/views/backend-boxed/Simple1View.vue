@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Page Content -->
   <div class="content">
@@ -56,3 +54,4 @@
   </div>
   <!-- END Page Content -->
 </template>
+

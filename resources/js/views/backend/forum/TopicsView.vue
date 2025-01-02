@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Explore a category">
@@ -514,3 +512,4 @@
   </div>
   <!-- END Page Content -->
 </template>
+

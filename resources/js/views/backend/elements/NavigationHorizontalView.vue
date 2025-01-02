@@ -1,26 +1,3 @@
-<script setup>
-import { ref } from "vue";
-import BaseNavigation from "@/components/BaseNavigation.vue";
-
-// Grab menu navigation arrays
-import menu from "@/data/menu";
-
-// Helper variables for mobile navigation visibility
-const mobileVisibleNavHoverNormal = ref(false);
-const mobileVisibleNavHoverNormalDark = ref(false);
-const mobileVisibleNavHoverCentered = ref(false);
-const mobileVisibleNavHoverCenteredDark = ref(false);
-const mobileVisibleNavHoverJustified = ref(false);
-const mobileVisibleNavHoverJustifiedDark = ref(false);
-
-const mobileVisibleNavClickNormal = ref(false);
-const mobileVisibleNavClickNormalDark = ref(false);
-const mobileVisibleNavClickCentered = ref(false);
-const mobileVisibleNavClickCenteredDark = ref(false);
-const mobileVisibleNavClickJustified = ref(false);
-const mobileVisibleNavClickJustifiedDark = ref(false);
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -504,3 +481,26 @@ const mobileVisibleNavClickJustifiedDark = ref(false);
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { ref } from "vue";
+import BaseNavigation from "@/components/BaseNavigation.vue";
+
+// Grab menu navigation arrays
+import menu from "@/data/menu";
+
+// Helper variables for mobile navigation visibility
+const mobileVisibleNavHoverNormal = ref(false);
+const mobileVisibleNavHoverNormalDark = ref(false);
+const mobileVisibleNavHoverCentered = ref(false);
+const mobileVisibleNavHoverCenteredDark = ref(false);
+const mobileVisibleNavHoverJustified = ref(false);
+const mobileVisibleNavHoverJustifiedDark = ref(false);
+
+const mobileVisibleNavClickNormal = ref(false);
+const mobileVisibleNavClickNormalDark = ref(false);
+const mobileVisibleNavClickCentered = ref(false);
+const mobileVisibleNavClickCenteredDark = ref(false);
+const mobileVisibleNavClickJustified = ref(false);
+const mobileVisibleNavClickJustifiedDark = ref(false);
+</script>

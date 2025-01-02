@@ -1,3 +1,81 @@
+<template>
+  <!-- Hero -->
+  <BasePageHeading
+    title="Calendar"
+    subtitle="A solid foundation to build your calendar based web application. Powered by FullCalendar."
+  >
+    <template #extra>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-alt">
+          <li class="breadcrumb-item">
+            <a class="link-fx" href="javascript:void(0)">Plugins</a>
+          </li>
+          <li class="breadcrumb-item" aria-current="page">Calendar</li>
+        </ol>
+      </nav>
+    </template>
+  </BasePageHeading>
+  <!-- END Hero -->
+
+  <!-- Page Content -->
+  <div class="content">
+    <!-- Calendar -->
+    <BaseBlock>
+      <div class="row items-push">
+        <div class="col-md-8 col-lg-7 col-xl-9">
+          <!-- Calendar Container -->
+          <FullCalendar
+            ref="fullCalendar"
+            :options="calendarOptions"
+          ></FullCalendar>
+        </div>
+        <div class="col-md-4 col-lg-5 col-xl-3">
+          <!-- Add Event Form -->
+          <form class="push" @submit.prevent="addNewEvent">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Add Event.."
+                v-model="calendarNewEvent"
+                ref="inputAddEvent"
+              />
+              <span class="input-group-text">
+                <i class="fa fa-fw fa-plus-circle"></i>
+              </span>
+            </div>
+          </form>
+          <!-- END Add Event Form -->
+
+          <!-- Event List -->
+          <ul id="js-events" class="list list-events">
+            <li
+              v-for="(event, index) in calendarNewEvents"
+              :key="`events-${index}`"
+            >
+              <div
+                class="js-event p-2 fs-sm fw-medium rounded"
+                :class="`bg-${event.color}-light text-${event.color}`"
+              >
+                {{ event.title }}
+              </div>
+            </li>
+          </ul>
+          <div class="text-center">
+            <p class="fs-sm text-muted">
+              <i class="fa fa-arrows-alt"></i> Drag and drop events on the
+              calendar
+            </p>
+          </div>
+          <!-- END Event List -->
+        </div>
+      </div>
+    </BaseBlock>
+    <!-- END Calendar -->
+  </div>
+  <!-- END Page Content -->
+</template>
+
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 
@@ -205,81 +283,3 @@ onMounted(() => {
 // FullCalendar custom overrides
 @import "@/assets/scss/vendor/fullcalendar";
 </style>
-
-<template>
-  <!-- Hero -->
-  <BasePageHeading
-    title="Calendar"
-    subtitle="A solid foundation to build your calendar based web application. Powered by FullCalendar."
-  >
-    <template #extra>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb breadcrumb-alt">
-          <li class="breadcrumb-item">
-            <a class="link-fx" href="javascript:void(0)">Plugins</a>
-          </li>
-          <li class="breadcrumb-item" aria-current="page">Calendar</li>
-        </ol>
-      </nav>
-    </template>
-  </BasePageHeading>
-  <!-- END Hero -->
-
-  <!-- Page Content -->
-  <div class="content">
-    <!-- Calendar -->
-    <BaseBlock>
-      <div class="row items-push">
-        <div class="col-md-8 col-lg-7 col-xl-9">
-          <!-- Calendar Container -->
-          <FullCalendar
-            ref="fullCalendar"
-            :options="calendarOptions"
-          ></FullCalendar>
-        </div>
-        <div class="col-md-4 col-lg-5 col-xl-3">
-          <!-- Add Event Form -->
-          <form class="push" @submit.prevent="addNewEvent">
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Add Event.."
-                v-model="calendarNewEvent"
-                ref="inputAddEvent"
-              />
-              <span class="input-group-text">
-                <i class="fa fa-fw fa-plus-circle"></i>
-              </span>
-            </div>
-          </form>
-          <!-- END Add Event Form -->
-
-          <!-- Event List -->
-          <ul id="js-events" class="list list-events">
-            <li
-              v-for="(event, index) in calendarNewEvents"
-              :key="`events-${index}`"
-            >
-              <div
-                class="js-event p-2 fs-sm fw-medium rounded"
-                :class="`bg-${event.color}-light text-${event.color}`"
-              >
-                {{ event.title }}
-              </div>
-            </li>
-          </ul>
-          <div class="text-center">
-            <p class="fs-sm text-muted">
-              <i class="fa fa-arrows-alt"></i> Drag and drop events on the
-              calendar
-            </p>
-          </div>
-          <!-- END Event List -->
-        </div>
-      </div>
-    </BaseBlock>
-    <!-- END Calendar -->
-  </div>
-  <!-- END Page Content -->
-</template>

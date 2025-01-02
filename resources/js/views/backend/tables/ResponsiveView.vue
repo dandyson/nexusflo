@@ -1,51 +1,3 @@
-<script setup>
-import { reactive } from "vue";
-
-// Example data
-const users = reactive([
-  {
-    id: 1,
-    name: "Adam McCoy",
-    avatar: "avatar10",
-    href: "javascript:void(0)",
-    labelVariant: "success",
-    labelText: "VIP",
-  },
-  {
-    id: 2,
-    name: "Betty Kelley",
-    avatar: "avatar2",
-    href: "javascript:void(0)",
-    labelVariant: "info",
-    labelText: "Business",
-  },
-  {
-    id: 3,
-    name: "Jesse Fisher",
-    avatar: "avatar9",
-    href: "javascript:void(0)",
-    labelVariant: "info",
-    labelText: "Business",
-  },
-  {
-    id: 4,
-    name: "Ryan Flores",
-    avatar: "avatar12",
-    href: "javascript:void(0)",
-    labelVariant: "warning",
-    labelText: "Trial",
-  },
-  {
-    id: 5,
-    name: "Alice Moore",
-    avatar: "avatar4",
-    href: "javascript:void(0)",
-    labelVariant: "danger",
-    labelText: "Disabled",
-  },
-]);
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -204,3 +156,51 @@ const users = reactive([
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { reactive } from "vue";
+
+// Example data
+const users = reactive([
+  {
+    id: 1,
+    name: "Adam McCoy",
+    avatar: "avatar10",
+    href: "javascript:void(0)",
+    labelVariant: "success",
+    labelText: "VIP",
+  },
+  {
+    id: 2,
+    name: "Betty Kelley",
+    avatar: "avatar2",
+    href: "javascript:void(0)",
+    labelVariant: "info",
+    labelText: "Business",
+  },
+  {
+    id: 3,
+    name: "Jesse Fisher",
+    avatar: "avatar9",
+    href: "javascript:void(0)",
+    labelVariant: "info",
+    labelText: "Business",
+  },
+  {
+    id: 4,
+    name: "Ryan Flores",
+    avatar: "avatar12",
+    href: "javascript:void(0)",
+    labelVariant: "warning",
+    labelText: "Trial",
+  },
+  {
+    id: 5,
+    name: "Alice Moore",
+    avatar: "avatar4",
+    href: "javascript:void(0)",
+    labelVariant: "danger",
+    labelText: "Disabled",
+  },
+]);
+</script>

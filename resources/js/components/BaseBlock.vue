@@ -1,3 +1,115 @@
+<template>
+  <component
+    :is="tag"
+    :href="tag === 'a' ? '#' : null"
+    :class="classContainer"
+    class="block"
+  >
+    <!-- Block Header -->
+    <div
+      class="block-header"
+      v-if="$slots.header || $slots.title || title"
+      :class="classContainerHeader"
+    >
+      <slot name="header">
+        <!-- Block Title -->
+        <h3 class="block-title">
+          <slot name="title"></slot>
+          {{ title }}
+          <small v-if="subtitle">{{ subtitle }}</small>
+          <slot name="subtitle"></slot>
+        </h3>
+        <!-- END Block Title -->
+
+        <!-- Block Options -->
+        <div
+          class="block-options space-x-1"
+          v-if="
+            $slots.options ||
+            btnOptionFullscreen ||
+            btnOptionPinned ||
+            btnOptionContent ||
+            btnOptionClose
+          "
+          :class="classContainerOptions"
+        >
+          <slot name="options"></slot>
+          <button
+            type="button"
+            class="btn-block-option"
+            @click="fullscreenToggle"
+            v-if="btnOptionFullscreen"
+          >
+            <i
+              :class="{
+                'si si-size-fullscreen': !state.optionFullscreen,
+                'si si-size-actual': state.optionFullscreen,
+              }"
+            ></i>
+          </button>
+          <button
+            type="button"
+            class="btn-block-option"
+            @click="pinnedToggle"
+            v-if="btnOptionPinned"
+          >
+            <i class="si si-pin"></i>
+          </button>
+          <button
+            type="button"
+            class="btn-block-option"
+            @click="contentToggle"
+            v-if="btnOptionContent"
+          >
+            <i
+              :class="{
+                'si si-arrow-up': !state.optionContentHide,
+                'si si-arrow-down': state.optionContentHide,
+              }"
+            ></i>
+          </button>
+          <button
+            type="button"
+            class="btn-block-option"
+            @click="close"
+            v-if="btnOptionClose"
+          >
+            <i class="si si-close"></i>
+          </button>
+        </div>
+        <!-- END Block Options -->
+      </slot>
+    </div>
+    <!-- END Block Header -->
+
+    <!-- Default Block Content -->
+    <div
+      v-if="!$slots.content"
+      class="block-content"
+      :class="classContainerContent"
+    >
+      <div v-if="props.ribbon" class="ribbon-box">
+        <slot name="ribbon">{{ ribbon }}</slot>
+      </div>
+      <slot></slot>
+    </div>
+    <!-- END Default Block Content -->
+
+    <!-- Default Block Footer -->
+    <div
+      v-if="!$slots.content && $slots.footer"
+      class="block-content block-content-full block-content-sm bg-body-light fs-sm"
+      :class="classContainerFooter"
+    >
+      <slot name="footer"></slot>
+    </div>
+    <!-- END Default Block Footer -->
+
+    <!-- Main content for full block content control -->
+    <slot name="content"></slot>
+  </component>
+</template>
+
 <script setup>
 import { reactive, computed } from "vue";
 
@@ -344,115 +456,3 @@ defineExpose({
   close,
 });
 </script>
-
-<template>
-  <component
-    :is="tag"
-    :href="tag === 'a' ? '#' : null"
-    :class="classContainer"
-    class="block"
-  >
-    <!-- Block Header -->
-    <div
-      class="block-header"
-      v-if="$slots.header || $slots.title || title"
-      :class="classContainerHeader"
-    >
-      <slot name="header">
-        <!-- Block Title -->
-        <h3 class="block-title">
-          <slot name="title"></slot>
-          {{ title }}
-          <small v-if="subtitle">{{ subtitle }}</small>
-          <slot name="subtitle"></slot>
-        </h3>
-        <!-- END Block Title -->
-
-        <!-- Block Options -->
-        <div
-          class="block-options space-x-1"
-          v-if="
-            $slots.options ||
-            btnOptionFullscreen ||
-            btnOptionPinned ||
-            btnOptionContent ||
-            btnOptionClose
-          "
-          :class="classContainerOptions"
-        >
-          <slot name="options"></slot>
-          <button
-            type="button"
-            class="btn-block-option"
-            @click="fullscreenToggle"
-            v-if="btnOptionFullscreen"
-          >
-            <i
-              :class="{
-                'si si-size-fullscreen': !state.optionFullscreen,
-                'si si-size-actual': state.optionFullscreen,
-              }"
-            ></i>
-          </button>
-          <button
-            type="button"
-            class="btn-block-option"
-            @click="pinnedToggle"
-            v-if="btnOptionPinned"
-          >
-            <i class="si si-pin"></i>
-          </button>
-          <button
-            type="button"
-            class="btn-block-option"
-            @click="contentToggle"
-            v-if="btnOptionContent"
-          >
-            <i
-              :class="{
-                'si si-arrow-up': !state.optionContentHide,
-                'si si-arrow-down': state.optionContentHide,
-              }"
-            ></i>
-          </button>
-          <button
-            type="button"
-            class="btn-block-option"
-            @click="close"
-            v-if="btnOptionClose"
-          >
-            <i class="si si-close"></i>
-          </button>
-        </div>
-        <!-- END Block Options -->
-      </slot>
-    </div>
-    <!-- END Block Header -->
-
-    <!-- Default Block Content -->
-    <div
-      v-if="!$slots.content"
-      class="block-content"
-      :class="classContainerContent"
-    >
-      <div v-if="props.ribbon" class="ribbon-box">
-        <slot name="ribbon">{{ ribbon }}</slot>
-      </div>
-      <slot></slot>
-    </div>
-    <!-- END Default Block Content -->
-
-    <!-- Default Block Footer -->
-    <div
-      v-if="!$slots.content && $slots.footer"
-      class="block-content block-content-full block-content-sm bg-body-light fs-sm"
-      :class="classContainerFooter"
-    >
-      <slot name="footer"></slot>
-    </div>
-    <!-- END Default Block Footer -->
-
-    <!-- Main content for full block content control -->
-    <slot name="content"></slot>
-  </component>
-</template>

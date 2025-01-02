@@ -1,24 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-import BaseLayout from "@/layouts/BaseLayout.vue";
-
-// Main store
-const store = useTemplateStore();
-
-// Set default elements for this layout
-store.setLayout({
-  header: true,
-  sidebar: false,
-  sideOverlay: false,
-  footer: true,
-});
-
-// Set various template options for this layout variation
-store.headerStyle({ mode: "light" });
-store.mainContent({ mode: "boxed" });
-</script>
-
 <template>
   <BaseLayout>
     <!-- Header Content Left -->
@@ -85,3 +64,24 @@ store.mainContent({ mode: "boxed" });
     <!-- END Header Content Right -->
   </BaseLayout>
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+import BaseLayout from "@/layouts/BaseLayout.vue";
+
+// Main store
+const store = useTemplateStore();
+
+// Set default elements for this layout
+store.setLayout({
+  header: true,
+  sidebar: false,
+  sideOverlay: false,
+  footer: true,
+});
+
+// Set various template options for this layout variation
+store.headerStyle({ mode: "light" });
+store.mainContent({ mode: "boxed" });
+</script>

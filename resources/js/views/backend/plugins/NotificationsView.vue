@@ -1,27 +1,3 @@
-<script setup>
-import { ref, onMounted } from "vue";
-
-// Helper variables
-const toast1 = ref(null);
-const toast2 = ref(null);
-const toast3 = ref(null);
-
-// Initialize Bootstrap toasts on content load
-onMounted(() => {
-  toast1.value = new window.bootstrap.Toast(
-    document.getElementById("toast-example-1")
-  );
-
-  toast2.value = new window.bootstrap.Toast(
-    document.getElementById("toast-example-2")
-  );
-
-  toast3.value = new window.bootstrap.Toast(
-    document.getElementById("toast-example-3")
-  );
-});
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -188,3 +164,27 @@ onMounted(() => {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+
+// Helper variables
+const toast1 = ref(null);
+const toast2 = ref(null);
+const toast3 = ref(null);
+
+// Initialize Bootstrap toasts on content load
+onMounted(() => {
+  toast1.value = new window.bootstrap.Toast(
+    document.getElementById("toast-example-1")
+  );
+
+  toast2.value = new window.bootstrap.Toast(
+    document.getElementById("toast-example-2")
+  );
+
+  toast3.value = new window.bootstrap.Toast(
+    document.getElementById("toast-example-3")
+  );
+});
+</script>

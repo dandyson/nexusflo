@@ -1,13 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Set example settings
-store.sidebarStyle({ mode: "dark" });
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Sidebar" subtitle="Dark">
@@ -35,3 +25,13 @@ store.sidebarStyle({ mode: "dark" });
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Set example settings
+store.sidebarStyle({ mode: "dark" });
+</script>

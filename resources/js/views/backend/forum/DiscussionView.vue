@@ -1,19 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-// CKEditor 5, for more info and examples you can check out https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/vuejs-v3.html
-import CKEditor from "@ckeditor/ckeditor5-vue";
-
-// CKEditor Classic editor
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
-// CKEditor 5 variables
-let ckeditor = CKEditor.component;
-
-const editorData = ref("");
-const editorConfig = ref({});
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Discussion">
@@ -336,3 +320,19 @@ const editorConfig = ref({});
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+// CKEditor 5, for more info and examples you can check out https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/vuejs-v3.html
+import CKEditor from "@ckeditor/ckeditor5-vue";
+
+// CKEditor Classic editor
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+// CKEditor 5 variables
+let ckeditor = CKEditor.component;
+
+const editorData = ref("");
+const editorConfig = ref({});
+</script>

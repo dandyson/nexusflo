@@ -1,21 +1,3 @@
-<script setup>
-import { onBeforeRouteLeave } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Set example settings
-store.darkModeSystem({ mode: "off" });
-store.darkMode({ mode: "on" });
-
-// Before leaving this page
-onBeforeRouteLeave(() => {
-  // Restore original settings
-  store.darkModeSystem({ mode: "on" });
-});
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Dark Mode" subtitle="On">
@@ -43,3 +25,21 @@ onBeforeRouteLeave(() => {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { onBeforeRouteLeave } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Set example settings
+store.darkModeSystem({ mode: "off" });
+store.darkMode({ mode: "on" });
+
+// Before leaving this page
+onBeforeRouteLeave(() => {
+  // Restore original settings
+  store.darkModeSystem({ mode: "on" });
+});
+</script>

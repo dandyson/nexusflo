@@ -1,4 +1,3 @@
-<!-- TODO: This code is not very clean at all - needs cleaning up -->
 <template>
     <div class="content">
         <SectionIntro title="Pomodoro Timer"
@@ -235,7 +234,6 @@ watch(pomodoroTimer, (val) => {
     }
 });
 </script>
-
 
 <style scoped>
 #filler {

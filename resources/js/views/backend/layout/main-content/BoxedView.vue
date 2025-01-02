@@ -1,20 +1,3 @@
-<script setup>
-import { onBeforeRouteLeave } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Set example settings
-store.mainContent({ mode: "boxed" });
-
-// Before leaving this page
-onBeforeRouteLeave(() => {
-  // Restore original settings
-  store.mainContent({ mode: "narrow" });
-});
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Main Content" subtitle="Boxed">
@@ -45,3 +28,20 @@ onBeforeRouteLeave(() => {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { onBeforeRouteLeave } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Set example settings
+store.mainContent({ mode: "boxed" });
+
+// Before leaving this page
+onBeforeRouteLeave(() => {
+  // Restore original settings
+  store.mainContent({ mode: "narrow" });
+});
+</script>

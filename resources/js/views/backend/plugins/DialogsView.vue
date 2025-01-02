@@ -1,92 +1,3 @@
-<script setup>
-// Sweetalert2, for more info and examples, you can check out https://github.com/sweetalert2/sweetalert2
-import Swal from "sweetalert2";
-
-// Set default properties
-let toast = Swal.mixin({
-  buttonsStyling: false,
-  target: "#page-container",
-  customClass: {
-    confirmButton: "btn btn-success m-1",
-    cancelButton: "btn btn-danger m-1",
-    input: "form-control",
-  },
-});
-
-function swalSimple() {
-  toast.fire("Hi, this is just a simple message!");
-}
-
-function swalSuccess() {
-  toast.fire("Success", "Everything was updated perfectly!", "success");
-}
-
-function swalInfo() {
-  toast.fire("Info", "Just an informational message!", "info");
-}
-
-function swalWarning() {
-  toast.fire("Warning", "Something needs your attention!", "warning");
-}
-
-function swalError() {
-  toast.fire("Oops...", "Something went wrong!", "error");
-}
-
-function swalQuestion() {
-  toast.fire("Question", "Are you sure about that?", "question");
-}
-
-function swalConfirm() {
-  toast
-    .fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this imaginary file!",
-      icon: "warning",
-      showCancelButton: true,
-      customClass: {
-        confirmButton: "btn btn-danger m-1",
-        cancelButton: "btn btn-secondary m-1",
-      },
-      confirmButtonText: "Yes, delete it!",
-      html: false,
-      preConfirm: () => {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve();
-          }, 50);
-        });
-      },
-    })
-    .then((result) => {
-      if (result.value) {
-        toast.fire(
-          "Deleted!",
-          "Your imaginary file has been deleted.",
-          "success"
-        );
-        // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-      } else if (result.dismiss === "cancel") {
-        toast.fire("Cancelled", "Your imaginary file is safe :)", "error");
-      }
-    });
-}
-
-function swalCustomPosition() {
-  toast.fire({
-    position: "top-end",
-    title: "Perfect!",
-    text: "Nice Position!",
-    icon: "success",
-  });
-}
-</script>
-
-<style lang="scss">
-// SweetAlert2
-@import "sweetalert2/dist/sweetalert2.min.css";
-</style>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -234,3 +145,92 @@ function swalCustomPosition() {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+// Sweetalert2, for more info and examples, you can check out https://github.com/sweetalert2/sweetalert2
+import Swal from "sweetalert2";
+
+// Set default properties
+let toast = Swal.mixin({
+  buttonsStyling: false,
+  target: "#page-container",
+  customClass: {
+    confirmButton: "btn btn-success m-1",
+    cancelButton: "btn btn-danger m-1",
+    input: "form-control",
+  },
+});
+
+function swalSimple() {
+  toast.fire("Hi, this is just a simple message!");
+}
+
+function swalSuccess() {
+  toast.fire("Success", "Everything was updated perfectly!", "success");
+}
+
+function swalInfo() {
+  toast.fire("Info", "Just an informational message!", "info");
+}
+
+function swalWarning() {
+  toast.fire("Warning", "Something needs your attention!", "warning");
+}
+
+function swalError() {
+  toast.fire("Oops...", "Something went wrong!", "error");
+}
+
+function swalQuestion() {
+  toast.fire("Question", "Are you sure about that?", "question");
+}
+
+function swalConfirm() {
+  toast
+    .fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this imaginary file!",
+      icon: "warning",
+      showCancelButton: true,
+      customClass: {
+        confirmButton: "btn btn-danger m-1",
+        cancelButton: "btn btn-secondary m-1",
+      },
+      confirmButtonText: "Yes, delete it!",
+      html: false,
+      preConfirm: () => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 50);
+        });
+      },
+    })
+    .then((result) => {
+      if (result.value) {
+        toast.fire(
+          "Deleted!",
+          "Your imaginary file has been deleted.",
+          "success"
+        );
+        // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+      } else if (result.dismiss === "cancel") {
+        toast.fire("Cancelled", "Your imaginary file is safe :)", "error");
+      }
+    });
+}
+
+function swalCustomPosition() {
+  toast.fire({
+    position: "top-end",
+    title: "Perfect!",
+    text: "Nice Position!",
+    icon: "success",
+  });
+}
+</script>
+
+<style lang="scss">
+// SweetAlert2
+@import "sweetalert2/dist/sweetalert2.min.css";
+</style>

@@ -1,64 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-// Vue Cropperjs, for more info and examples you can check out https://github.com/Agontuk/vue-cropperjs
-import VueCropper from "vue-cropperjs";
-
-// Helper variables
-const cropper = ref(null);
-const flipXToggle = ref(null);
-const flipYToggle = ref(null);
-
-const cropData = ref(null);
-const imgSrc = ref("/assets/media/photos/photo30@2x.jpg");
-
-// Helper functions for CroppperJS
-function flipX() {
-  let scale = flipXToggle.value.getAttribute("data-scale");
-
-  scale = scale ? -scale : -1;
-  flipXToggle.value.setAttribute("data-scale", scale);
-  cropper.value.scaleX(scale);
-}
-
-function flipY() {
-  let scale = flipYToggle.value.getAttribute("data-scale");
-
-  scale = scale ? -scale : -1;
-  flipYToggle.value.setAttribute("data-scale", scale);
-  cropper.value.scaleY(scale);
-}
-
-function zoom(percent) {
-  cropper.value.relativeZoom(percent);
-}
-
-function rotate(deg) {
-  cropper.value.rotate(deg);
-}
-
-function reset() {
-  cropper.value.reset();
-  cropData.value = null;
-}
-
-function setDragMode(mode) {
-  cropper.value.setDragMode(mode);
-}
-
-function setAspectRatio(aspect) {
-  cropper.value.setAspectRatio(aspect);
-}
-
-function getCropBoxData() {
-  cropData.value = JSON.stringify(cropper.value.getCropBoxData(), null, 4);
-}
-</script>
-
-<style>
-@import "cropperjs/dist/cropper.css";
-</style>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -251,3 +190,64 @@ function getCropBoxData() {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+// Vue Cropperjs, for more info and examples you can check out https://github.com/Agontuk/vue-cropperjs
+import VueCropper from "vue-cropperjs";
+
+// Helper variables
+const cropper = ref(null);
+const flipXToggle = ref(null);
+const flipYToggle = ref(null);
+
+const cropData = ref(null);
+const imgSrc = ref("/assets/media/photos/photo30@2x.jpg");
+
+// Helper functions for CroppperJS
+function flipX() {
+  let scale = flipXToggle.value.getAttribute("data-scale");
+
+  scale = scale ? -scale : -1;
+  flipXToggle.value.setAttribute("data-scale", scale);
+  cropper.value.scaleX(scale);
+}
+
+function flipY() {
+  let scale = flipYToggle.value.getAttribute("data-scale");
+
+  scale = scale ? -scale : -1;
+  flipYToggle.value.setAttribute("data-scale", scale);
+  cropper.value.scaleY(scale);
+}
+
+function zoom(percent) {
+  cropper.value.relativeZoom(percent);
+}
+
+function rotate(deg) {
+  cropper.value.rotate(deg);
+}
+
+function reset() {
+  cropper.value.reset();
+  cropData.value = null;
+}
+
+function setDragMode(mode) {
+  cropper.value.setDragMode(mode);
+}
+
+function setAspectRatio(aspect) {
+  cropper.value.setAspectRatio(aspect);
+}
+
+function getCropBoxData() {
+  cropData.value = JSON.stringify(cropper.value.getCropBoxData(), null, 4);
+}
+</script>
+
+<style>
+@import "cropperjs/dist/cropper.css";
+</style>

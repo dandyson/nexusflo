@@ -1,44 +1,3 @@
-<script setup>
-import { reactive } from "vue";
-
-// Reactive state
-const state = reactive({
-  attentionSeekers: { animated: false, animation: "" },
-  bouncingEntrances: { animated: false, animation: "" },
-  bouncingExits: { animated: false, animation: "" },
-  fadingEntrances: { animated: false, animation: "" },
-  fadingExits: { animated: false, animation: "" },
-  flippers: { animated: false, animation: "" },
-  lightspeed: { animated: false, animation: "" },
-  rotatingEntrances: { animated: false, animation: "" },
-  rotatingExits: { animated: false, animation: "" },
-  slidingEntrances: { animated: false, animation: "" },
-  slidingExits: { animated: false, animation: "" },
-  zoomEntrances: { animated: false, animation: "" },
-  zoomExits: { animated: false, animation: "" },
-  specials: { animated: false, animation: "" },
-});
-
-// Set animation to a section
-function setAnimation(section, animation) {
-  // Remove animation classes
-  section.animated = false;
-  section.animation = "";
-
-  // Add the new ones to trigger the animation
-  section.animated = true;
-  section.animation = animation;
-}
-
-// Set classes to the related section
-function classContainer(section) {
-  return {
-    animated: section.animated,
-    [section.animation]: section.animated,
-  };
-}
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -1224,3 +1183,44 @@ function classContainer(section) {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { reactive } from "vue";
+
+// Reactive state
+const state = reactive({
+  attentionSeekers: { animated: false, animation: "" },
+  bouncingEntrances: { animated: false, animation: "" },
+  bouncingExits: { animated: false, animation: "" },
+  fadingEntrances: { animated: false, animation: "" },
+  fadingExits: { animated: false, animation: "" },
+  flippers: { animated: false, animation: "" },
+  lightspeed: { animated: false, animation: "" },
+  rotatingEntrances: { animated: false, animation: "" },
+  rotatingExits: { animated: false, animation: "" },
+  slidingEntrances: { animated: false, animation: "" },
+  slidingExits: { animated: false, animation: "" },
+  zoomEntrances: { animated: false, animation: "" },
+  zoomExits: { animated: false, animation: "" },
+  specials: { animated: false, animation: "" },
+});
+
+// Set animation to a section
+function setAnimation(section, animation) {
+  // Remove animation classes
+  section.animated = false;
+  section.animation = "";
+
+  // Add the new ones to trigger the animation
+  section.animated = true;
+  section.animation = animation;
+}
+
+// Set classes to the related section
+function classContainer(section) {
+  return {
+    animated: section.animated,
+    [section.animation]: section.animated,
+  };
+}
+</script>

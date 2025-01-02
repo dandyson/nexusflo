@@ -1,20 +1,3 @@
-<script setup>
-import { onBeforeRouteLeave } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Set example settings
-store.sidebarMini({ mode: "on" });
-
-// Before leaving this page
-onBeforeRouteLeave(() => {
-  // Restore original settings
-  store.sidebarMini({ mode: "off" });
-});
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading title="Sidebar" subtitle="Mini">
@@ -42,3 +25,20 @@ onBeforeRouteLeave(() => {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { onBeforeRouteLeave } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Set example settings
+store.sidebarMini({ mode: "on" });
+
+// Before leaving this page
+onBeforeRouteLeave(() => {
+  // Restore original settings
+  store.sidebarMini({ mode: "off" });
+});
+</script>

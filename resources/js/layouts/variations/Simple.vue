@@ -1,3 +1,7 @@
+<template>
+  <BaseLayout />
+</template>
+
 <script setup>
 import { useTemplateStore } from "@/stores/template";
 
@@ -17,7 +21,3 @@ store.setLayout({
 // Set various template options for this layout variation
 store.mainContent({ mode: "full" });
 </script>
-
-<template>
-  <BaseLayout />
-</template>

@@ -1,85 +1,3 @@
-<script setup>
-import { reactive, computed, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
-import useVuelidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
-import axios from "axios";
-import Swal from "sweetalert2";
-
-// Main store and Router
-const store = useTemplateStore();
-const router = useRouter();
-
-// Input state variables
-const state = reactive({
-  email: null,
-});
-
-// Validation rules
-const rules = computed(() => {
-  return {
-    email: {
-      required,
-      minLength: minLength(3),
-    },
-  };
-});
-
-// Use vuelidate
-const v$ = useVuelidate(rules, state);
-
-// Custom Error
-let credentialError = ref(false);
-let credentialErrorMessage = ref('');
-
-// On form submission
-async function onSubmit() {
-  const result = await v$.value.$validate();
-
-  if (!result) {
-    // notify user form is invalid
-    return;
-  }
-
-  try {
-    axios.get('sanctum/csrf-cookie')
-      .then((res) => {
-        axios.post('/api/forgot-password', state, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then(() => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Sent',
-            text: 'Please check your email for the reset password link!',
-            showConfirmButton: true,
-          }).then(() => {
-            // Go to Login
-            router.push({ name: "login" });
-          })
-        }).catch((routeError) => {
-          credentialError.value = true;
-          credentialErrorMessage.value =
-          routeError.response?.data?.message !== undefined ?
-          routeError.response.data.message :
-          'There has been an error, please try again';
-        })
-      });
-  } catch (error) {
-    store.setLoading(false);
-    credentialError.value = true;
-    credentialErrorMessage.value =
-    error.response?.data?.message !== undefined ?
-    error.response.data.message :
-    'There has been an error, please try again';
-  }
-}
-</script>
-
 <template>
   <!-- Page Content -->
   <BaseBackground image="/assets/media/photos/photo28@2x.jpg">
@@ -220,3 +138,85 @@ async function onSubmit() {
   </BaseBackground>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { reactive, computed, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
+import useVuelidate from "@vuelidate/core";
+import { required, minLength } from "@vuelidate/validators";
+import axios from "axios";
+import Swal from "sweetalert2";
+
+// Main store and Router
+const store = useTemplateStore();
+const router = useRouter();
+
+// Input state variables
+const state = reactive({
+  email: null,
+});
+
+// Validation rules
+const rules = computed(() => {
+  return {
+    email: {
+      required,
+      minLength: minLength(3),
+    },
+  };
+});
+
+// Use vuelidate
+const v$ = useVuelidate(rules, state);
+
+// Custom Error
+let credentialError = ref(false);
+let credentialErrorMessage = ref('');
+
+// On form submission
+async function onSubmit() {
+  const result = await v$.value.$validate();
+
+  if (!result) {
+    // notify user form is invalid
+    return;
+  }
+
+  try {
+    axios.get('sanctum/csrf-cookie')
+      .then((res) => {
+        axios.post('/api/forgot-password', state, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Sent',
+            text: 'Please check your email for the reset password link!',
+            showConfirmButton: true,
+          }).then(() => {
+            // Go to Login
+            router.push({ name: "login" });
+          })
+        }).catch((routeError) => {
+          credentialError.value = true;
+          credentialErrorMessage.value =
+          routeError.response?.data?.message !== undefined ?
+          routeError.response.data.message :
+          'There has been an error, please try again';
+        })
+      });
+  } catch (error) {
+    store.setLoading(false);
+    credentialError.value = true;
+    credentialErrorMessage.value =
+    error.response?.data?.message !== undefined ?
+    error.response.data.message :
+    'There has been an error, please try again';
+  }
+}
+</script>

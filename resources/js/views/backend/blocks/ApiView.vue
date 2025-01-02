@@ -1,50 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-// Used to reference test blocks
-const testBlock = ref(null);
-
-const testBlockRefresh = ref(null);
-const testBlockAll = ref(null);
-
-const testBlockLoading1 = ref(null);
-const testBlockLoading2 = ref(null);
-const testBlockLoading3 = ref(null);
-const testBlockLoading4 = ref(null);
-const testBlockLoading5 = ref(null);
-const testBlockLoading6 = ref(null);
-const testBlockLoading7 = ref(null);
-const testBlockLoading8 = ref(null);
-
-// Demo loading functionality for testBlockRefresh
-function loadDataForTestBlockRefresh() {
-  // Set the block to loading state
-  testBlockRefresh.value.statusLoading();
-
-  // .. here you could load your data
-
-  // Set a timeout for demo purposes
-  setTimeout(() => {
-    // Set the block back to normal state
-    testBlockRefresh.value.statusNormal();
-  }, 2000);
-}
-
-// Demo loading functionality for testBlockAll
-function loadDataForTestBlockAll() {
-  // Set the block to loading state
-  testBlockAll.value.statusLoading();
-
-  // .. here you could load your data
-
-  // Set a timeout for demo purposes
-  setTimeout(() => {
-    // Set the block back to normal state
-    testBlockAll.value.statusNormal();
-  }, 2000);
-}
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -626,3 +579,50 @@ function loadDataForTestBlockAll() {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+// Used to reference test blocks
+const testBlock = ref(null);
+
+const testBlockRefresh = ref(null);
+const testBlockAll = ref(null);
+
+const testBlockLoading1 = ref(null);
+const testBlockLoading2 = ref(null);
+const testBlockLoading3 = ref(null);
+const testBlockLoading4 = ref(null);
+const testBlockLoading5 = ref(null);
+const testBlockLoading6 = ref(null);
+const testBlockLoading7 = ref(null);
+const testBlockLoading8 = ref(null);
+
+// Demo loading functionality for testBlockRefresh
+function loadDataForTestBlockRefresh() {
+  // Set the block to loading state
+  testBlockRefresh.value.statusLoading();
+
+  // .. here you could load your data
+
+  // Set a timeout for demo purposes
+  setTimeout(() => {
+    // Set the block back to normal state
+    testBlockRefresh.value.statusNormal();
+  }, 2000);
+}
+
+// Demo loading functionality for testBlockAll
+function loadDataForTestBlockAll() {
+  // Set the block to loading state
+  testBlockAll.value.statusLoading();
+
+  // .. here you could load your data
+
+  // Set a timeout for demo purposes
+  setTimeout(() => {
+    // Set the block back to normal state
+    testBlockAll.value.statusNormal();
+  }, 2000);
+}
+</script>

@@ -1,17 +1,3 @@
-<script setup>
-// Component properties
-defineProps({
-  title: {
-    type: String,
-    description: "The title of page heading section",
-  },
-  subtitle: {
-    type: String,
-    description: "The subtitle of page heading section",
-  },
-});
-</script>
-
 <template>
   <div class="bg-body-light">
     <div class="content content-full">
@@ -37,3 +23,17 @@ defineProps({
     </div>
   </div>
 </template>
+
+<script setup>
+// Component properties
+defineProps({
+  title: {
+    type: String,
+    description: "The title of page heading section",
+  },
+  subtitle: {
+    type: String,
+    description: "The subtitle of page heading section",
+  },
+});
+</script>

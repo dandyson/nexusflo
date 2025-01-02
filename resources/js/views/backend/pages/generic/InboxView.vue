@@ -1,10 +1,3 @@
-<script setup>
-import { ref } from "vue";
-
-// Helper variables
-const mobileSideNav = ref(false);
-</script>
-
 <template>
   <!-- Page Content -->
   <div class="content">
@@ -1063,3 +1056,10 @@ const mobileSideNav = ref(false);
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+// Helper variables
+const mobileSideNav = ref(false);
+</script>

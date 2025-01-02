@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Hero Content -->
   <BaseBackground
@@ -291,3 +289,4 @@
   </div>
   <!-- END Get Started -->
 </template>
+

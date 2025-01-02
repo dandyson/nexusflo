@@ -1,8 +1,3 @@
-<script setup>
-// Grab example data
-import users from "@/data/users";
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -735,3 +730,8 @@ import users from "@/data/users";
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+// Grab example data
+import users from "@/data/users";
+</script>

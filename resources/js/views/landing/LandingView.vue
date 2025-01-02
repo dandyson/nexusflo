@@ -1,10 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-</script>
-
 <template>
   <div>
     <!-- Hero -->
@@ -1094,3 +1087,10 @@ const store = useTemplateStore();
     <!-- END Footer -->
   </div>
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+</script>

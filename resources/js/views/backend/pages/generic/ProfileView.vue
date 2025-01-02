@@ -1,3 +1,63 @@
+<template>
+  <!-- Hero -->
+  <BaseBackground
+    image="/assets/media/photos/photo12@2x.jpg"
+    inner-class="bg-black-50"
+  >
+    <div class="content content-full text-center">
+      <div class="my-3">
+        <img
+          v-if="authUser.avatar !== ''" 
+          :src="authUser.avatar"
+          class="img-avatar img-avatar-thumb"
+          src="/assets/media/avatars/avatar13.jpg"
+          alt="Avatar"
+        />
+        <img
+          v-else
+          class="img-avatar img-avatar-thumb"
+          src="/assets/media/avatars/avatar13.jpg"
+          alt="Avatar"
+        />
+      </div>
+      <h1 class="h2 text-white mb-0">{{ authUser.name }}</h1>
+      <span class="text-white-75">{{ authUser.email }}</span>
+    </div>
+  </BaseBackground>
+  <!-- END Hero -->
+
+  <!-- Stats -->
+  <div class="bg-body-extra-light">
+    <div class="content content-boxed">
+      <div class="row items-push text-center d-flex justify-content-center">
+        <div class="col-6 col-md-3">
+          <div class="fs-sm fw-semibold text-muted text-uppercase">Member for:</div>
+          <a class="link-fx fs-3" href="javascript:void(0)">{{ memberDuration(authUser.created_at) }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END Stats -->
+
+  <!-- Page Content -->
+  <div class="content content-boxed">
+    <div class="row d-flex justify-content-center">
+      <div class="col-12 col-sm-6 d-flex justify-content-center">
+        <div class="mb-3 d-flex flex-column flex-sm-row justify-content-center">
+          <RouterLink
+            :to="{ name: 'backend-pages-generic-edit-profile' }"
+            class="btn btn-primary mb-2 me-sm-2 mb-sm-0"
+          >
+            <i class="fa fa-fw fa-pencil-alt me-1"></i>Edit
+          </RouterLink>
+          <button @click="deleteAccount" class="btn btn-danger"><i class="far fa-fw fa-trash-alt me-1"></i>Delete Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END Page Content -->
+</template>
+
 <script setup>
 import { useRoute } from 'vue-router';
 import axios from "axios";
@@ -88,63 +148,3 @@ const logOut = () => {
     }).catch(() => {});
 }
 </script>
-
-<template>
-  <!-- Hero -->
-  <BaseBackground
-    image="/assets/media/photos/photo12@2x.jpg"
-    inner-class="bg-black-50"
-  >
-    <div class="content content-full text-center">
-      <div class="my-3">
-        <img
-          v-if="authUser.avatar !== ''" 
-          :src="authUser.avatar"
-          class="img-avatar img-avatar-thumb"
-          src="/assets/media/avatars/avatar13.jpg"
-          alt="Avatar"
-        />
-        <img
-          v-else
-          class="img-avatar img-avatar-thumb"
-          src="/assets/media/avatars/avatar13.jpg"
-          alt="Avatar"
-        />
-      </div>
-      <h1 class="h2 text-white mb-0">{{ authUser.name }}</h1>
-      <span class="text-white-75">{{ authUser.email }}</span>
-    </div>
-  </BaseBackground>
-  <!-- END Hero -->
-
-  <!-- Stats -->
-  <div class="bg-body-extra-light">
-    <div class="content content-boxed">
-      <div class="row items-push text-center d-flex justify-content-center">
-        <div class="col-6 col-md-3">
-          <div class="fs-sm fw-semibold text-muted text-uppercase">Member for:</div>
-          <a class="link-fx fs-3" href="javascript:void(0)">{{ memberDuration(authUser.created_at) }}</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- END Stats -->
-
-  <!-- Page Content -->
-  <div class="content content-boxed">
-    <div class="row d-flex justify-content-center">
-      <div class="col-12 col-sm-6 d-flex justify-content-center">
-        <div class="mb-3 d-flex flex-column flex-sm-row justify-content-center">
-          <RouterLink
-            :to="{ name: 'backend-pages-generic-edit-profile' }"
-            class="btn btn-primary mb-2 me-sm-2 mb-sm-0"
-          >
-            <i class="fa fa-fw fa-pencil-alt me-1"></i>Edit
-          </RouterLink>
-          <button @click="deleteAccount" class="btn btn-danger"><i class="far fa-fw fa-trash-alt me-1"></i>Delete Account</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- END Page Content -->
-</template>

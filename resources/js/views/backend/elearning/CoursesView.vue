@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Hero Content -->
   <div class="bg-primary-dark">
@@ -502,3 +500,4 @@
   </div>
   <!-- END Get Started -->
 </template>
+

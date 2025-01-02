@@ -1,4 +1,3 @@
-<!-- TODO: This code is not very clean at all - needs cleaning up -->
 <template>
     <div class="content">
         <SectionIntro title="Meditation Timer" description="Use this timer to track your meditation sessions."

@@ -1,41 +1,3 @@
-<script setup>
-import { ref, onMounted, onUnmounted } from "vue";
-import { useRouter } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Grab example data
-import notifications from "@/data/notifications";
-
-// Main store
-const store = useTemplateStore();
-
-// Reactive variables
-const baseSearchTerm = ref("");
-
-// On form search submit functionality
-function onSubmitSearch() {
-  router.push("/backend/pages/generic/search?" + baseSearchTerm.value);
-}
-
-// When ESCAPE key is hit close the header search section
-function eventHeaderSearch(event) {
-  if (event.which === 27) {
-    event.preventDefault();
-    store.headerSearch({ mode: "off" });
-  }
-}
-
-// Attach ESCAPE key event listener
-onMounted(() => {
-  document.addEventListener("keydown", eventHeaderSearch);
-});
-
-// Remove keydown event listener
-onUnmounted(() => {
-  document.removeEventListener("keydown", eventHeaderSearch);
-});
-</script>
-
 <template>
   <!-- Header -->
   <header id="page-header">
@@ -317,3 +279,41 @@ onUnmounted(() => {
   </header>
   <!-- END Header -->
 </template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Grab example data
+import notifications from "@/data/notifications";
+
+// Main store
+const store = useTemplateStore();
+
+// Reactive variables
+const baseSearchTerm = ref("");
+
+// On form search submit functionality
+function onSubmitSearch() {
+  router.push("/backend/pages/generic/search?" + baseSearchTerm.value);
+}
+
+// When ESCAPE key is hit close the header search section
+function eventHeaderSearch(event) {
+  if (event.which === 27) {
+    event.preventDefault();
+    store.headerSearch({ mode: "off" });
+  }
+}
+
+// Attach ESCAPE key event listener
+onMounted(() => {
+  document.addEventListener("keydown", eventHeaderSearch);
+});
+
+// Remove keydown event listener
+onUnmounted(() => {
+  document.removeEventListener("keydown", eventHeaderSearch);
+});
+</script>

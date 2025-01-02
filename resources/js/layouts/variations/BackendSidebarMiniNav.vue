@@ -1,39 +1,3 @@
-<script setup>
-import { onBeforeRouteLeave } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-import BaseNavigation from "@/components/BaseNavigation.vue";
-
-import BaseLayout from "@/layouts/BaseLayout.vue";
-
-// Grab menu navigation arrays
-import menu from "@/data/menu";
-
-const navigation = menu.main;
-
-// Main store
-const store = useTemplateStore();
-
-// Set default elements for this layout
-store.setLayout({
-  header: true,
-  sidebar: true,
-  sideOverlay: true,
-  footer: true,
-});
-
-// Set various template options for this layout variation
-store.sidebarStyle({ mode: "light" });
-store.sidebarMini({ mode: "off" });
-store.mainContent({ mode: "narrow" });
-
-// Before leaving this page
-onBeforeRouteLeave(() => {
-  // Restore original settings
-  store.sidebarStyle({ mode: "dark" });
-});
-</script>
-
 <template>
   <BaseLayout sidebar-with-mini-nav>
     <!-- Sidebar Content -->
@@ -159,3 +123,39 @@ onBeforeRouteLeave(() => {
     <!-- END Header Content Left -->
   </BaseLayout>
 </template>
+
+<script setup>
+import { onBeforeRouteLeave } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+import BaseNavigation from "@/components/BaseNavigation.vue";
+
+import BaseLayout from "@/layouts/BaseLayout.vue";
+
+// Grab menu navigation arrays
+import menu from "@/data/menu";
+
+const navigation = menu.main;
+
+// Main store
+const store = useTemplateStore();
+
+// Set default elements for this layout
+store.setLayout({
+  header: true,
+  sidebar: true,
+  sideOverlay: true,
+  footer: true,
+});
+
+// Set various template options for this layout variation
+store.sidebarStyle({ mode: "light" });
+store.sidebarMini({ mode: "off" });
+store.mainContent({ mode: "narrow" });
+
+// Before leaving this page
+onBeforeRouteLeave(() => {
+  // Restore original settings
+  store.sidebarStyle({ mode: "dark" });
+});
+</script>

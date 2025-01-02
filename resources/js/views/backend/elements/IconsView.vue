@@ -1,63 +1,3 @@
-<script setup>
-import { ref, computed } from "vue";
-
-// Grab icon list data
-import iconsList from "@/data/icons";
-
-// Reactive variable
-const search = ref("");
-
-// Set icon lists
-const iconsFaRegular = iconsList.regular;
-const iconsFaSolid = iconsList.solid;
-const iconsFaBrands = iconsList.brands;
-const iconsSimpleLine = iconsList.simpleline;
-
-// Filter through Font Awesome Regular Icons
-const filteredIconsFaRegular = computed(() => {
-  if (search.value) {
-    return iconsFaRegular.filter((icon) => {
-      return icon.includes(search.value);
-    });
-  } else {
-    return iconsFaRegular;
-  }
-});
-
-// Filter through Font Awesome Solid Icons
-const filteredIconsFaSolid = computed(() => {
-  if (search.value) {
-    return iconsFaSolid.filter((icon) => {
-      return icon.includes(search.value);
-    });
-  } else {
-    return iconsFaSolid;
-  }
-});
-
-// Filter through Font Awesome Brands Icons
-const filteredIconsFaBrands = computed(() => {
-  if (search.value) {
-    return iconsFaBrands.filter((icon) => {
-      return icon.includes(search.value);
-    });
-  } else {
-    return iconsFaBrands;
-  }
-});
-
-// Filter through Simple Line Icons
-const filteredIconsSimpleLine = computed(() => {
-  if (search.value) {
-    return iconsSimpleLine.filter((icon) => {
-      return icon.includes(search.value);
-    });
-  } else {
-    return iconsSimpleLine;
-  }
-});
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -202,3 +142,63 @@ const filteredIconsSimpleLine = computed(() => {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { ref, computed } from "vue";
+
+// Grab icon list data
+import iconsList from "@/data/icons";
+
+// Reactive variable
+const search = ref("");
+
+// Set icon lists
+const iconsFaRegular = iconsList.regular;
+const iconsFaSolid = iconsList.solid;
+const iconsFaBrands = iconsList.brands;
+const iconsSimpleLine = iconsList.simpleline;
+
+// Filter through Font Awesome Regular Icons
+const filteredIconsFaRegular = computed(() => {
+  if (search.value) {
+    return iconsFaRegular.filter((icon) => {
+      return icon.includes(search.value);
+    });
+  } else {
+    return iconsFaRegular;
+  }
+});
+
+// Filter through Font Awesome Solid Icons
+const filteredIconsFaSolid = computed(() => {
+  if (search.value) {
+    return iconsFaSolid.filter((icon) => {
+      return icon.includes(search.value);
+    });
+  } else {
+    return iconsFaSolid;
+  }
+});
+
+// Filter through Font Awesome Brands Icons
+const filteredIconsFaBrands = computed(() => {
+  if (search.value) {
+    return iconsFaBrands.filter((icon) => {
+      return icon.includes(search.value);
+    });
+  } else {
+    return iconsFaBrands;
+  }
+});
+
+// Filter through Simple Line Icons
+const filteredIconsSimpleLine = computed(() => {
+  if (search.value) {
+    return iconsSimpleLine.filter((icon) => {
+      return icon.includes(search.value);
+    });
+  } else {
+    return iconsSimpleLine;
+  }
+});
+</script>

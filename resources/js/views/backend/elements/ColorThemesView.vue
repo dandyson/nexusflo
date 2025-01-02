@@ -1,10 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -680,3 +673,10 @@ const store = useTemplateStore();
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+</script>

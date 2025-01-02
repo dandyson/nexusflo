@@ -16,7 +16,7 @@
     </div>
   </div>
 </template>
-  
+
 <script setup>
 import { ref } from 'vue';
 
@@ -60,4 +60,3 @@ const onFileChange = (e) => {
 
 
 </script>
-  

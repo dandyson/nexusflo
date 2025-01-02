@@ -1,20 +1,3 @@
-<script setup>
-import axios from "axios";
-import Swal from "sweetalert2";
-import { reactive, computed, ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
-import useVuelidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
-
-// Main store and Router
-const store = useTemplateStore();
-const router = useRouter();
-
-</script>
-
 <template>
   <!-- Page Content -->
   <BaseBackground image="/assets/media/photos/photo28@2x.jpg">
@@ -119,3 +102,20 @@ const router = useRouter();
   </BaseBackground>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import axios from "axios";
+import Swal from "sweetalert2";
+import { reactive, computed, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
+import useVuelidate from "@vuelidate/core";
+import { required, minLength } from "@vuelidate/validators";
+
+// Main store and Router
+const store = useTemplateStore();
+const router = useRouter();
+
+</script>

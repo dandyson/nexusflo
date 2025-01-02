@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -549,3 +547,4 @@
   </div>
   <!-- END Page Content -->
 </template>
+

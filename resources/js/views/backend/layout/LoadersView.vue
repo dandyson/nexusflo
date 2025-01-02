@@ -1,22 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Demo page loader
-function previewPageLoader() {
-  // Start page loader
-  store.pageLoader({ mode: "on" });
-
-  // Set a timeout for demo purposes
-  setTimeout(() => {
-    // Stop page loader
-    store.pageLoader({ mode: "off" });
-  }, 3000);
-}
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -152,3 +133,22 @@ function previewPageLoader() {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Demo page loader
+function previewPageLoader() {
+  // Start page loader
+  store.pageLoader({ mode: "on" });
+
+  // Set a timeout for demo purposes
+  setTimeout(() => {
+    // Stop page loader
+    store.pageLoader({ mode: "off" });
+  }, 3000);
+}
+</script>

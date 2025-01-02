@@ -1,88 +1,3 @@
-<script setup>
-import axios from "axios";
-import { reactive, computed, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
-
-// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
-import useVuelidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
-
-// Main store and Router
-const store = useTemplateStore();
-const router = useRouter();
-
-// Input state variables
-const state = reactive({
-  email: null,
-  password: null,
-});
-
-// Validation rules
-const rules = computed(() => {
-  return {
-    email: {
-      required,
-      minLength: minLength(3),
-    },
-    password: {
-      required,
-      minLength: minLength(5),
-    },
-  };
-});
-
-// Use vuelidate
-const v$ = useVuelidate(rules, state);
-
-// Custom Error
-let credentialError = ref(false);
-let credentialErrorMessage = ref('');
-
-// On form submission
-async function onSubmit() {
-  const result = await v$.value.$validate();
-
-  if (!result) {
-    // notify user form is invalid
-    return;
-  }
-
-  /** TODO: Manually setting the loading to true here, as the 'setLoading' stuff in the router file
-   * only responds once this request is completed - so this is more for the UX so the user does not
-   * think the app is frozen. Need to find another way of doing this maybe?
-   * **/
-  store.setLoading(true);
-
-  axios.get('sanctum/csrf-cookie')
-    .then((res) => {
-      axios.post('/api/login', state, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(() => {
-        store.setLoading(false);
-        // Go to dashboard
-        router.push({ name: "backend-dashboard" });
-      }).catch((error) => {
-        store.setLoading(false);
-        credentialError.value = true;
-        credentialErrorMessage.value =
-        error.response?.data?.message !== undefined ?
-        error.response.data.message :
-        'There has been an error, please try again';
-      });
-    }).catch((error) => {
-      store.setLoading(false);
-      credentialError.value = true;
-      credentialErrorMessage.value =
-      error.response?.data?.message !== undefined ?
-      error.response.data.message :
-      'There has been an error, please try again';
-    });
-}
-</script>
-
 <template>
   <!-- Page Content -->
   <BaseBackground image="/assets/media/photos/photo28@2x.jpg">
@@ -272,3 +187,88 @@ async function onSubmit() {
   </BaseBackground>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import axios from "axios";
+import { reactive, computed, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useTemplateStore } from "@/stores/template";
+
+// Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
+import useVuelidate from "@vuelidate/core";
+import { required, minLength } from "@vuelidate/validators";
+
+// Main store and Router
+const store = useTemplateStore();
+const router = useRouter();
+
+// Input state variables
+const state = reactive({
+  email: null,
+  password: null,
+});
+
+// Validation rules
+const rules = computed(() => {
+  return {
+    email: {
+      required,
+      minLength: minLength(3),
+    },
+    password: {
+      required,
+      minLength: minLength(5),
+    },
+  };
+});
+
+// Use vuelidate
+const v$ = useVuelidate(rules, state);
+
+// Custom Error
+let credentialError = ref(false);
+let credentialErrorMessage = ref('');
+
+// On form submission
+async function onSubmit() {
+  const result = await v$.value.$validate();
+
+  if (!result) {
+    // notify user form is invalid
+    return;
+  }
+
+  /** TODO: Manually setting the loading to true here, as the 'setLoading' stuff in the router file
+   * only responds once this request is completed - so this is more for the UX so the user does not
+   * think the app is frozen. Need to find another way of doing this maybe?
+   * **/
+  store.setLoading(true);
+
+  axios.get('sanctum/csrf-cookie')
+    .then((res) => {
+      axios.post('/api/login', state, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(() => {
+        store.setLoading(false);
+        // Go to dashboard
+        router.push({ name: "backend-dashboard" });
+      }).catch((error) => {
+        store.setLoading(false);
+        credentialError.value = true;
+        credentialErrorMessage.value =
+        error.response?.data?.message !== undefined ?
+        error.response.data.message :
+        'There has been an error, please try again';
+      });
+    }).catch((error) => {
+      store.setLoading(false);
+      credentialError.value = true;
+      credentialErrorMessage.value =
+      error.response?.data?.message !== undefined ?
+      error.response.data.message :
+      'There has been an error, please try again';
+    });
+}
+</script>

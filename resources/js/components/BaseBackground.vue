@@ -1,3 +1,16 @@
+<template>
+  <div
+    :style="image ? `background-image: url('${image}');` : null"
+    :class="classContainer"
+    class="bg-image"
+  >
+    <div v-if="innerClass" :class="classContainerInner">
+      <slot></slot>
+    </div>
+    <slot v-else></slot>
+  </div>
+</template>
+
 <script setup>
 import { computed } from "vue";
 
@@ -45,16 +58,3 @@ const classContainerInner = computed(() => {
   };
 });
 </script>
-
-<template>
-  <div
-    :style="image ? `background-image: url('${image}');` : null"
-    :class="classContainer"
-    class="bg-image"
-  >
-    <div v-if="innerClass" :class="classContainerInner">
-      <slot></slot>
-    </div>
-    <slot v-else></slot>
-  </div>
-</template>

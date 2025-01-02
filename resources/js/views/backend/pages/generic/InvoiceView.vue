@@ -1,27 +1,3 @@
-<script setup>
-import { useTemplateStore } from "@/stores/template";
-
-// Main store
-const store = useTemplateStore();
-
-// Print Page
-function printPage() {
-  // Get current sidebar visibility
-  let sidebarVisibility = store.settings.sidebarVisibleDesktop;
-
-  // Close the sidebar
-  store.sidebar({ mode: "close" });
-
-  // Print the page
-  window.print();
-
-  // Restore previous sidebar visibility
-  if (sidebarVisibility) {
-    store.sidebar({ mode: "open" });
-  }
-}
-</script>
-
 <template>
   <!-- Hero -->
   <BasePageHeading
@@ -174,3 +150,27 @@ function printPage() {
   </div>
   <!-- END Page Content -->
 </template>
+
+<script setup>
+import { useTemplateStore } from "@/stores/template";
+
+// Main store
+const store = useTemplateStore();
+
+// Print Page
+function printPage() {
+  // Get current sidebar visibility
+  let sidebarVisibility = store.settings.sidebarVisibleDesktop;
+
+  // Close the sidebar
+  store.sidebar({ mode: "close" });
+
+  // Print the page
+  window.print();
+
+  // Restore previous sidebar visibility
+  if (sidebarVisibility) {
+    store.sidebar({ mode: "open" });
+  }
+}
+</script>
