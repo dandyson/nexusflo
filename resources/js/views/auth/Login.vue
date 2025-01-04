@@ -163,23 +163,6 @@
             <strong>{{ store.app.name + " " + store.app.version }}</strong>
             &copy; {{ store.app.copyright }}
           </p>
-          <ul class="list list-inline py-2 mb-0">
-            <li class="list-inline-item">
-              <a class="text-muted fw-medium" href="javascript:void(0)"
-                >Legal</a
-              >
-            </li>
-            <li class="list-inline-item">
-              <a class="text-muted fw-medium" href="javascript:void(0)"
-                >Contact</a
-              >
-            </li>
-            <li class="list-inline-item">
-              <a class="text-muted fw-medium" href="javascript:void(0)"
-                >Terms</a
-              >
-            </li>
-          </ul>
         </div>
       </div>
       <!-- END Main Section -->
