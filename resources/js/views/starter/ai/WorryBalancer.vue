@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <SectionIntro 
+    <SectionIntro
       title="Worry Balancer"
       description="Use this timer to maximise your activity and keep your goals on track.">
     </SectionIntro>
@@ -20,7 +20,7 @@
             <div  v-if="aiBalancerLoading" class="flex justify-center items-center" role="status">
               <i class="fa fa-sun fa-spin"></i>
             </div>
-            
+
             <div v-else>
               <i class="far fa-star me-1"></i>
               Balance your thought
@@ -32,7 +32,7 @@
             placeholder="What's on your mind?">
           </textarea>
 
-          <div v-if="balancedThought.length > 0" class="card card-borderless push mt-4">
+          <div v-if="balancedThought.length > 0" class="card card-borderless push mt-4" aria-live="polite">
             <div class="card-header">
               <h3 class="block-title">Balanced Thought</h3>
             </div>
@@ -68,9 +68,9 @@ const fetchAIResponse = () => {
   aiFetchError.value = false;
   aiFetchErrorMessage.value = '';
 
-  axios.post('/api/worry-balancer', { 
-    text: worryEntry.value, 
-    standaloneWorryBalancer: true 
+  axios.post('/api/worry-balancer', {
+    text: worryEntry.value,
+    standaloneWorryBalancer: true
   })
     .then(response => {
       balancedThought.value = response.data.reply;

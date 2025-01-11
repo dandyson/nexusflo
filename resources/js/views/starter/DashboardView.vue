@@ -84,8 +84,8 @@
         <BaseBlock title="Today's Quotes" class="h-100 mb-0">
           <!-- Quote Slider -->
           <div class="block-content">
-            <transition name="quote-fade" mode="out-in">
-              <div :key="currentQuoteIndex">
+            <transition name="quote-fade" mode="out-in" aria-live="polite">
+              <div :key="currentQuoteIndex" role="region" aria-label="Inspirational quote">
                 <div v-if="quotes.length > 0">
                   <blockquote class="blockquote">
                     <p>"{{ quotes[currentQuoteIndex].text }}"</p>
@@ -119,8 +119,8 @@ import axios from "axios";
 const store = useTemplateStore();
 const quotes = ref([]);
 const quotesLoading = ref(true);
-const currentQuoteIndex = ref(0); 
-let timer; 
+const currentQuoteIndex = ref(0);
+let timer;
 
 const cachedPositiveNews = JSON.parse(localStorage.getItem('positiveNewsCacheLatest'));
 const cachedGoodNewsNetwork = JSON.parse(localStorage.getItem('goodNewsNetworkCacheLatest'));

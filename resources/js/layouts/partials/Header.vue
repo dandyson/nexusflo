@@ -12,9 +12,10 @@
               <button
                 type="button"
                 class="btn btn-sm btn-alt-secondary me-2 d-lg-none"
+                aria-label="Toggle navigation menu"
                 @click="store.sidebar({ mode: 'toggle' })"
               >
-                <i class="fa fa-fw fa-bars"></i>
+                <i class="fa fa-fw fa-bars" aria-hidden="true"></i>
               </button>
               <!-- END Toggle Sidebar -->
 

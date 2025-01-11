@@ -10,30 +10,33 @@
   </div>
   <!-- Positive News -->
   <div class="row mx-5 my-5">
-    <h2 class="my-3">Positive.News</h2>
-    <div class="row row-sm">
+    <h2 class="my-3" id="positive-news-heading">Positive.News</h2>
+    <div class="row row-sm" aria-labelledby="positive-news-heading">
       <div v-if="positiveNewsError" class="alert alert-danger alert-dismissible" role="alert">
         <h3 class="alert-heading h4 my-2">Error</h3>
         <p class="mb-0">There was an error loading the data. Please check your internet connection, refresh and try again!
         </p>
       </div>
-      <div class="d-flex justify-content-center" v-if="positiveNewsLoading === true">
+      <div class="d-flex justify-content-center" v-if="positiveNewsLoading === true" aria-live="polite">
         <div class="spinner-border text-primary m-1" role="status">
-          <span class="sr-only">Loading...</span>
+            <span class="visually-hidden">Loading positive news...</span>
         </div>
       </div>
       <div v-for="(item, index) in positiveNewsData" :key="index" class="col-md-4 col-lg-4 mb-4">
-        <div class="card">
-          <a target="_blank" :href="item.link">
-            <img alt="Image" class="img-fluid card-img-top" :src="item.image">
+        <article class="card h-100">
+          <a target="_blank"
+             :href="item.link"
+             class="text-decoration-none"
+             :aria-label="'Read full article: ' + item.title">
+            <img class="img-fluid card-img-top"
+                 :src="item.image"
+                 :alt="item.title">
+            <div class="card-body">
+              <h3 class="card-title h4 news-headline">{{ item.title }}</h3>
+              <p class="card-text">{{ item.description }}</p>
+            </div>
           </a>
-          <div class="card-body">
-            <a target="_blank" :href="item.link">
-              <h4 class="card-title news-headline">{{ item.title }}</h4>
-            </a>
-            <p class="card-text">{{ item.description }}</p>
-          </div>
-        </div>
+        </article>
       </div><!-- col-4 -->
     </div>
   </div>
@@ -58,7 +61,7 @@
       <div v-for="(item, index) in goodNewsNetworkData" :key="index" class="col-md-4 col-lg-4 mb-4">
         <div class="card">
           <a target="_blank" :href="item.link">
-            <img alt="Image" class="img-fluid card-img-top" :src="item.image">
+            <img :alt="item.title" class="img-fluid card-img-top" :src="item.image">
           </a>
           <div class="card-body">
             <a target="_blank" :href="item.link">

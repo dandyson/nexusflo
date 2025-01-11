@@ -47,8 +47,13 @@
                             </div>
                             <div v-if="selectedNote" class="mt-3">
                                 <div class="mb-2">
-                                    <input type="text" v-model="selectedNote.title" class="form-control note-title"
-                                        @blur="checkEmptyAndSaveNote(selectedNote)">
+                                    <input type="text"
+                                        v-model="selectedNote.title"
+                                        class="form-control note-title"
+                                        :aria-label="'Note title'"
+                                        id="note-title"
+                                        @blur="checkEmptyAndSaveNote(selectedNote)"
+                                    >
                                 </div>
                                 <button v-if="selectedNotebook" type="button" class="btn btn-success mb-3 me-2"
                                     @click="saveNote(selectedNote, true)">Save Note</button>

@@ -1,7 +1,7 @@
 <template>
   <div class="content">
-    <SectionIntro title="Worry Journal" description="Fill out the below form to record your worries, 
-          spot any thinking traps and to try to re-balance your thought 
+    <SectionIntro title="Worry Journal" description="Fill out the below form to record your worries,
+          spot any thinking traps and to try to re-balance your thought
           by challenging your beliefs about the situation." :tutorial="tutorialData"></SectionIntro>
     <div class="block-rounded block">
       <div class="block-header block-header-default">
@@ -26,7 +26,11 @@
             <tr v-for="worryJournalEntry in worryJournalEntries" :key="worryJournalEntry.id">
               <td class="text-center" scope="row">{{ formatDate(worryJournalEntry.created_at) }}</td>
               <td class="fw-semibold fs-sm">
-                <a href="javascript:void(0)">{{ worryJournalEntry.title }}</a>
+                <span
+                    class="p-0 text-decoration-none fw-semibold fs-sm text-primary"
+                >
+                    {{ worryJournalEntry.title }}
+              </span>
               </td>
               <td class="d-none d-sm-table-cell">
                 <div class="d-flex flex-row overlapping-circles">

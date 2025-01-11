@@ -48,6 +48,7 @@
                 data-bs-auto-close="outside"
                 aria-haspopup="true"
                 aria-expanded="false"
+                aria-label="Toggle dark mode options"
               >
                 <i v-if="!store.settings.darkMode" class="far fa-moon"></i>
                 <i v-if="store.settings.darkMode" class="fa fa-moon"></i>
@@ -113,9 +114,10 @@
           <button
             type="button"
             class="d-lg-none btn btn-sm btn-alt-secondary ms-1"
+            aria-label="Close sidebar"
             @click="store.sidebar({ mode: 'close' })"
           >
-            <i class="fa fa-fw fa-times"></i>
+            <i class="fa fa-fw fa-times" aria-hidden="true"></i>
           </button>
           <!-- END Close Sidebar -->
         </div>
