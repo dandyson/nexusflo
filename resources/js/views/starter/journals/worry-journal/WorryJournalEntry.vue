@@ -15,7 +15,7 @@
         <h3 class="block-title"> Worry Journal</h3><!---->
       </div>
       <div class="block-content">
-        <div class="progress">
+        <div class="progress" role="progressbar" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
           <div class="progress-bar" :style="{ width: progress + '%' }"></div>
         </div>
 
@@ -60,8 +60,17 @@
               Select one more more of the ones that do</small>
           </div>
           <div class="d-flex flex-wrap justify-content-evenly">
-            <div class="col-12 col-md-5 mb-4 mx-2" v-for="trap in thinkingTraps" :key="trap.title"
-              @click="toggleTrapSelection(trap)">
+            <div
+                class="col-12 col-md-5 mb-4 mx-2"
+                v-for="trap in thinkingTraps"
+                :key="trap.title"
+                @click="toggleTrapSelection(trap)"
+                @keydown.enter="toggleTrapSelection(trap)"
+                role="button"
+                tabindex="0"
+                aria-label="Select thinking trap"
+                :aria-pressed="selectedTraps.includes(trap)"
+            >
               <div class="card h-100 block-link-pop cursor-pointer"
                 :class="{ 'border-selected': selectedTraps.includes(trap) }">
                 <div class="overlay-container">
@@ -93,14 +102,14 @@
               <strong>Thinking Traps:</strong>
               <div class="row justify-content-evenly">
                 <div v-for="trap in selectedTraps" :key="trap.id" class="col-12 col-sm-4">
-                  <a class="block block-rounded block-link-pop text-center" href="javascript:void(0)">
+                  <div class="block block-rounded block-link-pop text-center">
                     <div class="block-content block-content-full">
-                      <img class="img-avatar" :src="trap.image" alt="">
+                      <img class="img-avatar" :src="trap.image" :alt="`Icon representing ${trap.title} thinking trap`">
                     </div>
                     <div class="block-content block-content-full bg-body-light">
                       <p class="fw-semibold mb-0">{{ trap.title }}</p>
                     </div>
-                  </a>
+                </div>
                 </div>
               </div>
             </div>
@@ -126,7 +135,7 @@
             <div  v-if="aiBalancerLoading" class="flex justify-center items-center" role="status">
               <i class="fa fa-sun fa-spin"></i>
             </div>
-            
+
             <div v-else>
               <i class="far fa-star me-1"></i>
               Try the AI Worry Balancer!

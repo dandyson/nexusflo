@@ -116,11 +116,10 @@
           </div>
           <div role="separator" class="dropdown-divider m-0"></div>
           <div class="p-2">
-            <a @click="logOut"
-              href="javascript:void(0)"
+            <button @click="logOut"
               class="dropdown-item d-flex align-items-center justify-content-between">
               <span class="fs-sm fw-medium">Log Out</span>
-            </a>
+          </button>
           </div>
         </div>
       </div>
