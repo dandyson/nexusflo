@@ -333,18 +333,6 @@ watch(pomodoroTimer, (val) => {
     box-shadow: rgb(235 235 235) 0px 6px 0px;
 }
 
-/* Add focus styles */
-button:focus,
-[tabindex]:focus {
-    outline: 3px solid #dc3545;  /* Using danger color for work mode */
-    outline-offset: 2px;
-}
-
-/* Add focus style for break modes */
-.bg-info button:focus {
-    outline-color: #0dcaf0;
-}
-
 .visually-hidden {
     position: absolute;
     width: 1px;
