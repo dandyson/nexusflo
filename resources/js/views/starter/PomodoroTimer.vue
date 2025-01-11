@@ -14,39 +14,55 @@
                     <div id="container">
                         <div id="timer">
                             <div id="time" class="d-flex justify-content-center align-items-center mb-4"
-                                :class="pomodoroTimer.background" :style="pomodoroTimer.shadow">
+                                :class="pomodoroTimer.background" :style="pomodoroTimer.shadow"
+                                aria-hidden="true"
+                            >
                                 <span id="minutes">{{ pomodoroTimer.minutes }}</span>:
                                 <span id="seconds">{{ pomodoroTimer.seconds }}</span>
+                            </div>
+
+                            <div id="timer-status" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+                                {{ timerStatus }}
                             </div>
 
                             <div class="d-flex justify-content-center my-3">
                                 <div class="">
                                     <button class="btn btn-danger btn-block pomodoro-button" id="stop"
-                                        @click="timerButtonSound(); start()">
-                                        <i class="typcn typcn-media-play"></i>{{ pomodoroTimer.startText }}<i
-                                            class="typcn typcn-media-pause"></i>
+                                        @click="timerButtonSound(); start()"
+                                        @keydown.enter="timerButtonSound(); start()"
+                                        :aria-label="pomodoroTimer.started ? 'Pause pomodoro timer' : 'Start pomodoro timer'">
+                                        <i class="typcn" :class="pomodoroTimer.started ? 'typcn-media-pause' : 'typcn-media-play'" aria-hidden="true"></i>
+                                        {{ pomodoroTimer.startText }}
                                     </button>
                                 </div>
                             </div>
                         </div>
 
                         <div id="buttons"
-                            class="d-flex flex-column flex-lg-row align-items-center justify-content-evenly my-5 mx-4">
+                            class="d-flex flex-column flex-lg-row align-items-center justify-content-evenly my-5 mx-4"
+                            role="group"
+                            aria-label="Timer mode selection">
                             <div class="bg-danger text-center w-100">
                                 <button class="btn btn-block pomodoro-button pomo-category" id="work"
-                                    @click="timerButtonSound(); work()">
+                                    @click="timerButtonSound(); work()"
+                                    @keydown.enter="timerButtonSound(); work()"
+                                    aria-label="Switch to work mode - 25 minutes">
                                     Work
                                 </button>
                             </div>
                             <div class="bg-info text-center w-100">
                                 <button class="btn btn-block pomodoro-button pomo-category" id="shortBreak"
-                                    @click="timerButtonSound(); shortBreak()">
+                                    @click="timerButtonSound(); shortBreak()"
+                                    @keydown.enter="timerButtonSound(); shortBreak()"
+                                    aria-label="Switch to short break mode - 5 minutes">
                                     Short Break
                                 </button>
                             </div>
                             <div class="bg-info text-center w-100">
                                 <button class="btn btn-block pomodoro-button pomo-category" id="longBreak"
-                                    @click="timerButtonSound(); longBreak()">
+                                    @click="timerButtonSound(); longBreak()"
+                                    @keydown.enter="timerButtonSound(); longBreak()"
+                                    aria-label="Switch to long break mode - 15 minutes">
                                     Long Break
                                 </button>
                             </div>
@@ -59,7 +75,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive, watch, onMounted, onUnmounted } from 'vue';
 import SectionIntro from '../components/SectionIntro.vue';
 import * as imagePaths from '../../assets/photos/tutorialImagePaths.js';
 
@@ -107,9 +123,46 @@ const pomodoroTimer = reactive({
     switchConfirmed: false,
 });
 
+// Add focus management
+const focusableElements = ref(null);
+const currentFocusIndex = ref(0);
+
+onMounted(() => {
+    focusableElements.value = document.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+    document.addEventListener('keydown', handleKeyboardNavigation);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('keydown', handleKeyboardNavigation);
+});
+
+const handleKeyboardNavigation = (e) => {
+    if (e.key === 'Tab') {
+        e.preventDefault();
+        if (e.shiftKey) {
+            currentFocusIndex.value = currentFocusIndex.value === 0
+                ? focusableElements.value.length - 1
+                : currentFocusIndex.value - 1;
+        } else {
+            currentFocusIndex.value = currentFocusIndex.value === focusableElements.value.length - 1
+                ? 0
+                : currentFocusIndex.value + 1;
+        }
+        focusableElements.value[currentFocusIndex.value].focus();
+    }
+};
+
+// Add timer status ref
+const timerStatus = ref('Pomodoro timer ready - Work mode, 25 minutes');
 
 const start = () => {
     pomodoroTimer.started = !pomodoroTimer.started;
+    timerStatus.value = pomodoroTimer.started
+        ? `${pomodoroTimer.state} session started`
+        : `${pomodoroTimer.state} session paused`;
 
     if (pomodoroTimer.started) {
         loop();
@@ -120,16 +173,19 @@ const start = () => {
 
 const work = () => {
     pomodoroTimer.state = 'work';
+    timerStatus.value = 'Switched to work mode - 25 minutes';
     resetTimer(25);
 };
 
 const shortBreak = () => {
     pomodoroTimer.state = 'shortBreak';
+    timerStatus.value = 'Switched to short break mode - 5 minutes';
     resetTimer(5);
 };
 
 const longBreak = () => {
     pomodoroTimer.state = 'longBreak';
+    timerStatus.value = 'Switched to long break mode - 15 minutes';
     resetTimer(15);
 };
 
@@ -188,6 +244,13 @@ const timerComplete = () => {
     pomodoroTimer.fillerWidth = 0;
     pomodoroTimer.pomodoroCount++;
     doneSound();
+
+    const nextMode = pomodoroTimer.state === 'work'
+        ? (pomodoroTimer.pomodoroCount === 4 ? 'long break' : 'short break')
+        : 'work';
+
+    timerStatus.value = `${pomodoroTimer.state} session complete. Starting ${nextMode} session.`;
+
     if (pomodoroTimer.state === 'work') {
         if (pomodoroTimer.pomodoroCount === 4) {
             longBreak();
@@ -198,6 +261,8 @@ const timerComplete = () => {
     } else if (pomodoroTimer.state === 'shortBreak' || pomodoroTimer.state === 'longBreak') {
         work();
     }
+
+    document.getElementById('stop').focus();
 };
 
 watch(pomodoroTimer, (val) => {
@@ -232,7 +297,10 @@ watch(pomodoroTimer, (val) => {
     if (val.minutes < 10 && val.minutes >= 0) {
         val.minutes = '0' + parseInt(val.minutes, 10);
     }
-});
+
+    // Remove all the announcement creation code
+    // The timerStatus ref will handle all announcements now
+}, { deep: true });
 </script>
 
 <style scoped>
@@ -263,5 +331,29 @@ watch(pomodoroTimer, (val) => {
 
 .button-box-shadow {
     box-shadow: rgb(235 235 235) 0px 6px 0px;
+}
+
+/* Add focus styles */
+button:focus,
+[tabindex]:focus {
+    outline: 3px solid #dc3545;  /* Using danger color for work mode */
+    outline-offset: 2px;
+}
+
+/* Add focus style for break modes */
+.bg-info button:focus {
+    outline-color: #0dcaf0;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 </style>

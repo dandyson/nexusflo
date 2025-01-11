@@ -16,36 +16,67 @@
                         <div id="pomodoro-app">
                             <div id="container">
                                 <div id="timer">
-                                    <div id="time" class="d-flex justify-content-center align-items-center mb-4"
-                                        :class="meditationTimer.background" :style="meditationTimer.shadow">
-                                        <span id="minutes">{{ meditationTimer.minutes }}</span>:
-                                        <span id="seconds">{{ meditationTimer.seconds }}</span>
+                                    <div
+                                        id="time"
+                                        class="d-flex justify-content-center align-items-center mb-4"
+                                        :class="meditationTimer.background"
+                                        :style="meditationTimer.shadow"
+                                        role="timer"
+                                        aria-live="polite"
+                                        tabindex="0"
+                                        :aria-label="`${meditationTimer.minutes} minutes and ${meditationTimer.seconds} seconds remaining`"
+                                        aria-hidden="true"
+                                    >
+                                        <div aria-hidden="true">
+                                            {{ meditationTimer.minutes }}:{{ meditationTimer.seconds }}
+                                        </div>
+
+                                        <span class="visually-hidden" role="timer" aria-live="off">
+                                            {{ meditationTimer.minutes }} minutes and {{ meditationTimer.seconds }} seconds remaining
+                                        </span>
                                     </div>
 
                                     <!-- Minutes increment/decrement -->
-                                    <div id="buttons" class="d-flex justify-content-center my-2">
-                                        <button class="btn btn-warning br-50 mx-2" @click="decrease">
-                                            <i class="fa fa-chevron-down"></i>
+                                    <div
+                                        id="buttons"
+                                        class="d-flex justify-content-center my-2"
+                                        role="group"
+                                        aria-label="Timer duration controls"
+                                    >
+                                        <button
+                                            class="btn btn-warning br-50 mx-2"
+                                            @click="decrease"
+                                            @keydown.enter="decrease"
+                                            aria-label="Decrease minutes"
+                                        >
+                                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
                                         </button>
-                                        <button class="btn btn-warning br-50 mx-2" @click="increase">
-                                            <i class="fa fa-chevron-up"></i>
+                                        <button
+                                            class="btn btn-warning br-50 mx-2"
+                                            @click="increase"
+                                            @keydown.enter="increase"
+                                            aria-label="Increase minutes"
+                                        >
+                                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
                                         </button>
                                     </div>
                                     <div class="d-flex justify-content-center my-3">
-                                        <div class="">
-                                            <button class="btn btn-warning btn-block pomodoro-button" id="stop"
-                                                @click="timerButtonSound(); start()">
-                                                <i class="typcn typcn-media-play"></i>{{ meditationTimer.startText }}
-                                                <i class="typcn typcn-media-pause"></i>
-                                            </button>
-                                        </div>
+                                        <button class="btn btn-warning btn-block pomodoro-button" id="stop"
+                                            @click="timerButtonSound(); start()"
+                                            @keydown.enter="timerButtonSound(); start()"
+                                            :aria-label="meditationTimer.started ? 'Pause meditation timer' : 'Start meditation timer'">
+                                            <i class="typcn" :class="meditationTimer.started ? 'typcn-media-pause' : 'typcn-media-play'" aria-hidden="true"></i>
+                                            {{ meditationTimer.startText }}
+                                        </button>
                                     </div>
                                 </div>
 
                                 <div id="buttons" class="d-flex justify-content-evenly my-5">
                                     <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0 bg-warning text-center">
                                         <button class="btn btn-block pomodoro-button pomo-category w-100" id="work"
-                                            @click="reset()">
+                                            @click="reset()"
+                                            @keydown.enter="reset()"
+                                            aria-label="Reset timer to 25 minutes">
                                             Reset
                                         </button>
                                     </div>
@@ -60,7 +91,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive, watch, onMounted, onUnmounted } from 'vue';
 import SectionIntro from '../components/SectionIntro.vue';
 import * as imagePaths from '../../assets/photos/tutorialImagePaths.js';
 
@@ -96,6 +127,8 @@ const meditationTimer = reactive({
     singleDigit: false,
 });
 
+const timerStatus = ref('Meditation timer ready');
+
 watch(meditationTimer, (val) => {
     if (!val.started) {
         clearInterval(val.countdown);
@@ -116,7 +149,11 @@ watch(meditationTimer, (val) => {
     if (val.minutes < 10 && val.minutes >= 0) {
         val.minutes = '0' + parseInt(val.minutes, 10);
     }
-});
+
+    if (val.started !== meditationTimer.started) {
+        announceTimerStatus(val.started);
+    }
+}, { deep: true });
 
 const timerButtonSound = () => {
     var audio = new Audio("http://clipart.usscouts.org/ScoutDoc/SeaExplr/WavFiles/SHIPBELL/SBELL1.WAV");
@@ -138,6 +175,9 @@ const resetVariables = (mins, secs, started) => {
 
 const start = () => {
     meditationTimer.started = !meditationTimer.started;
+    timerStatus.value = meditationTimer.started
+        ? `Meditation session started - ${meditationTimer.minutes} minutes`
+        : 'Meditation session paused';
 
     if (meditationTimer.started) {
         loop();
@@ -167,18 +207,101 @@ const timerComplete = () => {
     meditationTimer.fillerWidth = 0;
     meditationTimer.minutes = '00';
     meditationTimer.seconds = '00';
+    timerStatus.value = 'Meditation session complete';
     doneSound();
-}
+    document.getElementById('stop').focus();
+};
+
+const announceTimerComplete = () => {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('role', 'alert');
+    announcement.setAttribute('aria-live', 'assertive');
+    announcement.textContent = 'Meditation session complete';
+    document.body.appendChild(announcement);
+    setTimeout(() => announcement.remove(), 1000);
+};
 
 const increase = () => {
     meditationTimer.minutes++;
+    timerStatus.value = `Duration set to ${meditationTimer.minutes} minutes`;
 }
 
 const decrease = () => {
     if (meditationTimer.minutes > 0) {
         meditationTimer.minutes--;
+        timerStatus.value = `Duration set to ${meditationTimer.minutes} minutes`;
     }
 }
+
+const focusableElements = ref(null);
+const currentFocusIndex = ref(0);
+
+onMounted(() => {
+    focusableElements.value = document.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+    document.addEventListener('keydown', handleKeyboardNavigation);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('keydown', handleKeyboardNavigation);
+});
+
+const handleKeyboardNavigation = (e) => {
+    if (e.key === 'Tab') {
+        e.preventDefault();
+        if (e.shiftKey) {
+            currentFocusIndex.value = currentFocusIndex.value === 0
+                ? focusableElements.value.length - 1
+                : currentFocusIndex.value - 1;
+        } else {
+            currentFocusIndex.value = currentFocusIndex.value === focusableElements.value.length - 1
+                ? 0
+                : currentFocusIndex.value + 1;
+        }
+        focusableElements.value[currentFocusIndex.value].focus();
+    }
+};
+
+const announceTimerStatus = (isStarted) => {
+    let liveRegion = document.getElementById('timer-announcer');
+    if (!liveRegion) {
+        liveRegion = document.createElement('div');
+        liveRegion.id = 'timer-announcer';
+        liveRegion.setAttribute('role', 'status');
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.style.position = 'absolute';
+        liveRegion.style.width = '1px';
+        liveRegion.style.height = '1px';
+        liveRegion.style.padding = '0';
+        liveRegion.style.margin = '-1px';
+        liveRegion.style.overflow = 'hidden';
+        liveRegion.style.clip = 'rect(0, 0, 0, 0)';
+        liveRegion.style.whiteSpace = 'nowrap';
+        liveRegion.style.border = '0';
+        document.body.appendChild(liveRegion);
+    }
+
+    liveRegion.textContent = isStarted ? 'Meditation timer started' : 'Meditation timer paused';
+}
+
+const announceTimeRemaining = () => {
+    const minutes = parseInt(meditationTimer.minutes);
+    const seconds = parseInt(meditationTimer.seconds);
+
+    let announcement = '';
+    if (minutes === 0 && seconds === 0) {
+        announcement = 'Timer complete';
+    } else {
+        announcement = `${minutes} minute${minutes !== 1 ? 's' : ''} and ${seconds} second${seconds !== 1 ? 's' : ''} remaining`;
+    }
+
+    const liveRegion = document.getElementById('timer-announcer');
+    if (liveRegion) {
+        liveRegion.textContent = announcement;
+    }
+};
 </script>
 
 <style scoped>
@@ -219,5 +342,28 @@ const decrease = () => {
 
 .button-box-shadow {
     box-shadow: rgb(235 235 235) 0px 6px 0px;
+}
+
+button:focus,
+[tabindex]:focus {
+    outline: 3px solid #ffc107;
+    outline-offset: 2px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.timer-display {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
 }
 </style>
