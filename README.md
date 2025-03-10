@@ -37,7 +37,7 @@ The next release of NexusFlo is planned to include:
 
 - **Relax Section:** Introduce guided relaxations and visualizations to aid in stress relief and relaxation.
 
-- **Action Plan in Worry Journal:** Enhance the Worry Journal with an additional 'Action Plan' step, allowing users to outline actionable steps to address and alleviate worries.
+- **Action Plan in Worry Journal:** Enhance the Worry Journal with intelligent pattern detection and actionable insights. Using Natural Language Processing (NLP), the system analyzes historical worry entries to identify recurring themes, visualize anxiety trends through interactive charts, and generate personalized action steps. This data-driven approach helps users transform self-reflection into practical strategies, empowering them to better understand and effectively manage their mental well-being.
 
 - **Timer UI and Code Improvements:** Refine the user interface and codebase of the timers for an improved user experience.
 
