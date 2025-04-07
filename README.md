@@ -9,8 +9,8 @@
 <h4 align="center">
   <a href="https://nexusflo.uk">Live Demo</a> |
   <a href="#features">Features</a> |
-  <a href="#quick-start">Quick Start</a> |
-  <a href="#documentation">Documentation</a>
+  <a href="#quick-start">Quick Start</a>
+
 </h4>
 
 <div align="center">
@@ -64,7 +64,6 @@ NexusFlo provides a comprehensive suite of features to support mental wellness:
   - End-to-end encryption
   - Secure authentication
   - Data protection
-
 - 🚀 **Technical Excellence**:
   - 80%+ test coverage
   - Full CI/CD pipeline
@@ -73,7 +72,7 @@ NexusFlo provides a comprehensive suite of features to support mental wellness:
 
 ## Quick Start
 
-**Note:** These instructions are for running NexusFlo locally. For production deployment, refer to our [documentation](#documentation).
+**Note:** These instructions are for running NexusFlo locally. The app is currently just a demo version, so some of the features (such as registering users) has been turned off.
 
 ### Prerequisites
 
