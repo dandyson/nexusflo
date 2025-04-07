@@ -15,7 +15,7 @@
 
 <div align="center">
   <h2>
-    A mental wellness companion built with Vue 3 and Laravel 10. </br>
+    A mental wellness companion built with Vue 3 and Laravel 9. </br>
     Empowering users to manage anxiety and depression through thoughtful features. </br>
   <br />
   </h2>
