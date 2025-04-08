@@ -2,6 +2,10 @@
     <img src="public/assets/media/logos/logo.png" alt="NexusFlo Logo" width="200">
 </div>
 
+<div align="center">
+<h1>NEXUSFLO</h1>
+</div>
+
 <h4 align="center">
   <a href="https://nexusflo.uk">Live Demo</a> |
   <a href="#features">Features</a> |
