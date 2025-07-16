@@ -80,6 +80,7 @@
                 <form @submit.prevent="onSubmit">
                   <div class="mb-4">
                     <input
+                      disabled
                       type="text"
                       class="form-control form-control-lg form-control-alt py-3"
                       id="signup-name"
@@ -101,6 +102,7 @@
                   </div>
                   <div class="mb-4">
                     <input
+                      disabled
                       type="email"
                       class="form-control form-control-lg form-control-alt py-3"
                       id="signup-email"
@@ -122,6 +124,7 @@
                   </div>
                   <div class="mb-4">
                     <input
+                      disabled
                       type="password"
                       class="form-control form-control-lg form-control-alt py-3"
                       id="signup-password"
@@ -143,6 +146,7 @@
                   </div>
                   <div class="mb-4">
                     <input
+                      disabled
                       type="password"
                       class="form-control form-control-lg form-control-alt py-3"
                       id="password-confirmation"
@@ -168,6 +172,7 @@
                     >
                       <div class="form-check">
                         <input
+                          disabled
                           class="form-check-input"
                           type="checkbox"
                           id="signup-terms"
@@ -200,7 +205,7 @@
                     </div>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-lg btn-alt-success">
+                    <button disabled type="submit" class="btn btn-lg btn-alt-success">
                       <i class="fa fa-fw fa-plus me-1 opacity-50"></i> Sign Up
                     </button>
                   </div>
