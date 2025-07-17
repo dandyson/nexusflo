@@ -45,6 +45,8 @@ class PositiveNewsController extends Controller
             return $this->goodNewsNetworkResults;
         });
 
-        return response()->json(['data' => $jsonData]);
+        return response()->json([
+            'data' => $jsonData,
+        ], 200, [], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
     }
 }
