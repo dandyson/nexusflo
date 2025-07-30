@@ -36,3 +36,5 @@
 - 📝 Updated documentation and examples (05-05)
 - 🤖 Introduced the 'Worry Balancer' AI feature, integrating the OpenAI API to provide a balanced outlook on user worries. This tool is accessible through the new 'Tools' section in the navigation.
 
+**July 2025:**
+- ⬆️ Upgraded Laravel version 9 to 10.0
