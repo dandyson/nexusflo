@@ -93,21 +93,47 @@ cd nexusflo
 cp .env.example .env
 ```
 
-3. Start the development environment:
+3. Install Composer dependencies locally (needed for Laravel Sail itself to run)
+```bash
+composer install
+```
+
+4. Start the development environment:
 ```bash
 ./vendor/bin/sail up -d
 ```
 
-4. Install dependencies and run migrations:
+5. Install dependencies and run migrations:
 ```bash
 ./vendor/bin/sail composer install
 ./vendor/bin/sail npm install
 ./vendor/bin/sail artisan migrate --seed
 ```
 
-5. Start the development server:
+6. Enter the Sail shell
 ```bash
-./vendor/bin/sail npm run dev
+./vendor/bin/sail shell
+```
+
+7. Inside Sail: install dependencies
+```bash
+composer install
+npm install
+```
+
+8. Inside Sail: Generate the Laravel app key
+```bash
+php artisan key:generate
+```
+
+9. Inside Sail: Run migrations and seeders
+```bash
+php artisan migrate --seed
+```
+
+10. Inside Sail: Start the Vite dev server
+```bash
+npm run dev
 ```
 
 Visit http://localhost to see your local instance running!
