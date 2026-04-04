@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["php81", "php81Packages.composer"]
+nixPkgs = ["php82", "php82Packages.composer"]
 
 [phases.build]
 cmds = ["composer install --no-dev", "php artisan config:cache", "php artisan route:cache"]
