@@ -15,7 +15,7 @@
 
 <div align="center">
   <h2>
-    A mental wellness companion built with Vue 3 and Laravel 9. </br>
+    A mental wellness companion built with Vue 3 and Laravel 10. </br>
     Empowering users to manage anxiety and depression through thoughtful features. </br>
   <br />
   </h2>
@@ -28,9 +28,6 @@
   </a>
   <a href="https://github.com/dandyson/nexusflo/actions">
     <img alt="CI/CD Pipeline" src="https://github.com/dandyson/nexusflo/actions/workflows/ci-pipeline.yml/badge.svg"  />
-  </a>
-  <a href="https://github.com/dandyson/nexusflo/pulls">
-    <img alt="PRs welcome!" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat"  />
   </a>
   <a href="https://github.com/dandyson/nexusflo/issues">
     <img alt="Issues" src="https://img.shields.io/github/issues/dandyson/nexusflo"  />
@@ -67,12 +64,12 @@ NexusFlo provides a comprehensive suite of features to support mental wellness:
 - 🚀 **Technical Excellence**:
   - 80%+ test coverage
   - Full CI/CD pipeline
-  - Vue 3 + Laravel 9 stack
+  - Vue 3 + Laravel 10 stack
   - Docker containerization (Laravel Sail)
 
 ## Quick Start
 
-**Note:** These instructions are for running NexusFlo locally. The app is currently just a demo version, so some of the features (such as registering users) has been turned off.
+**Note:** These instructions are for running NexusFlo locally. The app is a demo instance - to explore the full app, clone the repo and run it locally using the instructions below.
 
 ### Prerequisites
 
@@ -138,27 +135,15 @@ npm run dev
 
 Visit http://localhost to see your local instance running!
 
-
-## Contributing
-
-We welcome contributions! Here's how you can help:
-
-- Found a bug? [Report it here](https://github.com/dandyson/nexusflo/issues)
-- Have a feature request? [Open an issue](https://github.com/dandyson/nexusflo/issues)
-
 ## Technical Stack
 
 - **Frontend**: Vue 3, Vue Router, Vite, OneUI Template
-- **Backend**: Laravel 9, PHP 8.1
+- **Backend**: Laravel 10, PHP 8.2
 - **Database**: MySQL
 - **Testing**: PHPUnit, Vue Test Utils
 - **CI/CD**: GitHub Actions
 - **AI**: OpenAI API
 - **Containerization**: Docker, Laravel Sail
-
-## Acknowledgments
-
-NexusFlo's beautiful interface is built upon the [OneUI](https://1.envato.market/AVD6j) template, a premium admin template that provides a solid foundation for the application's UI components and design system.
 
 ## License
 
