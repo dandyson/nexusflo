@@ -14,12 +14,12 @@ class UserControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function test_user_can_update_details()
+    public function userCanUpdateDetails()
     {
         $user = User::factory()->create(['name' => 'Initial Name', 'email' => 'initial@email.com']);
 
         $response = $this->actingAs($user)
-            ->postJson(route('user.update', $user), [
+            ->postJson(route('user.update'), [
                 'name' => 'Updated Name',
                 'email' => 'updated@email.com',
                 'avatar' => null,
@@ -38,7 +38,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function delete_account()
+    public function deleteAccount()
     {
         $user = User::factory()->create();
 
@@ -47,7 +47,7 @@ class UserControllerTest extends TestCase
             'name' => $user->name,
         ]);
 
-        $response = $this->actingAs($user)->delete(route('user.account.delete', ['user' => $user->id]));
+        $response = $this->actingAs($user)->delete(route('user.account.delete'));
 
         $response->assertJson([
             'type' => 'success',
@@ -58,12 +58,12 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function test_user_can_update_password()
+    public function userCanUpdatePassword()
     {
         $user = User::factory()->create(['password' => bcrypt('oldpassword')]);
 
         $response = $this->actingAs($user)
-            ->postJson(route('user.update-password', $user), [
+            ->postJson(route('user.update-password'), [
                 'current_password' => 'oldpassword',
                 'password' => 'newpassword',
                 'password_confirmation' => 'newpassword',
@@ -81,12 +81,12 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function test_user_cannot_update_password_with_incorrect_current_password()
+    public function userCannotUpdatePasswordWithIncorrectCurrentPassword()
     {
         $user = User::factory()->create(['password' => bcrypt('oldpassword')]);
 
         $response = $this->actingAs($user)
-            ->postJson(route('user.update-password', $user), [
+            ->postJson(route('user.update-password'), [
                 'current_password' => 'wrongpassword',
                 'password' => 'newpassword',
                 'password_confirmation' => 'newpassword',
@@ -100,10 +100,49 @@ class UserControllerTest extends TestCase
         $this->assertTrue(Hash::check('oldpassword', $user->password));
     }
 
+    /** @test */
+    public function updateOnlyChangesTheLoggedInUser()
+    {
+        $otherUser = User::factory()->create([
+            'name' => 'Other User',
+            'email' => 'other@email.com',
+        ]);
+
+        $user = $this->authUser();
+
+        $this->postJson(route('user.update'), [
+            'name' => 'Updated Name',
+            'email' => 'updated@email.com',
+        ])->assertOk();
+
+        // The logged-in user was updated
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'name' => 'Updated Name',
+            'email' => 'updated@email.com',
+        ]);
+
+        // the other user was left alone
+        $this->assertDatabaseHas('users', [
+            'id' => $otherUser->id,
+            'name' => 'Other User',
+            'email' => 'other@email.com',
+        ]);
+    }
+
+    /** @test */
+    public function guestCannotAccessUserRoutes()
+    {
+        $this->postJson(route('user.update'), [])->assertUnauthorized();
+        $this->postJson(route('user.update-password'), [])->assertUnauthorized();
+        $this->postJson(route('user.upload-avatar'), [])->assertUnauthorized();
+        $this->deleteJson(route('user.account.delete'))->assertUnauthorized();
+    }
+
     /**
      * @test
      */
-    public function user_can_upload_avatar_to_local_storage_and_not_s3()
+    public function userCanUploadAvatarToLocalStorageAndNotS3()
     {
         // Mock storage
         Storage::fake('public');
@@ -116,7 +155,7 @@ class UserControllerTest extends TestCase
 
         $file = UploadedFile::fake()->image('avatar.jpg');
 
-        $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
+        $response = $this->actingAs($user)->postJson(route('user.upload-avatar'), [
             'avatar' => $file,
         ]);
 
@@ -140,7 +179,7 @@ class UserControllerTest extends TestCase
     /**
      * @test
      */
-    public function user_can_upload_avatar_to_s3_and_not_local_storage()
+    public function userCanUploadAvatarToS3AndNotLocalStorage()
     {
         Storage::fake('s3');
 
@@ -151,7 +190,7 @@ class UserControllerTest extends TestCase
 
         $file = UploadedFile::fake()->image('avatar.jpg');
 
-        $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
+        $response = $this->actingAs($user)->postJson(route('user.upload-avatar'), [
             'avatar' => $file,
         ]);
 
@@ -173,14 +212,14 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function user_cannot_upload_invalid_file()
+    public function userCannotUploadInvalidFile()
     {
         $user = User::factory()->create();
 
         Storage::fake('s3');
         $file = UploadedFile::fake()->create('document.pdf', 100); // Create a non-image file
 
-        $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
+        $response = $this->actingAs($user)->postJson(route('user.upload-avatar'), [
             'avatar' => $file,
         ]);
 
@@ -203,14 +242,14 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function test_user_cannot_upload_more_than_limit()
+    public function userCannotUploadMoreThanLimit()
     {
         $user = User::factory()->create(['avatar_upload_count' => 10]);
 
         Storage::fake('s3');
         $file = UploadedFile::fake()->image('avatar.jpg');
 
-        $response = $this->actingAs($user)->postJson(route('user.upload-avatar', $user), [
+        $response = $this->actingAs($user)->postJson(route('user.upload-avatar'), [
             'avatar' => $file,
         ]);
 
