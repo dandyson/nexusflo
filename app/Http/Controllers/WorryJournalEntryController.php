@@ -55,6 +55,8 @@ class WorryJournalEntryController extends Controller
 
     public function update(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
     {
+        $this->authorize('update', $worryJournalEntry);
+
         $validated = $request->validate([
             'title' => 'required|string',
             'main_worry' => 'required|string',
@@ -76,6 +78,8 @@ class WorryJournalEntryController extends Controller
 
     public function destroy(WorryJournalEntry $worryJournalEntry): JsonResponse
     {
+        $this->authorize('delete', $worryJournalEntry);
+
         $worryJournalEntry->delete();
 
         return response()->json([

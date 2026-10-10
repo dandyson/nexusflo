@@ -172,4 +172,49 @@ class WorryJournalEntryControllerTest extends TestCase
 
         $this->assertDatabaseMissing('worry_journal_entries', ['id' => $entry->id]);
     }
+
+    /**
+     * @test
+     */
+    public function userCannotUpdateAnotherUsersWorryJournalEntry()
+    {
+        $this->authUser();
+        $otherUser = User::factory()->create();
+
+        $entry = WorryJournalEntry::factory()->create([
+            'user_id' => $otherUser->id,
+            'title' => 'Original Title',
+        ]);
+
+        $response = $this->putJson(route('worry-journal.update', ['worryJournalEntry' => $entry->id]), [
+            'title' => 'Hacked Title',
+            'main_worry' => 'Test Main Worry',
+            'thinking_traps' => [1, 2],
+            'balanced_thought' => 'Test Balanced Thought',
+        ]);
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+
+        $this->assertDatabaseHas('worry_journal_entries', [
+            'id' => $entry->id,
+            'title' => 'Original Title',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function userCannotDeleteAnotherUsersWorryJournalEntry()
+    {
+        $this->authUser();
+        $otherUser = User::factory()->create();
+
+        $entry = WorryJournalEntry::factory()->create(['user_id' => $otherUser->id]);
+
+        $response = $this->deleteJson(route('worry-journal.destroy', ['worryJournalEntry' => $entry->id]));
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+
+        $this->assertDatabaseHas('worry_journal_entries', ['id' => $entry->id]);
+    }
 }
