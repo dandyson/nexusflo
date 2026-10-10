@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Api;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
-use App\Models\User;
 
 class PositiveNewsControllerTest extends TestCase
 {

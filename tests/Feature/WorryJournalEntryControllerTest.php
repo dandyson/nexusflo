@@ -64,7 +64,7 @@ class WorryJournalEntryControllerTest extends TestCase
      */
     public function userCanCreateWorryJournalEntry()
     {
-         $user = $this->authUser();
+        $user = $this->authUser();
 
         $response = $this->postJson(route('worry-journal.store'), [
             'title' => 'Test Title',
@@ -99,7 +99,7 @@ class WorryJournalEntryControllerTest extends TestCase
     {
         $user = $this->authUser();
 
-         // Create worry journal entries
+        // Create worry journal entries
         WorryJournalEntry::factory()->count(3)->create(['user_id' => $user->id]);
 
         $entry = $user->worryJournalEntries->first();
@@ -117,7 +117,7 @@ class WorryJournalEntryControllerTest extends TestCase
         $authUser = $this->authUser();
         $otherUser = User::factory()->create();
 
-         // Create worry journal entries
+        // Create worry journal entries
         WorryJournalEntry::factory()->count(3)->create(['user_id' => $otherUser->id]);
 
         $entry = $otherUser->worryJournalEntries->first();
@@ -132,9 +132,9 @@ class WorryJournalEntryControllerTest extends TestCase
      */
     public function userCanUpdateWorryJournalEntry()
     {
-         $user = $this->authUser();
+        $user = $this->authUser();
 
-         // Create worry journal entries
+        // Create worry journal entries
         WorryJournalEntry::factory()->count(3)->create(['user_id' => $user->id]);
 
         $entry = $user->worryJournalEntries->first();
