@@ -305,6 +305,15 @@ onMounted(async () => {
       }
     }
   } catch (error) {
+    const status = error.response?.status;
+
+    if (status === 403) {
+        return router.replace({ name: 'error-403' });
+    }
+
+    if (status === 404) {
+        return router.replace({ name: 'error-404' });
+    }
     console.error('An error occurred:', error);
   }
 });

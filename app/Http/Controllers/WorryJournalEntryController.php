@@ -48,6 +48,8 @@ class WorryJournalEntryController extends Controller
 
     public function show(WorryJournalEntry $worryJournalEntry): JsonResponse
     {
+        $this->authorize('view', $worryJournalEntry);
+
         return response()->json($worryJournalEntry);
     }
 
