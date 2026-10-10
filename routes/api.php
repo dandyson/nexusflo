@@ -45,7 +45,35 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'store' => 'notes.store',
             'destroy' => 'notes.destroy',
         ]);
+
+    // Worry Journal
+    Route::resource('worry-journal', WorryJournalEntryController::class)->except(['show', 'update', 'destroy']);
+    // Separate routes instead of resource one for correct param name, as cannot use default 'worry-journal' in param in WorryJournal Vue component
+    Route::put('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'update'])->name('worry-journal.update');
+    Route::get('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'show'])->name('worry-journal.show');
+    Route::delete('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'destroy'])->name('worry-journal.destroy');
+
+    // User
+    Route::post('users/update', [UserController::class, 'updateDetails'])->name('user.update');
+    Route::post('users/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
+    Route::middleware('throttle:10,1')->post('users/upload-avatar', [UserController::class, 'uploadAvatar'])->name('user.upload-avatar');
+
+    // Delete profile
+    Route::delete('users/delete', [UserController::class, 'deleteAccount'])->name('user.account.delete');
+
+    // Positive News
+    Route::get('positive-news-feed', [PositiveNewsController::class, 'newsFetch'])->name('news-fetch');
+
+    // Worry Journal
+    Route::prefix('worry-journal')->group(function () {
+        Route::get('all-entries', [WorryJournalEntryController::class, 'getWorryJournalEntries'])->name('get-worry-journal-entries');
+    });
+
+    // AI: Worry Balancer
+    Route::post('worry-balancer', [AiController::class, 'fetchWorryBalanceResponse'])->name('worry-balancer');
 });
+
+Route::get('thinking-traps', [ThinkingTrapController::class, 'index'])->name('index');
 
 // PASSWORD RESET - To handle link from reset password email
 Route::middleware('guest')->group(function () {
@@ -55,30 +83,3 @@ Route::middleware('guest')->group(function () {
         return redirect("/auth/password-reset/{$token}?email={$email}");
     })->name('password.reset');
 });
-
-// Worry Journal
-Route::resource('worry-journal', WorryJournalEntryController::class)->except(['show', 'update', 'destroy']);
-// Separate routes instead of resource one for correct param name, as cannot use default 'worry-journal' in param in WorryJournal Vue component
-Route::put('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'update'])->name('worry-journal.update');
-Route::get('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'show'])->name('worry-journal.show');
-Route::delete('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'destroy'])->name('worry-journal.destroy');
-
-// User
-Route::post('users/{user}/update', [UserController::class, 'updateDetails'])->name('user.update');
-Route::post('users/{user}/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
-Route::middleware('throttle:10,1')->post('users/{user}/upload-avatar', [UserController::class, 'uploadAvatar'])->name('user.upload-avatar');
-
-// Delete profile
-Route::delete('users/{user}/delete', [UserController::class, 'deleteAccount'])->name('user.account.delete');
-
-// Positive News
-Route::get('positive-news-feed', [PositiveNewsController::class, 'newsFetch'])->name('news-fetch');
-
-// Worry Journal
-Route::get('thinking-traps', [ThinkingTrapController::class, 'index'])->name('index');
-Route::prefix('worry-journal')->group(function () {
-    Route::get('all-entries', [WorryJournalEntryController::class, 'getWorryJournalEntries'])->name('get-worry-journal-entries');
-});
-
-// AI: Worry Balancer
-Route::post('worry-balancer', [AiController::class, 'fetchWorryBalanceResponse'])->name('worry-balancer');

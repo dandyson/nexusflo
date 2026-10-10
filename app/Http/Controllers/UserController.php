@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,8 +18,10 @@ class UserController extends Controller
      *
      * @param  array<string, string>  $input
      */
-    public function updateDetails(Request $request, User $user): JsonResponse
+    public function updateDetails(Request $request): JsonResponse
     {
+        $user = $request->user();
+
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
@@ -42,24 +43,14 @@ class UserController extends Controller
     }
 
     /**
-     * Update the given verified user's profile information.
-     *
-     * @param  array<string, string>  $input
-     */
-    public function updateVerifiedUser(User $user, Request $request): JsonResponse
-    {
-        $user->update($request->only(['name', 'email']));
-
-        return response()->json(['type' => 'success', 'message' => 'Details Updated Successfully!']);
-    }
-
-    /**
      * Validate and update the user's password.
      *
      * @param  array<string, string>  $input
      */
-    public function updatePassword(Request $request, User $user): JsonResponse
+    public function updatePassword(Request $request): JsonResponse
     {
+        $user = $request->user();
+
         $validatedData = $request->validate([
             'current_password' => [
                 'required',
@@ -79,10 +70,10 @@ class UserController extends Controller
         return response()->json(['type' => 'success', 'message' => 'Password Updated Successfully!']);
     }
 
-    public function deleteAccount(User $user): JsonResponse
+    public function deleteAccount(Request $request): JsonResponse
     {
         // Soft delete the user's account
-        $user->delete();
+        $request->user()->delete();
 
         return response()->json([
             'type' => 'success',

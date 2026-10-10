@@ -7,7 +7,7 @@
     <div class="content content-full text-center">
       <div class="my-3">
         <img
-          v-if="authUser.avatar !== ''" 
+          v-if="authUser.avatar !== ''"
           :src="authUser.avatar"
           class="img-avatar img-avatar-thumb"
           src="/assets/media/avatars/avatar13.jpg"
@@ -115,7 +115,7 @@ const deleteAccount = () => {
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(`/api/users/${route.params?.user.id}/delete`, {
+          axios.delete(`/api/users/delete`, {
             headers: {
               'Content-Type': 'application/json',
             }
