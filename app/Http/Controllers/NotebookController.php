@@ -9,9 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 class NotebookController extends Controller
 {
-    public function __construct(private NotebookService $notebookService)
-    {
-    }
+    public function __construct(private NotebookService $notebookService) {}
 
     public function index(): JsonResponse
     {

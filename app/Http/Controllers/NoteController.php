@@ -11,9 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 class NoteController extends Controller
 {
-    public function __construct(private NoteService $noteService)
-    {
-    }
+    public function __construct(private NoteService $noteService) {}
 
     public function index(): JsonResponse
     {
