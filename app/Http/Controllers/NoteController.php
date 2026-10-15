@@ -6,13 +6,18 @@ use App\Http\Requests\StoreNoteRequest;
 use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
 use App\Models\Notebook;
+use App\Services\NoteService;
 use Illuminate\Http\JsonResponse;
 
 class NoteController extends Controller
 {
+    public function __construct(private NoteService $noteService)
+    {
+    }
+
     public function index(): JsonResponse
     {
-        $notes = auth()->user()->notes;
+        $notes = $this->noteService->getNotesForUser(auth()->user());
 
         return response()->json($notes);
     }
@@ -26,7 +31,7 @@ class NoteController extends Controller
             [Note::class, $notebook]
         );
 
-        $note = $notebook->notes()->create();
+        $note = $this->noteService->createNote($notebook);
 
         return response()->json($note, 201);
     }
@@ -35,10 +40,12 @@ class NoteController extends Controller
     {
         $this->authorize('update', $note);
 
-        $note->update([
+        $data = [
             'title' => $request->input('note.title'),
             'content' => $request->input('note.content'),
-        ]);
+        ];
+
+        $note = $this->noteService->updateNote($note, $data);
 
         return response()->json($note);
     }
@@ -47,7 +54,7 @@ class NoteController extends Controller
     {
         $this->authorize('delete', $note);
 
-        $note->delete();
+        $this->noteService->deleteNote($note);
 
         return response()->json(['message' => 'Note deleted'], 200);
     }
