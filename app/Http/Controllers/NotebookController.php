@@ -4,22 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateNotebookRequest;
 use App\Models\Notebook;
+use App\Services\NotebookService;
 use Illuminate\Http\JsonResponse;
 
 class NotebookController extends Controller
 {
+    public function __construct(private NotebookService $notebookService)
+    {
+    }
+
     public function index(): JsonResponse
     {
-        $notebooks = auth()->user()->notebooks()->with('notes')->get();
+        $notebooks = $this->notebookService->getNotebooksForUser(auth()->user());
 
         return response()->json($notebooks);
     }
 
     public function store(): JsonResponse
     {
-        $notebook = auth()->user()->notebooks()->create([
-            'title' => 'New Notebook',
-        ]);
+        $notebook = $this->notebookService->createNotebookForUser(auth()->user());
 
         return response()->json($notebook, 201);
     }
@@ -28,7 +31,7 @@ class NotebookController extends Controller
     {
         $this->authorize('update', $notebook);
 
-        $notebook->update($request->validated());
+        $this->notebookService->updateNotebook($notebook, $request->validated());
 
         return response()->json($notebook);
     }
@@ -37,7 +40,7 @@ class NotebookController extends Controller
     {
         $this->authorize('delete', $notebook);
 
-        $notebook->delete();
+        $this->notebookService->deleteNotebook($notebook);
 
         return response()->json(['message' => 'Notebook deleted'], 200);
     }
