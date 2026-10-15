@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreNoteRequest;
+use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
 use App\Models\Notebook;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class NoteController extends Controller
 {
@@ -17,36 +17,23 @@ class NoteController extends Controller
         return response()->json($notes);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(StoreNoteRequest $request): JsonResponse
     {
-        $request->validate([
-            'id' => 'required|integer',
-        ]);
+        $notebook = Notebook::findOrFail($request->notebook_id);
 
-        $notebook = Notebook::findOrFail($request->id);
+        $this->authorize(
+            'create',
+            [Note::class, $notebook]
+        );
 
-        $note = $notebook->notes()->create([
-            'title' => 'New Note',
-            'content' => 'Add Content Here',
-        ]);
+        $note = $notebook->notes()->create();
 
         return response()->json($note, 201);
     }
 
-    public function update(Request $request, Note $note): JsonResponse
+    public function update(UpdateNoteRequest $request, Note $note): JsonResponse
     {
-        $request->validate([
-            'note' => 'required|array',
-            'note.id' => [
-                'required',
-                'integer',
-                Rule::exists('notes', 'id')->where(function ($query) use ($note) {
-                    return $query->where('id', $note->id);
-                }),
-            ],
-            'note.title' => 'required|string',
-            'note.content' => 'required|string',
-        ]);
+        $this->authorize('update', $note);
 
         $note->update([
             'title' => $request->input('note.title'),
@@ -58,9 +45,7 @@ class NoteController extends Controller
 
     public function destroy(Note $note): JsonResponse
     {
-        if ($note->notebook->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $this->authorize('delete', $note);
 
         $note->delete();
 
