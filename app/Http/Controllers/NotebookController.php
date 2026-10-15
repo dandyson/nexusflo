@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateNotebookRequest;
 use App\Models\Notebook;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class NotebookController extends Controller
 {
@@ -24,24 +24,18 @@ class NotebookController extends Controller
         return response()->json($notebook, 201);
     }
 
-    public function update(Request $request, Notebook $notebook): JsonResponse
+    public function update(UpdateNotebookRequest $request, Notebook $notebook): JsonResponse
     {
-        $request->validate([
-            'title' => 'required|string',
-        ]);
+        $this->authorize('update', $notebook);
 
-        $notebook->update([
-            'title' => $request->title,
-        ]);
+        $notebook->update($request->validated());
 
         return response()->json($notebook);
     }
 
     public function destroy(Notebook $notebook): JsonResponse
     {
-        if ($notebook->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $this->authorize('delete', $notebook);
 
         $notebook->delete();
 
