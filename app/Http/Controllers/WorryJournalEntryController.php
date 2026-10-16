@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ThinkingTraps;
 use App\Models\WorryJournalEntry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class WorryJournalEntryController extends Controller
 {
@@ -15,13 +13,6 @@ class WorryJournalEntryController extends Controller
         $worryJournalEntries = auth()->user()->worryjournalentries;
 
         return response()->json($worryJournalEntries);
-    }
-
-    public function create(): View
-    {
-        $thinkingTraps = ThinkingTraps::all()->makeHidden(['created_at', 'updated_at']);
-
-        return view('worryJournal.create', ['thinkingTraps' => $thinkingTraps]);
     }
 
     public function store(Request $request): JsonResponse
