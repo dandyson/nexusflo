@@ -2,57 +2,20 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use OpenAI\Client;
+use Illuminate\Http\Response;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse as ChatCreateResponse;
-use OpenAI\Responses\Completions\CreateResponse;
-use OpenAI\Testing\ClientFake;
 use Tests\TestCase;
 
 class AiControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Create and set the fake OpenAI client specifically for these tests
-        $fakeClient = new ClientFake([
-            CreateResponse::fake([
-                'choices' => [
-                    [
-                        'text' => 'Responding with text',
-                    ],
-                ],
-            ]),
-        ]);
-
-        // Replace the real client with the fake client only for these tests
-        $this->app->instance(Client::class, $fakeClient);
-    }
-
     /**
      * @test
      */
-    public function test_fetch_completions_response()
-    {
-        $client = app(Client::class);
-
-        $completion = $client->completions()->create([
-            'model' => 'gpt-4o',
-            'prompt' => 'PHP is ',
-        ]);
-
-        $this->assertSame($completion['choices'][0]['text'], 'Responding with text');
-    }
-
-    /**
-     * @test
-     */
-    public function test_fetch_chat_response()
+    public function fetchChatResponse()
     {
         // Arrange: Set up the fake OpenAI response for chat
         OpenAI::fake([
@@ -67,10 +30,10 @@ class AiControllerTest extends TestCase
             ]),
         ]);
 
-        $user = User::factory()->create();
+        $user = $this->authUser();
 
-        $response = $this->actingAs($user)
-            ->postJson(route('worry-balancer', $user), [
+        $response = $this->postJson(
+            route('worry-balancer', $user), [
                 'text' => 'Hello!',
                 'standaloneWorryBalancer' => true,
             ]);
@@ -93,7 +56,60 @@ class AiControllerTest extends TestCase
     /**
      * @test
      */
-    public function test_fetch_worry_balance_response_missing_text()
+    public function testWorryBalancerRouteIsRateLimited(): void
+    {
+        // Arrange: Set up the fake OpenAI response for chat (5 fakes for the throttling limit determined on this route in the api routes file)
+        OpenAI::fake(
+            array_fill(0, 5, ChatCreateResponse::fake([
+                'choices' => [
+                    [
+                        'message' => [
+                            'content' => 'This is a balanced response.',
+                        ],
+                    ],
+                ],
+            ])),
+        );
+
+        $user = $this->authUser();
+
+        // The first 5 requests should succeed.
+        for ($i = 0; $i < 5; $i++) {
+            $this->postJson(
+                route('worry-balancer', $user), [
+                    'text' => 'Hello!',
+                    'standaloneWorryBalancer' => true,
+                ])->assertOk();
+        }
+
+        // The 6th request should be rejected.
+        $this->postJson(
+            route('worry-balancer', $user), [
+                'text' => 'Hello!',
+                'standaloneWorryBalancer' => true,
+            ])->assertStatus(429);
+    }
+
+    /**
+     * @test
+     */
+    public function guestCannotUseWorryBalancerRoute()
+    {
+        OpenAI::fake();
+
+        $response = $this->postJson(
+            route('worry-balancer'), [
+                'text' => 'Hello!',
+                'standaloneWorryBalancer' => true,
+            ]);
+
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * @test
+     */
+    public function fetchWorryBalanceResponseMissingText()
     {
         // Arrange: Set up the fake OpenAI response for chat
         OpenAI::fake([
@@ -108,7 +124,7 @@ class AiControllerTest extends TestCase
             ]),
         ]);
 
-        $user = User::factory()->create();
+        $user = $this->authUser();
 
         $response = $this->actingAs($user)
             ->postJson(route('worry-balancer', $user), [
@@ -124,5 +140,7 @@ class AiControllerTest extends TestCase
                 ],
             ],
         ]);
+
+        OpenAI::assertNothingSent();
     }
 }

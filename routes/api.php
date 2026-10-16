@@ -70,7 +70,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     // AI: Worry Balancer
-    Route::post('worry-balancer', [AiController::class, 'fetchWorryBalanceResponse'])->name('worry-balancer');
+    Route::middleware('throttle:5,1')->post('worry-balancer', [AiController::class, 'fetchWorryBalanceResponse'])->name('worry-balancer');
 });
 
 Route::get('thinking-traps', [ThinkingTrapController::class, 'index'])->name('index');
