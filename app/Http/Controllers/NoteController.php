@@ -2,67 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreNoteRequest;
+use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
 use App\Models\Notebook;
+use App\Services\NoteService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class NoteController extends Controller
 {
+    public function __construct(private NoteService $noteService) {}
+
     public function index(): JsonResponse
     {
-        $notes = auth()->user()->notes;
+        $notes = $this->noteService->getNotesForUser(auth()->user());
 
         return response()->json($notes);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(StoreNoteRequest $request): JsonResponse
     {
-        $request->validate([
-            'id' => 'required|integer',
-        ]);
+        $notebook = Notebook::findOrFail($request->notebook_id);
 
-        $notebook = Notebook::findOrFail($request->id);
+        $this->authorize(
+            'create',
+            [Note::class, $notebook]
+        );
 
-        $note = $notebook->notes()->create([
-            'title' => 'New Note',
-            'content' => 'Add Content Here',
-        ]);
+        $note = $this->noteService->createNote($notebook);
 
         return response()->json($note, 201);
     }
 
-    public function update(Request $request, Note $note): JsonResponse
+    public function update(UpdateNoteRequest $request, Note $note): JsonResponse
     {
-        $request->validate([
-            'note' => 'required|array',
-            'note.id' => [
-                'required',
-                'integer',
-                Rule::exists('notes', 'id')->where(function ($query) use ($note) {
-                    return $query->where('id', $note->id);
-                }),
-            ],
-            'note.title' => 'required|string',
-            'note.content' => 'required|string',
-        ]);
+        $this->authorize('update', $note);
 
-        $note->update([
+        $data = [
             'title' => $request->input('note.title'),
             'content' => $request->input('note.content'),
-        ]);
+        ];
+
+        $note = $this->noteService->updateNote($note, $data);
 
         return response()->json($note);
     }
 
     public function destroy(Note $note): JsonResponse
     {
-        if ($note->notebook->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $this->authorize('delete', $note);
 
-        $note->delete();
+        $this->noteService->deleteNote($note);
 
         return response()->json(['message' => 'Note deleted'], 200);
     }
