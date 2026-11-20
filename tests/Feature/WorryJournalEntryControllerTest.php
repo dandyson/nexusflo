@@ -104,6 +104,38 @@ class WorryJournalEntryControllerTest extends TestCase
         $this->assertDatabaseMissing('worry_journal_entries', ['id' => $entry->id]);
     }
 
+    /** @test */
+    public function user_cannot_read_or_change_another_users_journal_entry()
+    {
+        $owner = $this->createUserWithWorryJournalEntries(1);
+        $entry = $owner->worryJournalEntries->first();
+        $otherUser = $this->createUser();
+        $this->actingAs($otherUser);
+
+        $this->getJson(route('worry-journal.show', ['worryJournalEntry' => $entry->id]))
+            ->assertNotFound();
+        $this->putJson(route('worry-journal.update', ['worryJournalEntry' => $entry->id]), [
+            'title' => 'Changed Title',
+            'main_worry' => 'Changed worry',
+            'thinking_traps' => [1],
+            'balanced_thought' => 'Changed thought',
+        ])->assertNotFound();
+        $this->deleteJson(route('worry-journal.destroy', ['worryJournalEntry' => $entry->id]))
+            ->assertNotFound();
+
+        $this->assertDatabaseHas('worry_journal_entries', [
+            'id' => $entry->id,
+            'title' => $entry->title,
+            'user_id' => $owner->id,
+        ]);
+    }
+
+    /** @test */
+    public function worry_journal_requires_authentication()
+    {
+        $this->getJson(route('worry-journal.index'))->assertUnauthorized();
+    }
+
     // Helper methods
 
     private function createUser()

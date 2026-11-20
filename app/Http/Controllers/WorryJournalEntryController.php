@@ -46,13 +46,17 @@ class WorryJournalEntryController extends Controller
         return response()->json(['type' => 'success', 'message' => 'Journal Entry Completed', $worryJournalEntry]);
     }
 
-    public function show(WorryJournalEntry $worryJournalEntry): JsonResponse
+    public function show(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
     {
+        $worryJournalEntry = $request->user()->worryJournalEntries()->findOrFail($worryJournalEntry->getKey());
+
         return response()->json($worryJournalEntry);
     }
 
     public function update(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
     {
+        $worryJournalEntry = $request->user()->worryJournalEntries()->findOrFail($worryJournalEntry->getKey());
+
         $validated = $request->validate([
             'title' => 'required|string',
             'main_worry' => 'required|string',
@@ -72,8 +76,9 @@ class WorryJournalEntryController extends Controller
         return response()->json(['type' => 'success', 'message' => 'Journal Entry Updated', 'entry' => $worryJournalEntry]);
     }
 
-    public function destroy(WorryJournalEntry $worryJournalEntry): JsonResponse
+    public function destroy(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
     {
+        $worryJournalEntry = $request->user()->worryJournalEntries()->findOrFail($worryJournalEntry->getKey());
         $worryJournalEntry->delete();
 
         return response()->json([

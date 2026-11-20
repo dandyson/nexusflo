@@ -18,7 +18,7 @@
   <div class="content">
     <!-- CKEditor 5 -->
     <BaseBlock title="CKEditor 5" content-full>
-      <ckeditor
+      <Ckeditor
         :editor="ClassicEditor"
         :config="editorConfig"
         v-model="editorData"
@@ -157,23 +157,43 @@
 import { ref } from "vue";
 
 // CKEditor 5, for more info and examples you can check out https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/vuejs-v3.html
-import CKEditor from "@ckeditor/ckeditor5-vue";
+import { Ckeditor } from "@ckeditor/ckeditor5-vue";
 
-// You can import one of the following CKEditor variation (only one at a time)
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-//import InlineEditor from '@ckeditor/ckeditor5-build-inline'
-//import BalloonEditor from '@ckeditor/ckeditor5-build-balloon'
-//import BalloonBlockEditor from '@ckeditor/ckeditor5-build-balloon-block'
+import {
+  BlockQuote,
+  Bold,
+  ClassicEditor,
+  Essentials,
+  Heading,
+  Italic,
+  Link,
+  List,
+  Paragraph,
+} from "ckeditor5";
+import "ckeditor5/ckeditor5.css";
 
 // Tiptap editor, for more info and examples you can check out https://github.com/ueberdosis/tiptap
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 
-// CKEditor 5 variables
-let ckeditor = CKEditor.component;
-
 const editorData = ref("<p>Hello CKEditor5!</p>");
-const editorConfig = ref({});
+const editorConfig = ref({
+  licenseKey: "GPL",
+  plugins: [Essentials, Bold, Italic, Link, Paragraph, Heading, List, BlockQuote],
+  toolbar: [
+    "undo",
+    "redo",
+    "|",
+    "heading",
+    "|",
+    "bold",
+    "italic",
+    "link",
+    "bulletedList",
+    "numberedList",
+    "blockQuote",
+  ],
+});
 
 // Init Tiptap editor
 const tiptap = useEditor({

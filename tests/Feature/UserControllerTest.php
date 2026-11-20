@@ -58,6 +58,30 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
+    public function user_cannot_change_another_users_account()
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create(['name' => 'Original Name']);
+
+        $updateResponse = $this->actingAs($user)
+            ->postJson(route('user.update', $otherUser), [
+                'name' => 'Changed Name',
+                'email' => 'changed@email.com',
+            ]);
+
+        $updateResponse->assertNotFound();
+
+        $deleteResponse = $this->deleteJson(route('user.account.delete', $otherUser));
+        $deleteResponse->assertNotFound();
+
+        $this->assertDatabaseHas('users', [
+            'id' => $otherUser->id,
+            'name' => 'Original Name',
+            'deleted_at' => null,
+        ]);
+    }
+
+    /** @test */
     public function test_user_can_update_password()
     {
         $user = User::factory()->create(['password' => bcrypt('oldpassword')]);

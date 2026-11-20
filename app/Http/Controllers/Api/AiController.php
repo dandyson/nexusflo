@@ -18,10 +18,7 @@ class AiController extends Controller
         ]);
 
         $userWorry = $validated['text'];
-        $prompt = 'respond with the following context: Please respond in a way that ‘balances’ a worry. Provide a balanced perspective on the concerns.';
-        if ($request->standaloneWorryBalancer) {
-            $prompt .= ' Please also only respond in a HTML format.';
-        }
+        $prompt = 'respond with the following context: Please respond in a way that balances a worry. Provide a balanced perspective on the concerns using plain text.';
 
         $result = OpenAI::chat()->create([
             'model' => 'gpt-4o',

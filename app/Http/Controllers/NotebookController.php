@@ -26,6 +26,8 @@ class NotebookController extends Controller
 
     public function update(Request $request, Notebook $notebook): JsonResponse
     {
+        $notebook = $request->user()->notebooks()->findOrFail($notebook->getKey());
+
         $request->validate([
             'title' => 'required|string',
         ]);
@@ -39,9 +41,7 @@ class NotebookController extends Controller
 
     public function destroy(Notebook $notebook): JsonResponse
     {
-        if ($notebook->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $notebook = auth()->user()->notebooks()->findOrFail($notebook->getKey());
 
         $notebook->delete();
 

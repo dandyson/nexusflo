@@ -21,6 +21,8 @@ class UserController extends Controller
      */
     public function updateDetails(Request $request, User $user): JsonResponse
     {
+        abort_unless($request->user()->is($user), 404);
+
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
@@ -60,6 +62,8 @@ class UserController extends Controller
      */
     public function updatePassword(Request $request, User $user): JsonResponse
     {
+        abort_unless($request->user()->is($user), 404);
+
         $validatedData = $request->validate([
             'current_password' => [
                 'required',
@@ -79,8 +83,10 @@ class UserController extends Controller
         return response()->json(['type' => 'success', 'message' => 'Password Updated Successfully!']);
     }
 
-    public function deleteAccount(User $user): JsonResponse
+    public function deleteAccount(Request $request, User $user): JsonResponse
     {
+        abort_unless($request->user()->is($user), 404);
+
         // Soft delete the user's account
         $user->delete();
 

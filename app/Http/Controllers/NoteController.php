@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
-use App\Models\Notebook;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -23,7 +22,7 @@ class NoteController extends Controller
             'id' => 'required|integer',
         ]);
 
-        $notebook = Notebook::findOrFail($request->id);
+        $notebook = $request->user()->notebooks()->findOrFail($request->id);
 
         $note = $notebook->notes()->create([
             'title' => 'New Note',
@@ -35,6 +34,8 @@ class NoteController extends Controller
 
     public function update(Request $request, Note $note): JsonResponse
     {
+        $note = $request->user()->notes()->findOrFail($note->getKey());
+
         $request->validate([
             'note' => 'required|array',
             'note.id' => [
@@ -58,9 +59,7 @@ class NoteController extends Controller
 
     public function destroy(Note $note): JsonResponse
     {
-        if ($note->notebook->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $note = auth()->user()->notes()->findOrFail($note->getKey());
 
         $note->delete();
 

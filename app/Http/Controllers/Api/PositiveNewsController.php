@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Goutte\Client;
+use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\HttpClient\HttpClient;
 
 class PositiveNewsController extends Controller
 {
@@ -18,7 +19,7 @@ class PositiveNewsController extends Controller
 
     public function newsFetch()
     {
-        $client = new Client;
+        $client = new HttpBrowser(HttpClient::create());
         // URLs
         $positiveNewsUrl = 'https://www.positive.news/';
         $goodNewsNetworkUrl = 'https://www.goodnewsnetwork.org/category/news/';

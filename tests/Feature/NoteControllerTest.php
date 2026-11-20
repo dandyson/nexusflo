@@ -84,6 +84,32 @@ class NoteControllerTest extends TestCase
         $this->assertDatabaseMissing('notes', ['id' => $note->id]);
     }
 
+    /** @test */
+    public function user_cannot_create_or_change_notes_in_another_users_notebook()
+    {
+        $owner = $this->createUserWithNotes(1);
+        $notebook = $owner->notebooks->first();
+        $note = $owner->notes->first();
+        $otherUser = $this->createUser();
+        $this->actingAs($otherUser);
+
+        $this->postJson(route('notes.store'), ['id' => $notebook->id])->assertNotFound();
+        $this->putJson(route('notes.update', ['note' => $note->id]), [
+            'note' => [
+                'id' => $note->id,
+                'title' => 'Changed title',
+                'content' => 'Changed content',
+            ],
+        ])->assertNotFound();
+        $this->deleteJson(route('notes.destroy', ['note' => $note->id]))->assertNotFound();
+
+        $this->assertDatabaseHas('notes', [
+            'id' => $note->id,
+            'notebook_id' => $notebook->id,
+            'title' => $note->title,
+        ]);
+    }
+
     // Helper methods
 
     private function createUserWithNotes($count = 3)

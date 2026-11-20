@@ -74,4 +74,24 @@ class NotebookControllerTest extends TestCase
 
         $this->assertDatabaseMissing('notebooks', ['id' => $notebook->id]);
     }
+
+    /** @test */
+    public function user_cannot_update_or_delete_another_users_notebook()
+    {
+        $owner = User::factory()->create();
+        $notebook = Notebook::factory()->create(['user_id' => $owner->id]);
+        $otherUser = User::factory()->create();
+
+        $this->actingAs($otherUser)
+            ->putJson(route('notebooks.update', $notebook), ['title' => 'Changed'])
+            ->assertNotFound();
+
+        $this->deleteJson(route('notebooks.destroy', $notebook))->assertNotFound();
+
+        $this->assertDatabaseHas('notebooks', [
+            'id' => $notebook->id,
+            'user_id' => $owner->id,
+            'title' => $notebook->title,
+        ]);
+    }
 }
