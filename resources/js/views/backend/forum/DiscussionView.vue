@@ -299,7 +299,7 @@
               <form @submit.prevent>
                 <div class="mb-4">
                   <!-- CKEditor 5 -->
-                  <ckeditor
+                  <Ckeditor
                     :editor="ClassicEditor"
                     :config="editorConfig"
                     v-model="editorData"
@@ -325,14 +325,37 @@
 import { ref } from "vue";
 
 // CKEditor 5, for more info and examples you can check out https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/vuejs-v3.html
-import CKEditor from "@ckeditor/ckeditor5-vue";
+import { Ckeditor } from "@ckeditor/ckeditor5-vue";
 
-// CKEditor Classic editor
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
-// CKEditor 5 variables
-let ckeditor = CKEditor.component;
+import {
+  BlockQuote,
+  Bold,
+  ClassicEditor,
+  Essentials,
+  Heading,
+  Italic,
+  Link,
+  List,
+  Paragraph,
+} from "ckeditor5";
+import "ckeditor5/ckeditor5.css";
 
 const editorData = ref("");
-const editorConfig = ref({});
+const editorConfig = ref({
+  licenseKey: "GPL",
+  plugins: [Essentials, Bold, Italic, Link, Paragraph, Heading, List, BlockQuote],
+  toolbar: [
+    "undo",
+    "redo",
+    "|",
+    "heading",
+    "|",
+    "bold",
+    "italic",
+    "link",
+    "bulletedList",
+    "numberedList",
+    "blockQuote",
+  ],
+});
 </script>

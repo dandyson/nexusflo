@@ -7,22 +7,23 @@
     "require": {
         "php": "^8.2",
         "doctrine/dbal": "^3.0",
-        "fabpot/goutte": "^4.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/fortify": "^1.17",
-        "laravel/framework": "^10.0",
-        "laravel/sanctum": "^3.2",
+        "laravel/framework": "^12.0",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.0",
-        "openai-php/laravel": "^0.8.0"
+        "openai-php/laravel": "^0.22.0",
+        "symfony/browser-kit": "^7.0",
+        "symfony/http-client": "^7.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.50",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.0",
+        "nunomaduro/collision": "^8.1",
+        "phpunit/phpunit": "^11.5.50",
         "spatie/laravel-ignition": "^2.0",
         "tightenco/duster": "^2.5"
     },
@@ -64,21 +65,17 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
+        "platform": {
+            "php": "8.2.0"
+        },
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
         },
-        "audit": {
-            "ignore": [
-                "PKSA-m5cs-t1y6-qpcs",
-                "PKSA-3r5d-mb8f-1qw9",
-                "PKSA-mdq4-51ck-6kdq",
-                "PKSA-8qx3-n5y5-vvnd",
-                "PKSA-w7xr-vk7n-rstm",
-                "PKSA-q46n-4fdk-zjr4",
-                "PKSA-qzrn-rnz3-85w1",
-                "PKSA-d5tc-s1qs-h781"
-            ]
+        "policy": {
+            "advisories": {
+                "block": true
+            }
         }
     },
     "minimum-stability": "stable",

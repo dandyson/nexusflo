@@ -30,7 +30,7 @@ class NotebookControllerTest extends TestCase
      */
     public function guestCannotGetListOfNotebooks()
     {
-        $response = $this->getJson(route('notes.index'));
+        $response = $this->getJson(route('notebooks.index'));
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }

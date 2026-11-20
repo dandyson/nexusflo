@@ -48,9 +48,17 @@ class AiControllerTest extends TestCase
             return $method === 'create' &&
                 $parameters['model'] === 'gpt-4o' &&
                 strpos($parameters['messages'][0]['content'], 'Hello!') !== false &&
-                strpos($parameters['messages'][0]['content'], 'Please respond in a way that ‘balances’ a worry.') !== false &&
-                strpos($parameters['messages'][0]['content'], 'Please also only respond in a HTML format.') !== false;
+                strpos($parameters['messages'][0]['content'], 'balances a worry') !== false &&
+                strpos($parameters['messages'][0]['content'], 'plain text') !== false;
         });
+    }
+
+    /** @test */
+    public function worry_balancer_requires_authentication()
+    {
+        $response = $this->postJson(route('worry-balancer'), ['text' => 'Hello!']);
+
+        $response->assertUnauthorized();
     }
 
     /**

@@ -37,7 +37,7 @@ class WorryJournalEntryController extends Controller
         return response()->json(['type' => 'success', 'message' => 'Journal Entry Completed', $worryJournalEntry]);
     }
 
-    public function show(WorryJournalEntry $worryJournalEntry): JsonResponse
+    public function show(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
     {
         $this->authorize('view', $worryJournalEntry);
 
@@ -67,7 +67,7 @@ class WorryJournalEntryController extends Controller
         return response()->json(['type' => 'success', 'message' => 'Journal Entry Updated', 'entry' => $worryJournalEntry]);
     }
 
-    public function destroy(WorryJournalEntry $worryJournalEntry): JsonResponse
+    public function destroy(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
     {
         $this->authorize('delete', $worryJournalEntry);
 
