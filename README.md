@@ -15,7 +15,7 @@
 
 <div align="center">
   <h2>
-    A mental wellness companion built with Vue 3 and Laravel 10. </br>
+    A mental wellness companion built with Vue 3 and Laravel 12. </br>
     Empowering users to manage anxiety and depression through thoughtful features. </br>
   <br />
   </h2>
@@ -64,7 +64,7 @@ NexusFlo provides a comprehensive suite of features to support mental wellness:
 - 🚀 **Technical Excellence**:
   - 80%+ test coverage
   - Full CI/CD pipeline
-  - Vue 3 + Laravel 10 stack
+  - Vue 3 + Laravel 12 stack
   - Docker containerization (Laravel Sail)
 
 ## Quick Start
@@ -74,7 +74,7 @@ NexusFlo provides a comprehensive suite of features to support mental wellness:
 ### Prerequisites
 
 - Docker and Docker Compose
-- Node.js (LTS version)
+- Node.js 18.x, 20.x, or 22+
 - Composer
 
 ### Installation
@@ -138,7 +138,7 @@ Visit http://localhost to see your local instance running!
 ## Technical Stack
 
 - **Frontend**: Vue 3, Vue Router, Vite, OneUI Template
-- **Backend**: Laravel 10, PHP 8.2
+- **Backend**: Laravel 12, PHP 8.2
 - **Database**: MySQL
 - **Testing**: PHPUnit, Vue Test Utils
 - **CI/CD**: GitHub Actions

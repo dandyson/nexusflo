@@ -17,7 +17,7 @@ class ThinkingTrapControllerTest extends TestCase
     {
         ThinkingTraps::factory()->count(5)->create();
 
-        $response = $this->getJson(route('index'));
+        $response = $this->getJson(route('thinking-traps.index'));
 
         $response->assertOk()
             ->assertJsonStructure([

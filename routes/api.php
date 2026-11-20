@@ -47,23 +47,25 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ]);
 
     // Worry Journal
-    Route::resource('worry-journal', WorryJournalEntryController::class)->except(['show', 'update', 'destroy']);
-    Route::put('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'update'])->name('worry-journal.update');
-    Route::get('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'show'])->name('worry-journal.show');
-    Route::delete('worry-journal/{worryJournalEntry}', [WorryJournalEntryController::class, 'destroy'])->name('worry-journal.destroy');
+    Route::apiResource('worry-journal', WorryJournalEntryController::class)
+        ->parameters(['worry-journal' => 'worryJournalEntry']);
 
-    Route::prefix('worry-journal')->group(function () {
-        Route::get('all-entries', [WorryJournalEntryController::class, 'getWorryJournalEntries'])->name('get-worry-journal-entries');
-    });
+    // User
+    Route::post('users/update', [UserController::class, 'updateDetails'])->name('user.update');
+    Route::post('users/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
+    Route::middleware('throttle:10,1')->post('users/upload-avatar', [UserController::class, 'uploadAvatar'])->name('user.upload-avatar');
 
-    // User account
-    Route::post('users/{user}/update', [UserController::class, 'updateDetails'])->name('user.update');
-    Route::post('users/{user}/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
-    Route::middleware('throttle:10,1')->post('users/{user}/upload-avatar', [UserController::class, 'uploadAvatar'])->name('user.upload-avatar');
-    Route::delete('users/{user}/delete', [UserController::class, 'deleteAccount'])->name('user.account.delete');
+    // Delete profile
+    Route::delete('users/delete', [UserController::class, 'deleteAccount'])->name('user.account.delete');
 
-    Route::middleware('throttle:10,1')->post('worry-balancer', [AiController::class, 'fetchWorryBalanceResponse'])->name('worry-balancer');
+    // Positive News
+    Route::get('positive-news-feed', [PositiveNewsController::class, 'newsFetch'])->name('news-fetch');
+
+    // AI: Worry Balancer
+    Route::middleware('throttle:5,1')->post('worry-balancer', [AiController::class, 'fetchWorryBalanceResponse'])->name('worry-balancer');
 });
+
+Route::get('thinking-traps', [ThinkingTrapController::class, 'index'])->name('thinking-traps.index');
 
 // PASSWORD RESET - To handle link from reset password email
 Route::middleware('guest')->group(function () {
@@ -73,9 +75,3 @@ Route::middleware('guest')->group(function () {
         return redirect("/auth/password-reset/{$token}?email={$email}");
     })->name('password.reset');
 });
-
-// Positive News
-Route::get('positive-news-feed', [PositiveNewsController::class, 'newsFetch'])->name('news-fetch');
-
-// Worry Journal
-Route::get('thinking-traps', [ThinkingTrapController::class, 'index'])->name('index');

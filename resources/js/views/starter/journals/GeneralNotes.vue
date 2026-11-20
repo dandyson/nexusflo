@@ -159,7 +159,7 @@ const addNote = (notebook) => {
     axios.get('sanctum/csrf-cookie')
         .then((res) => {
             axios.post('/api/notes', {
-                id: notebook.id
+                notebook_id: notebook.id
             })
                 .then((res) => {
                     const newNote = res.data;

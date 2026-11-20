@@ -235,7 +235,7 @@ const detailSubmit = async () => {
     formData.append('avatar', detailState.avatar);
 
     try {
-      await axios.post(`/api/users/${route.params?.user.id}/upload-avatar`, formData, {
+      await axios.post(`/api/users/upload-avatar`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -243,15 +243,15 @@ const detailSubmit = async () => {
     } catch (error) {
       console.log(error.response.data.error);
       credentialDetailError.value = true;
-      credentialDetailErrorMessage.value = error.response?.data?.error !== undefined ? 
-      error.response.data.error : 
+      credentialDetailErrorMessage.value = error.response?.data?.error !== undefined ?
+      error.response.data.error :
       'There has been an error, please try again';;
       throw new Error('Avatar upload failed');
     }
   }
 
   try {
-    const response = await axios.post(`/api/users/${route.params?.user.id}/update`, detailState, {
+    const response = await axios.post(`/api/users/update`, detailState, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -276,7 +276,7 @@ const detailSubmit = async () => {
 const passwordSubmit = () => {
   axios.get('sanctum/csrf-cookie')
     .then(() => {
-      axios.post(`/api/users/${route.params?.user.id}/update-password`, passwordState, {
+      axios.post(`/api/users/update-password`, passwordState, {
         headers: {
           "Content-Type": "application/json",
         },

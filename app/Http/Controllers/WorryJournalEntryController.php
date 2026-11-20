@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ThinkingTraps;
 use App\Models\WorryJournalEntry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class WorryJournalEntryController extends Controller
 {
@@ -15,13 +13,6 @@ class WorryJournalEntryController extends Controller
         $worryJournalEntries = auth()->user()->worryjournalentries;
 
         return response()->json($worryJournalEntries);
-    }
-
-    public function create(): View
-    {
-        $thinkingTraps = ThinkingTraps::all()->makeHidden(['created_at', 'updated_at']);
-
-        return view('worryJournal.create', ['thinkingTraps' => $thinkingTraps]);
     }
 
     public function store(Request $request): JsonResponse
@@ -48,14 +39,14 @@ class WorryJournalEntryController extends Controller
 
     public function show(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
     {
-        $worryJournalEntry = $request->user()->worryJournalEntries()->findOrFail($worryJournalEntry->getKey());
+        $this->authorize('view', $worryJournalEntry);
 
         return response()->json($worryJournalEntry);
     }
 
     public function update(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
     {
-        $worryJournalEntry = $request->user()->worryJournalEntries()->findOrFail($worryJournalEntry->getKey());
+        $this->authorize('update', $worryJournalEntry);
 
         $validated = $request->validate([
             'title' => 'required|string',
@@ -78,7 +69,8 @@ class WorryJournalEntryController extends Controller
 
     public function destroy(Request $request, WorryJournalEntry $worryJournalEntry): JsonResponse
     {
-        $worryJournalEntry = $request->user()->worryJournalEntries()->findOrFail($worryJournalEntry->getKey());
+        $this->authorize('delete', $worryJournalEntry);
+
         $worryJournalEntry->delete();
 
         return response()->json([

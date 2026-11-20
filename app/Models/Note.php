@@ -22,6 +22,16 @@ class Note extends Model
     ];
 
     /**
+     * The default attributes assigned when creating a new model.
+     *
+     * @var array<string, string>
+     */
+    protected $attributes = [
+        'title' => 'New Note',
+        'content' => 'Add content here...',
+    ];
+
+    /**
      * Get the notebook that owns the note.
      */
     public function notebook(): BelongsTo

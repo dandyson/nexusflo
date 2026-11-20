@@ -17,9 +17,10 @@ class WorryJournalEntryControllerTest extends TestCase
      */
     public function userCanGetListOfWorryJournalEntries()
     {
-        $user = $this->createUserWithWorryJournalEntries();
+        $user = $this->authUser();
 
-        $this->actingAs($user);
+        // Create worry journal entries
+        WorryJournalEntry::factory()->count(3)->create(['user_id' => $user->id]);
 
         $response = $this->getJson(route('worry-journal.index'));
 
@@ -30,11 +31,40 @@ class WorryJournalEntryControllerTest extends TestCase
     /**
      * @test
      */
+    public function unauthorisedUserCannotGetListOfWorryJournalEntries()
+    {
+        $user = User::factory()->create();
+
+        // Create worry journal entries
+        WorryJournalEntry::factory()->count(3)->create(['user_id' => $user->id]);
+
+        $response = $this->getJson(route('worry-journal.index'));
+
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * @test
+     */
+    public function userOnlySeesTheirOwnWorryJournalEntries()
+    {
+        $otherUser = User::factory()->create();
+        WorryJournalEntry::factory()->count(3)->create(['user_id' => $otherUser->id]);
+
+        $authUser = $this->authUser();
+        WorryJournalEntry::factory()->count(2)->create(['user_id' => $authUser->id]);
+
+        $this->getJson(route('worry-journal.index'))
+            ->assertOk()
+            ->assertJsonCount(2); // should only have the authUser entries
+    }
+
+    /**
+     * @test
+     */
     public function userCanCreateWorryJournalEntry()
     {
-        $user = $this->createUser();
-
-        $this->actingAs($user);
+        $user = $this->authUser();
 
         $response = $this->postJson(route('worry-journal.store'), [
             'title' => 'Test Title',
@@ -65,12 +95,49 @@ class WorryJournalEntryControllerTest extends TestCase
     /**
      * @test
      */
-    public function userCanUpdateWorryJournalEntry()
+    public function userCanViewTheirWorryJournalEntry()
     {
-        $user = $this->createUserWithWorryJournalEntries();
+        $user = $this->authUser();
+
+        // Create worry journal entries
+        WorryJournalEntry::factory()->count(3)->create(['user_id' => $user->id]);
+
         $entry = $user->worryJournalEntries->first();
 
-        $this->actingAs($user);
+        $response = $this->getJson(route('worry-journal.show', ['worryJournalEntry' => $entry->id]));
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     * @test
+     */
+    public function userCannotViewAnotherUsersWorryJournalEntry()
+    {
+        $authUser = $this->authUser();
+        $otherUser = User::factory()->create();
+
+        // Create worry journal entries
+        WorryJournalEntry::factory()->count(3)->create(['user_id' => $otherUser->id]);
+
+        $entry = $otherUser->worryJournalEntries->first();
+
+        $response = $this->getJson(route('worry-journal.show', ['worryJournalEntry' => $entry->id]));
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @test
+     */
+    public function userCanUpdateWorryJournalEntry()
+    {
+        $user = $this->authUser();
+
+        // Create worry journal entries
+        WorryJournalEntry::factory()->count(3)->create(['user_id' => $user->id]);
+
+        $entry = $user->worryJournalEntries->first();
 
         $response = $this->putJson(route('worry-journal.update', ['worryJournalEntry' => $entry->id]), [
             'title' => 'Test Title',
@@ -91,10 +158,12 @@ class WorryJournalEntryControllerTest extends TestCase
      */
     public function userCanDeleteWorryJournalEntry()
     {
-        $user = $this->createUserWithWorryJournalEntries();
-        $entry = $user->worryJournalEntries->first();
+        $user = $this->authUser();
 
-        $this->actingAs($user);
+        // Create worry journal entries
+        WorryJournalEntry::factory()->count(3)->create(['user_id' => $user->id]);
+
+        $entry = $user->worryJournalEntries->first();
 
         $response = $this->deleteJson(route('worry-journal.destroy', ['worryJournalEntry' => $entry->id]));
 
@@ -104,50 +173,48 @@ class WorryJournalEntryControllerTest extends TestCase
         $this->assertDatabaseMissing('worry_journal_entries', ['id' => $entry->id]);
     }
 
-    /** @test */
-    public function user_cannot_read_or_change_another_users_journal_entry()
+    /**
+     * @test
+     */
+    public function userCannotUpdateAnotherUsersWorryJournalEntry()
     {
-        $owner = $this->createUserWithWorryJournalEntries(1);
-        $entry = $owner->worryJournalEntries->first();
-        $otherUser = $this->createUser();
-        $this->actingAs($otherUser);
+        $this->authUser();
+        $otherUser = User::factory()->create();
 
-        $this->getJson(route('worry-journal.show', ['worryJournalEntry' => $entry->id]))
-            ->assertNotFound();
-        $this->putJson(route('worry-journal.update', ['worryJournalEntry' => $entry->id]), [
-            'title' => 'Changed Title',
-            'main_worry' => 'Changed worry',
-            'thinking_traps' => [1],
-            'balanced_thought' => 'Changed thought',
-        ])->assertNotFound();
-        $this->deleteJson(route('worry-journal.destroy', ['worryJournalEntry' => $entry->id]))
-            ->assertNotFound();
+        $entry = WorryJournalEntry::factory()->create([
+            'user_id' => $otherUser->id,
+            'title' => 'Original Title',
+        ]);
+
+        $response = $this->putJson(route('worry-journal.update', ['worryJournalEntry' => $entry->id]), [
+            'title' => 'Hacked Title',
+            'main_worry' => 'Test Main Worry',
+            'thinking_traps' => [1, 2],
+            'balanced_thought' => 'Test Balanced Thought',
+        ]);
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
 
         $this->assertDatabaseHas('worry_journal_entries', [
             'id' => $entry->id,
-            'title' => $entry->title,
-            'user_id' => $owner->id,
+            'title' => 'Original Title',
         ]);
     }
 
-    /** @test */
-    public function worry_journal_requires_authentication()
+    /**
+     * @test
+     */
+    public function userCannotDeleteAnotherUsersWorryJournalEntry()
     {
-        $this->getJson(route('worry-journal.index'))->assertUnauthorized();
-    }
+        $this->authUser();
+        $otherUser = User::factory()->create();
 
-    // Helper methods
+        $entry = WorryJournalEntry::factory()->create(['user_id' => $otherUser->id]);
 
-    private function createUser()
-    {
-        return User::factory()->create();
-    }
+        $response = $this->deleteJson(route('worry-journal.destroy', ['worryJournalEntry' => $entry->id]));
 
-    private function createUserWithWorryJournalEntries($count = 3)
-    {
-        $user = $this->createUser();
-        WorryJournalEntry::factory($count)->create(['user_id' => $user->id]);
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
 
-        return $user->refresh();
+        $this->assertDatabaseHas('worry_journal_entries', ['id' => $entry->id]);
     }
 }

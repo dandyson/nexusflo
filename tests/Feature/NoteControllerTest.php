@@ -18,9 +18,11 @@ class NoteControllerTest extends TestCase
      */
     public function userCanGetListOfNotes()
     {
-        $user = $this->createUserWithNotes();
+        $user = $this->authUser();
+        Notebook::factory()->create(['user_id' => $user->id]);
+        Note::factory()->count(3)->create(['notebook_id' => $user->notebooks->first()->id]);
 
-        $response = $this->actingAs($user)->getJson(route('notes.index'));
+        $response = $this->getJson(route('notes.index'));
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonCount($user->notes->count());
@@ -29,17 +31,29 @@ class NoteControllerTest extends TestCase
     /**
      * @test
      */
+    public function guestCannotGetListOfNotes()
+    {
+        $response = $this->getJson(route('notes.index'));
+
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * @test
+     */
     public function userCanCreateNote()
     {
-        $user = $this->createUserWithNotebook();
+        $user = $this->authUser();
 
-        $response = $this->actingAs($user)->postJson(route('notes.store'), ['id' => $user->notebooks->first()->id]);
+        Notebook::factory()->create(['user_id' => $user->id]);
+
+        $response = $this->postJson(route('notes.store'), ['notebook_id' => $user->notebooks->first()->id]);
 
         $response->assertStatus(Response::HTTP_CREATED);
 
         $this->assertDatabaseHas('notes', [
             'title' => 'New Note',
-            'content' => 'Add Content Here',
+            'content' => 'Add content here...',
             'notebook_id' => $user->notebooks->first()->id,
         ]);
     }
@@ -47,12 +61,32 @@ class NoteControllerTest extends TestCase
     /**
      * @test
      */
+    public function userCannotCreateNoteInAnotherUsersNotebook()
+    {
+        $user = $this->authUser();
+        $otherUser = User::factory()->create();
+
+        Notebook::factory()->create(['user_id' => $otherUser->id]);
+
+        $response = $this->postJson(route('notes.store'), ['notebook_id' => $otherUser->notebooks->first()->id]);
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+
+        $this->assertDatabaseCount('notes', 0);
+    }
+
+    /**
+     * @test
+     */
     public function userCanUpdateNote()
     {
-        $user = $this->createUserWithNotes();
+        $user = $this->authUser();
+        Notebook::factory()->create(['user_id' => $user->id]);
+        Note::factory()->count(3)->create(['notebook_id' => $user->notebooks->first()->id]);
+
         $note = $user->notes->first();
 
-        $response = $this->actingAs($user)->putJson(route('notes.update', ['note' => $note->id]), [
+        $response = $this->putJson(route('notes.update', ['note' => $note->id]), [
             'note' => [
                 'id' => $note->id,
                 'title' => 'Updated Title',
@@ -71,12 +105,44 @@ class NoteControllerTest extends TestCase
     /**
      * @test
      */
+    public function userCannotUpdateNoteBelongingToAnotherUser()
+    {
+        $user = $this->authUser();
+        $otherUser = User::factory()->create();
+
+        Notebook::factory()->create(['user_id' => $otherUser->id]);
+        Note::factory()->count(3)->create(['notebook_id' => $otherUser->notebooks->first()->id]);
+
+        $note = $otherUser->notes->first();
+
+        $response = $this->putJson(route('notes.update', ['note' => $note->id]), [
+            'note' => [
+                'id' => $note->id,
+                'title' => 'Updated Title',
+                'content' => 'Updated Content',
+            ],
+        ]);
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+
+        $this->assertDatabaseHas('notes', [
+            'id' => $note->id,
+            'title' => $note->title,
+            'content' => $note->content,
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function userCanDeleteNote()
     {
-        $user = $this->createUserWithNotes();
+        $user = $this->authUser();
+        Notebook::factory()->create(['user_id' => $user->id]);
+        Note::factory()->count(3)->create(['notebook_id' => $user->notebooks->first()->id]);
         $note = $user->notes->first();
 
-        $response = $this->actingAs($user)->deleteJson(route('notes.destroy', ['note' => $note->id]));
+        $response = $this->deleteJson(route('notes.destroy', ['note' => $note->id]));
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJson(['message' => 'Note deleted']);
@@ -84,52 +150,22 @@ class NoteControllerTest extends TestCase
         $this->assertDatabaseMissing('notes', ['id' => $note->id]);
     }
 
-    /** @test */
-    public function user_cannot_create_or_change_notes_in_another_users_notebook()
+    /**
+     * @test
+     */
+    public function userCannotDeleteNoteBelongingToAnotherUser()
     {
-        $owner = $this->createUserWithNotes(1);
-        $notebook = $owner->notebooks->first();
-        $note = $owner->notes->first();
-        $otherUser = $this->createUser();
-        $this->actingAs($otherUser);
+        $user = $this->authUser();
+        $otherUser = User::factory()->create();
 
-        $this->postJson(route('notes.store'), ['id' => $notebook->id])->assertNotFound();
-        $this->putJson(route('notes.update', ['note' => $note->id]), [
-            'note' => [
-                'id' => $note->id,
-                'title' => 'Changed title',
-                'content' => 'Changed content',
-            ],
-        ])->assertNotFound();
-        $this->deleteJson(route('notes.destroy', ['note' => $note->id]))->assertNotFound();
+        Notebook::factory()->create(['user_id' => $otherUser->id]);
+        Note::factory()->count(3)->create(['notebook_id' => $otherUser->notebooks->first()->id]);
+        $note = $otherUser->notes->first();
 
-        $this->assertDatabaseHas('notes', [
-            'id' => $note->id,
-            'notebook_id' => $notebook->id,
-            'title' => $note->title,
-        ]);
-    }
+        $response = $this->deleteJson(route('notes.destroy', ['note' => $note->id]));
 
-    // Helper methods
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
 
-    private function createUserWithNotes($count = 3)
-    {
-        $user = $this->createUserWithNotebook();
-        Note::factory($count)->create(['notebook_id' => $user->notebooks->first()->id]);
-
-        return $user->refresh();
-    }
-
-    private function createUserWithNotebook()
-    {
-        $user = $this->createUser();
-        Notebook::factory()->create(['user_id' => $user->id]);
-
-        return $user->refresh();
-    }
-
-    private function createUser()
-    {
-        return User::factory()->create();
+        $this->assertDatabaseHas('notes', ['id' => $note->id]);
     }
 }
