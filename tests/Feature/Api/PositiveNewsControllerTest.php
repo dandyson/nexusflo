@@ -12,29 +12,6 @@ class PositiveNewsControllerTest extends TestCase
 
     private const GOOD_NEWS_NETWORK_URL = 'https://www.goodnewsnetwork.org/category/news/*';
 
-    private function goodNewsNetworkHtml(): string
-    {
-        return <<<'HTML'
-            <div class="td-block-row">
-                <div class="td-block-span6">
-                    <div class="td-module-thumb">
-                        <a href="https://example.com/story-1"><img src="https://example.com/1.jpg"></a>
-                    </div>
-                    <div class="td_module_3"><h3>First story</h3></div>
-                </div>
-                <div class="td-block-span6">
-                    <div class="td-module-thumb">
-                        <a href="https://example.com/story-2"><img src="https://example.com/2.jpg"></a>
-                    </div>
-                    <div class="td_module_3"><h3>Second story</h3></div>
-                </div>
-                <div class="td-block-span6">
-                    <div class="td_module_3"><h3>Broken card with no image or link</h3></div>
-                </div>
-            </div>
-            HTML;
-    }
-
     /**
      * @test
      */
@@ -86,5 +63,28 @@ class PositiveNewsControllerTest extends TestCase
         $this->getJson(route('news-fetch'))
             ->assertOk()
             ->assertJsonPath('errors', ['good-news-network']);
+    }
+
+    private function goodNewsNetworkHtml(): string
+    {
+        return <<<'HTML'
+            <div class="td-block-row">
+                <div class="td-block-span6">
+                    <div class="td-module-thumb">
+                        <a href="https://example.com/story-1"><img src="https://example.com/1.jpg"></a>
+                    </div>
+                    <div class="td_module_3"><h3>First story</h3></div>
+                </div>
+                <div class="td-block-span6">
+                    <div class="td-module-thumb">
+                        <a href="https://example.com/story-2"><img src="https://example.com/2.jpg"></a>
+                    </div>
+                    <div class="td_module_3"><h3>Second story</h3></div>
+                </div>
+                <div class="td-block-span6">
+                    <div class="td_module_3"><h3>Broken card with no image or link</h3></div>
+                </div>
+            </div>
+            HTML;
     }
 }
