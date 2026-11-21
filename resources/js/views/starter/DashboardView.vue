@@ -15,39 +15,8 @@
           </template>
           <!-- News Section -->
           <div class="row d-flex pb-5">
-            <!-- Positive News Item -->
-            <div class="col-12 col-lg-6">
-              <h2 class="my-3">Positive.News</h2>
-              <div class="row row-sm">
-                <div v-if="positiveNewsError" class="alert alert-danger alert-dismissible" style="width: 90%" role="alert">
-                  <h3 class="alert-heading h4 my-2">Error</h3>
-                  <p class="mb-0">There was an error loading the data. Please check your internet connection, refresh and
-                    try again!</p>
-                </div>
-                <div class="d-flex justify-content-center" v-if="positiveNewsLoading === true">
-                  <div class="spinner-border text-primary m-1" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                </div>
-                <div v-for="(item, index) in latestPositiveNews" :key="index">
-                  <div class="card">
-                    <a target="_blank" :href="item.link">
-                      <img alt="Image" class="img-fluid card-img-top" :src="item.image">
-                    </a>
-                    <div class="card-body">
-                      <a target="_blank" :href="item.link">
-                        <h4 class="card-title news-headline">{{ item.title }}</h4>
-                      </a>
-                      <p class="card-text">{{ item.description }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- End of Positive News -->
-
             <!-- Good News Network -->
-            <div class="col-12 col-lg-6">
+            <div class="col-12">
               <h2 class="my-3">Good News Network</h2>
               <div class="row row-sm">
                 <div v-if="goodNewsNetworkError" class="alert alert-danger alert-dismissible" style="width: 90%" role="alert">
@@ -122,15 +91,10 @@ const quotesLoading = ref(true);
 const currentQuoteIndex = ref(0);
 let timer;
 
-const cachedPositiveNews = JSON.parse(localStorage.getItem('positiveNewsCacheLatest'));
 const cachedGoodNewsNetwork = JSON.parse(localStorage.getItem('goodNewsNetworkCacheLatest'));
 const currentTime = new Date().getTime();
-const isPositiveNewsCacheValid = cachedPositiveNews && currentTime - cachedPositiveNews.timestamp < 3600000; // Cache valid for 1 hour
 const isGoodNewsCacheValid = cachedGoodNewsNetwork && currentTime - cachedGoodNewsNetwork.timestamp < 3600000;
 
-const latestPositiveNews = ref([]);
-const positiveNewsLoading = ref(true);
-const positiveNewsError = ref(false);
 const latestGoodNews = ref([]);
 const goodNewsNetworkLoading = ref(true);
 const goodNewsNetworkError = ref(false);
@@ -147,25 +111,22 @@ onMounted(async () => {
   }
 
   // News data fetching
-  if (isPositiveNewsCacheValid && isGoodNewsCacheValid) {
-    latestPositiveNews.value = cachedPositiveNews.data.slice(0, 1);
-    positiveNewsLoading.value = false;
+  if (isGoodNewsCacheValid) {
     latestGoodNews.value = cachedGoodNewsNetwork.data.slice(0, 1);
     goodNewsNetworkLoading.value = false;
   } else {
     try {
       const res = await axios.get('/api/positive-news-feed');
-      latestPositiveNews.value = res.data.data['positive-news'].slice(0, 1);
-      positiveNewsLoading.value = false;
-      latestGoodNews.value = res.data.data['good-news-network'].slice(0, 1);
       goodNewsNetworkLoading.value = false;
 
-      // Cache the data
-      localStorage.setItem('positiveNewsCacheLatest', JSON.stringify({ data: latestPositiveNews.value, timestamp: currentTime }));
-      localStorage.setItem('goodNewsNetworkCacheLatest', JSON.stringify({ data: latestGoodNews.value, timestamp: currentTime }));
+      // The API reports a failing source in "errors" instead of failing the request
+      if (res.data.errors?.includes('good-news-network')) {
+        goodNewsNetworkError.value = true;
+      } else {
+        latestGoodNews.value = res.data.data['good-news-network'].slice(0, 1);
+        localStorage.setItem('goodNewsNetworkCacheLatest', JSON.stringify({ data: latestGoodNews.value, timestamp: currentTime }));
+      }
     } catch (error) {
-      positiveNewsLoading.value = false;
-      positiveNewsError.value = true;
       goodNewsNetworkLoading.value = false;
       goodNewsNetworkError.value = true;
       console.error(error);
@@ -192,21 +153,6 @@ const setupQuoteSlider = () => {
 
 const nextQuote = () => {
   currentQuoteIndex.value = (currentQuoteIndex.value + 1) % quotes.value.length;
-};
-
-// Fetch news data
-const getNews = async () => {
-  try {
-    const res = await axios.get('/api/positive-news-feed');
-    latestPositiveNews.value = res.data.data['positive-news'].slice(0, 1);
-    positiveNewsLoading.value = false;
-    latestGoodNews.value = res.data.data['good-news-network'].slice(0, 1);
-    goodNewsNetworkLoading.value = false;
-  } catch (error) {
-    positiveNewsLoading.value = false;
-    positiveNewsError.value = true;
-    console.error(error);
-  }
 };
 
 // Clear the timer when the component is unmounted
