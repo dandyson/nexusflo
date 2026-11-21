@@ -3,47 +3,11 @@
     <SectionIntro
         title="Positive News"
         description="Discover a world of positivity with this curated collection of
-        uplifting news articles from positive.news and the Good News Network.
+        uplifting news articles from the Good News Network.
         Get inspired by stories that celebrate the brighter side of life."
         :tutorial="tutorialData">
     </SectionIntro>
   </div>
-  <!-- Positive News -->
-  <div class="row mx-5 my-5">
-    <h2 class="my-3" id="positive-news-heading">Positive.News</h2>
-    <div class="row row-sm" aria-labelledby="positive-news-heading">
-      <div v-if="positiveNewsError" class="alert alert-danger alert-dismissible" role="alert">
-        <h3 class="alert-heading h4 my-2">Error</h3>
-        <p class="mb-0">There was an error loading the data. Please check your internet connection, refresh and try again!
-        </p>
-      </div>
-      <div class="d-flex justify-content-center" v-if="positiveNewsLoading === true" aria-live="polite">
-        <div class="spinner-border text-primary m-1" role="status">
-            <span class="visually-hidden">Loading positive news...</span>
-        </div>
-      </div>
-      <div v-for="(item, index) in positiveNewsData" :key="index" class="col-md-4 col-lg-4 mb-4">
-        <article class="card h-100">
-          <a target="_blank"
-             :href="item.link"
-             class="text-decoration-none"
-             :aria-label="'Read full article: ' + item.title">
-            <img class="img-fluid card-img-top"
-                 :src="item.image"
-                 :alt="item.title">
-            <div class="card-body">
-              <h3 class="card-title h4 news-headline">{{ item.title }}</h3>
-              <p class="card-text">{{ item.description }}</p>
-            </div>
-          </a>
-        </article>
-      </div><!-- col-4 -->
-    </div>
-  </div>
-  <!-- End of Positive News -->
-
-  <hr class="my-4">
-
   <!-- Good News Network -->
   <div class="row mx-5 my-5">
     <h2 class="my-3">Good News Network</h2>
@@ -90,45 +54,38 @@ const tutorialData = ref([
   },
 ]);
 
-const positiveNewsData = ref([]);
-const positiveNewsLoading = ref(true);
-const positiveNewsError = ref(false);
-
 const goodNewsNetworkData = ref([]);
 const goodNewsNetworkLoading = ref(true);
 const goodNewsNetworkError = ref(false);
 
 onMounted(async () => {
   // Check if cached data exists and is not stale
-  const cachedPositiveNews = JSON.parse(localStorage.getItem('positiveNewsCache'));
   const cachedGoodNewsNetwork = JSON.parse(localStorage.getItem('goodNewsNetworkCache'));
   const currentTime = new Date().getTime();
-  const isPositiveNewsCacheValid = cachedPositiveNews && currentTime - cachedPositiveNews.timestamp < 3600000; // Cache valid for 1 hour (adjust as needed)
-  const isGoodNewsCacheValid = cachedGoodNewsNetwork && currentTime - cachedGoodNewsNetwork.timestamp < 3600000;
+  const isGoodNewsCacheValid = cachedGoodNewsNetwork && currentTime - cachedGoodNewsNetwork.timestamp < 3600000; // Cache valid for 1 hour (adjust as needed)
 
-  if (isPositiveNewsCacheValid && isGoodNewsCacheValid) {
-    positiveNewsData.value = cachedPositiveNews.data;
-    positiveNewsLoading.value = false;
+  if (isGoodNewsCacheValid) {
     goodNewsNetworkData.value = cachedGoodNewsNetwork.data;
     goodNewsNetworkLoading.value = false;
-  } else {
-    try {
-      const res = await axios.get('/api/positive-news-feed');
-      positiveNewsData.value = res.data.data['positive-news'];
-      positiveNewsLoading.value = false;
-      goodNewsNetworkData.value = res.data.data['good-news-network'];
-      goodNewsNetworkLoading.value = false;
+    return;
+  }
 
-      // Cache the data
-      localStorage.setItem('positiveNewsCache', JSON.stringify({ data: positiveNewsData.value, timestamp: currentTime }));
-      localStorage.setItem('goodNewsNetworkCache', JSON.stringify({ data: goodNewsNetworkData.value, timestamp: currentTime }));
-    } catch (error) {
-      positiveNewsLoading.value = false;
-      positiveNewsError.value = true;
-      goodNewsNetworkLoading.value = false;
+  try {
+    const res = await axios.get('/api/positive-news-feed');
+    goodNewsNetworkLoading.value = false;
+
+    // The API reports a failing source in "errors" instead of failing the request
+    if (res.data.errors?.includes('good-news-network')) {
       goodNewsNetworkError.value = true;
-      console.error(error);
+      return;
     }
+
+    goodNewsNetworkData.value = res.data.data['good-news-network'];
+    localStorage.setItem('goodNewsNetworkCache', JSON.stringify({ data: goodNewsNetworkData.value, timestamp: currentTime }));
+  } catch (error) {
+    goodNewsNetworkLoading.value = false;
+    goodNewsNetworkError.value = true;
+    console.error(error);
   }
 });
 </script>
